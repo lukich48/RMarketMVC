@@ -1,0 +1,42 @@
+﻿@model RMarket.ClassLib.Entities.TimeFrame
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TimeFrame</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToMinute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToMinute)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodeFinam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodeFinam)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

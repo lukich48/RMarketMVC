@@ -1,0 +1,82 @@
+﻿@using RMarket.ClassLib.Entities;
+@using System.Linq;
+
+@model IQueryable<Instance>
+
+<style>
+
+</style>
+
+<script>
+    $(function () {
+        $(".oldVersionLink").click(function () {
+            loadOldInstances(this);
+        });
+
+        $('[data-toggle="tooltip"]').mouseenter(function () {
+            initTooltip(this);
+        });
+        
+    })
+
+    function loadOldInstances(elem) {
+        if ($(elem).attr("data-needLoad") == 0)
+            return;
+
+        var instanceId = $(elem).attr("data-instanceId");
+        $("#ajaxOldInstances_" + instanceId).load("@Url.Action("InstanceRecCollection")", { instanceId: instanceId },
+       function (response, status, xhr) {
+           $(elem).attr("data-needLoad", 0);
+           $('[data-toggle="tooltip"]', $(this)).mouseenter(function () {
+               initTooltip(this);
+           });
+       });
+    }
+
+    function initTooltip(elem) {
+        if ($(elem).attr("data-original-title") != undefined)
+            return;
+        var instanceId = $(elem).attr("data-instanceId");
+        $.get("@Url.Action("InstanceRecTooltip")", { instanceId: instanceId },
+            function (data) {
+                $(elem).attr("data-original-title", data);
+                $(elem).tooltip({ html: true });
+                $(elem).tooltip("show");
+            });
+    }
+
+</script>
+
+@{
+    ViewBag.Title = "Экземпляры стратегий";
+}
+<div class="row panel">
+    <div class="col-sm-2 hidden-xs">
+        @Html.Action("MenuNav")
+    </div>
+    <div class="col-xs-12 col-sm-10">
+        @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
+        @foreach (Instance m in @Model)
+        {
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <div class="list-group">
+                            @Html.Partial("InstanceRec", m)
+                            <a href="#ajaxOldInstances_@m.Id" class="oldVersionLink" data-toggle="collapse" data-needLoad="1" data-instanceId="@m.Id">Предыдущие версии</a>
+                            <div id="ajaxOldInstances_@m.Id" class="collapse">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="list-group pull-right">
+                            @Html.ActionLink("Изменить", "Edit", new { instanceId = m.Id }, new { @class = "list-group-item" })
+                            @Html.ActionLink("Копировать", "Copy", new { instanceId = m.Id }, new { @class = "list-group-item" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>

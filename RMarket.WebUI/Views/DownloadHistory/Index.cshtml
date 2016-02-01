@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@{object attr = new { @class = "btn btn-primary" };}
+
+<div class="btn-group-vertical">
+    @Html.ActionLink("Finam", "Download", new { providerName="finam"},attr)
+</div>
+

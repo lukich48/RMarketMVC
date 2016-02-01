@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DDEInfo</name>
+    </assembly>
+    <members>
+        <member name="T:DDEInfo.StateChangedEventArgs">
+            <summary>
+            Описывает класс содержащий данные для обработки событий <see cref="E:DDEInfo.InfoServer.StateChanged"/>
+            </summary>
+        </member>
+        <member name="F:DDEInfo.StateChangedEventArgs.m_oldState">
+            <summary>
+            предыдущий статус сервера
+            </summary>
+        </member>
+        <member name="F:DDEInfo.StateChangedEventArgs.m_newState">
+            <summary>
+            новый статус сервера
+            </summary>
+        </member>
+        <member name="F:DDEInfo.StateChangedEventArgs.m_topicCount">
+            <summary>
+            количество тем, по которым установлены сеансы связи
+            </summary>
+        </member>
+        <member name="M:DDEInfo.StateChangedEventArgs.#ctor(DDEInfo.eServerState,DDEInfo.eServerState,System.Int32)">
+            <summary>
+            Инициализирует новый объект класса <see cref="T:DDEInfo.StateChangedEventArgs"/>
+            </summary>
+            <param name="theOldState"> Тип <see cref="T:DDEInfo.eServerState"/>. Предыдущий статус сервера.</param>
+            <param name="theNewState"> Тип <see cref="T:DDEInfo.eServerState"/>. Новый статус сервера.</param>
+            <param name="theTopicCount"> Тип <see cref="T:System.Int32"/>. Количество тем, по которым установлены сеансы связи.</param>
+        </member>
+        <member name="P:DDEInfo.StateChangedEventArgs.OldState">
+            <summary>
+            Возвращает предыдущий статус сервера
+            </summary>
+        </member>
+        <member name="P:DDEInfo.StateChangedEventArgs.NewState">
+            <summary>
+            Возвращает новый статус сервера
+            </summary>
+        </member>
+        <member name="P:DDEInfo.StateChangedEventArgs.TopicCount">
+            <summary>
+            Возвращает количество тем, по которым установлены сеансы связи
+            </summary>
+        </member>
+        <member name="T:DDEInfo.DataPokeddEventArgs">
+            <summary>
+            Описывает класс содержащий данные для обработки события <see cref="E:DDEInfo.InfoServer.DataPoked"/>
+            </summary>
+        </member>
+        <member name="F:DDEInfo.DataPokeddEventArgs.m_conversation">
+            <summary>
+            сеанс связи DDE сервиса
+            </summary>
+        </member>
+        <member name="F:DDEInfo.DataPokeddEventArgs.m_item">
+            <summary>
+            название элемента
+            </summary>
+        </member>
+        <member name="F:DDEInfo.DataPokeddEventArgs.m_cells">
+            <summary>
+            массив типизированных значений, полученных в результате анализа (разбора) данных
+            </summary>
+        </member>
+        <member name="M:DDEInfo.DataPokeddEventArgs.#ctor(NDde.Server.DdeConversation,System.String,System.Object[][])">
+            <summary>
+            Инициализирует новый объект класса <see cref="T:DDEInfo.DataPokeddEventArgs"/>
+            </summary>
+            <param name="theDdeConversation"> Тип <see cref="T:NDde.Server.DdeConversation"/>. Представляет DDE сеанс 
+            связи установленный сервером</param>
+            <param name="theItem"> Тип <see cref="T:System.String"/>. Название элемента</param>
+            <param name="theCells"> Массив значений типа <see cref="T:System.Object"/>. Результат разбора группы данных 
+            переданных серверу</param>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Conversation">
+            <summary>
+            Возвращает сеанс связи DDE сервиса
+            </summary>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Service">
+            <summary>
+            Возвращает название сервиса
+            </summary>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Topic">
+            <summary>
+            Возвращает название темы
+            </summary>
+            <remarks>Возвращается название темы и элемента в Формате - [ТЕМА]ЭЛЕМЕНТ</remarks>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Item">
+            <summary>
+            Возвращает название элемента
+            </summary>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Handle">
+            <summary>
+            Возвращает дескриптор
+            </summary>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.HandleAsAtring">
+            <summary>
+            Возвращает дескриптор в виде строки
+            </summary>
+        </member>
+        <member name="P:DDEInfo.DataPokeddEventArgs.Cells">
+            <summary>
+            Возвращает массив типизированных значений, полученных в результате анализа (разбора) данных
+            </summary>
+        </member>
+        <member name="T:DDEInfo.eServerState">
+            <summary>
+            Описывает состояние сервера
+            </summary>
+        </member>
+        <member name="F:DDEInfo.eServerState.Unknown">
+            <summary>
+            Неизвестно или не использовался
+            </summary>
+        </member>
+        <member name="F:DDEInfo.eServerState.Unregistered">
+            <summary>
+            Не зарегистрирован
+            </summary>
+        </member>
+        <member name="F:DDEInfo.eServerState.Registered">
+            <summary>
+            Зарегистрирован
+            </summary>
+        </member>
+        <member name="F:DDEInfo.eServerState.Connected">
+            <summary>
+            Установлено соединение хотя бы с одним клиентом
+            </summary>
+        </member>
+        <member name="F:DDEInfo.eServerState.Disconnected">
+            <summary>
+            Все соединения разорваны
+            </summary>
+        </member>
+        <member name="T:DDEInfo.ConnectEventArgs">
+            <summary>
+            Описывает класс содержащий данные для обработки событий 
+            <see cref="E:DDEInfo.InfoServer.Connected"/> и <see cref="E:DDEInfo.InfoServer.Disconnected"/>
+            </summary>
+        </member>
+        <member name="F:DDEInfo.ConnectEventArgs.m_conversation">
+            <summary>
+            сеанс связи DDE сервиса
+            </summary>
+        </member>
+        <member name="M:DDEInfo.ConnectEventArgs.#ctor(NDde.Server.DdeConversation)">
+            <summary>
+            Инициализирует новый объект класса <see cref="T:DDEInfo.ConnectEventArgs"/>
+            </summary>
+            <param name="theDdeConversation"> Тип <see cref="T:NDde.Server.DdeConversation"/>. Представляет DDE сеанс связи 
+            установленный сервером</param>
+        </member>
+        <member name="P:DDEInfo.ConnectEventArgs.Conversation">
+            <summary>
+            Возвращает сеанс связи DDE сервиса
+            </summary>
+        </member>
+        <member name="P:DDEInfo.ConnectEventArgs.Service">
+            <summary>
+            Возвращает название сервиса
+            </summary>
+        </member>
+        <member name="P:DDEInfo.ConnectEventArgs.Topic">
+            <summary>
+            Возвращает название темы
+            </summary>
+            <remarks>Возвращается название темы и элемента в Формате - [ТЕМА]ЭЛЕМЕНТ</remarks>
+        </member>
+        <member name="P:DDEInfo.ConnectEventArgs.Handle">
+            <summary>
+            Возвращает дескриптор
+            </summary>
+        </member>
+        <member name="P:DDEInfo.ConnectEventArgs.HandleAsString">
+            <summary>
+            Возвращает дескриптор в виде строки
+            </summary>
+        </member>
+        <member name="T:DDEInfo.DataPokedEventHandler">
+            <summary>
+            Прототип функции, обработчика события <see cref="E:DDEInfo.InfoServer.DataPoked"/>. 
+            </summary>
+        </member>
+        <member name="T:DDEInfo.ConnectedEventHandler">
+            <summary>
+            Прототип функции, обработчика события <see cref="E:DDEInfo.InfoServer.Connected"/>. 
+            </summary>
+        </member>
+        <member name="T:DDEInfo.DisconnectedEventHandler">
+            <summary>
+            Прототип функции, обработчика события <see cref="E:DDEInfo.InfoServer.Disconnected"/>. 
+            </summary>
+        </member>
+        <member name="T:DDEInfo.StateChangedEventHandler">
+            <summary>
+            Прототип функции, обработчика события <see cref="E:DDEInfo.InfoServer.StateChanged"/>. 
+            </summary>
+        </member>
+        <member name="T:DDEInfo.InfoServer">
+            <summary>
+            Описывает класс, представляющий DDE сервис для получения данных от терминала QUIK
+            </summary>
+        </member>
+        <member name="F:DDEInfo.InfoServer.m_state">
+            <summary>
+            статус сервера
+            </summary>
+        </member>
+        <member name="F:DDEInfo.InfoServer.m_timer">
+            <summary>
+            таймер оповещения об изменении данных
+            </summary>
+        </member>
+        <member name="F:DDEInfo.InfoServer.m_adviseInterval">
+            <summary>
+            интервал оповещения об изменении данных
+            </summary>
+        </member>
+        <member name="F:DDEInfo.InfoServer.m_service">
+            <summary>
+            название сервиса
+            </summary>
+        </member>
+        <member name="F:DDEInfo.InfoServer.m_topics">
+            <summary>
+            список всех тем, по которым установлены сеансы связи
+            </summary>
+        </member>
+        <member name="M:DDEInfo.InfoServer.#ctor(System.String)">
+            <summary>
+            Инициализирует объект класса <see cref="T:DDEInfo.InfoServer"/>. 
+            </summary>
+            <param name="theService">Тип <see cref="T:System.String"/>. Название сервиса.</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.SetState(DDEInfo.eServerState)">
+            <summary>
+            Устаналивает новый статус сервера
+            </summary>
+            <param name="theServerState">Тип <see cref="T:DDEInfo.eServerState"/>. Новый статус сервера</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnTimerElapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            Вызывается по истечении времени Timer.Interval.
+            Инициирует оповещение о состоянии данных.
+            </summary>
+            <param name="sender">Тип <see cref="T:System.Object"/>. Инициатор события</param>
+            <param name="args">Тип <see cref="N:System.Timers"/>. Содержит данные для обработки события</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnStateChanged(DDEInfo.StateChangedEventArgs)">
+            <summary>
+            Инициирует оповещение об изменении статуса сервера
+            </summary>
+            <param name="e">Тип <see cref="T:DDEInfo.StateChangedEventArgs"/>. Содержит данные для обработки 
+            события</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnBeforeConnect(System.String)">
+            <summary>
+            Вызывается прежде чем будет установлен новый сеанс связи
+            </summary>
+            <param name="theTopic"> Тип <see cref="T:System.String"/>. Название темы по которой устанавливается сеанс связи.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnAfterConnect(NDde.Server.DdeConversation)">
+            <summary>
+            Вызывается после того, как сеанса связи успешно установлен.
+            Инициирует событие <see cref="E:DDEInfo.InfoServer.Connected"/>
+            </summary>
+            <param name="theConversation"> Тип <see cref="T:NDde.Server.DdeConversation"/>. Представляет DDE сеанс связи 
+            установленный сервером</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnDisconnect(NDde.Server.DdeConversation)">
+            <summary>
+            Вызывается после того, как сеанса связи завершен.
+            Инициирует событие <see cref="E:DDEInfo.InfoServer.Disconnected"/>.
+            </summary>
+            <param name="theConversation"> Тип <see cref="T:NDde.Server.DdeConversation"/>. Представляет DDE сеанс связи</param>
+        </member>
+        <member name="M:DDEInfo.InfoServer.OnPoke(NDde.Server.DdeConversation,System.String,System.Byte[],System.Int32)">
+            <summary>
+            Вызывается когда сервер получает данные от клиента
+            </summary>
+            <param name="theConversation">Тип <see cref="T:NDde.Server.DdeConversation"/>. Сеанс связи, ассоциированный с данным событием.</param>
+            <param name="theItem">Тип <see cref="T:System.String"/>. Название элемента, ассоциированное с данным событием.</param>
+            <param name="theData">Массив типа <see cref="T:System.Byte"/>. Данные, ассоциированные с данным событием. </param>
+            <param name="theFormat">Тип <see cref="T:System.Int32"/>. Описание формат данных theData.</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:DDEInfo.InfoServer.Register">
+            <summary>
+            Регистрирует сервис
+            </summary>
+        </member>
+        <member name="M:DDEInfo.InfoServer.Unregister">
+            <summary>
+            Отменяет регистрацию сервиса
+            </summary>
+        </member>
+        <member name="E:DDEInfo.InfoServer.DataPoked">
+            <summary>
+            Инициируется при получении новых данных от клиента
+            </summary>
+        </member>
+        <member name="E:DDEInfo.InfoServer.Connected">
+            <summary>
+            Инициируется после успешного установления сеанса связи
+            </summary>
+        </member>
+        <member name="E:DDEInfo.InfoServer.Disconnected">
+            <summary>
+            Инициируется после успешного разрыва сеанса связи
+            </summary>
+        </member>
+        <member name="E:DDEInfo.InfoServer.StateChanged">
+            <summary>
+            Инициируется при каждом изменении статуса сервера или изменении количества установленных сеансов связи
+            </summary>
+        </member>
+        <member name="P:DDEInfo.InfoServer.State">
+            <summary>
+            Возвращает статус сервера
+            </summary>
+        </member>
+        <member name="P:DDEInfo.InfoServer.AdviseInterval">
+            <summary>
+            Возвращает или устанавливает значение интервала оповещения об изменении данных
+            </summary>
+            <remarks>Устанавливает значение только в случае, если сервис не зарегистрирован</remarks>
+        </member>
+        <member name="P:DDEInfo.InfoServer.Topics">
+            <summary>
+            Возвращает список тем (как массив), по которым установлены сеансы связи
+            </summary>
+            <remarks>Список тем актуален на момент вызова данного свойства</remarks>
+        </member>
+    </members>
+</doc>

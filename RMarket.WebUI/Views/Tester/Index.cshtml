@@ -1,0 +1,28 @@
+﻿@using RMarket.ClassLib.Entities;
+@using RMarket.WebUI.Models
+
+@model IEnumerable<TestResult>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.ActionLink("Новый тест", "BeginTest", null, new { @class = "btn btn-default" })
+
+@foreach (TestResult testResult in @Model)
+{
+    Instance instance = testResult.Instance;
+
+    <div class="well">
+        @if (testResult.Manager.IsStarted)
+        {
+            @Html.ActionLink("Прервать", "TerminateTest", new { resultId = testResult.Id }, new { @class = "btn btn-danger pull-right" })
+        }
+        @Html.ActionLink("Результат", "DisplayResult", new { resultId = testResult.Id }, new { @class = "btn btn-success pull-right" })
+        <strong class="h3">@instance.Name</strong>
+        <strong>@instance.Id</strong>
+        <span> @testResult.StartDate</span>
+        <p>@instance.Description</p>
+    </div>
+}
+

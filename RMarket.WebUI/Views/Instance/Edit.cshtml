@@ -1,0 +1,158 @@
+﻿@using RMarket.ClassLib.Entities;
+@using RMarket.ClassLib.Models;
+@using System.Dynamic;
+
+@model InstanceModel
+
+@*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
+
+<script>
+    $(function () {
+        $("#instance_StrategyInfoId").change(function () {
+            $("#ajaxStrategyParams").load("@Url.Action("EditParams")?strategyInfoId=" + this.value) 
+        });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "Редактирование стратегии";
+}
+
+@{
+    InstanceModel instance = Model;
+    bool isCreate = instance.Id == 0 ? true : false;
+    object attr;
+    if (isCreate)
+    {
+        attr = new
+        {
+            @class = "form-control",
+        };
+    }
+    else
+    {
+        attr = new
+        {
+            @class = "form-control",
+            @readonly = "readonly",
+        };
+
+    }
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование стратегии: <span class="text-info">@instance.Name</span></h3>
+    </div>
+
+    @using (Html.BeginForm("Edit","Instance"))
+    {
+        @Html.ValidationSummary()
+
+        @Html.HiddenFor(m=> instance.Id)
+        @Html.HiddenFor(m => instance.GroupID)
+
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.Name)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => instance.Name, attr)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.StrategyInfoId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                            @Html.DropDownListFor(m => instance.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => instance.StrategyInfo.Name, attr);
+                            @Html.HiddenFor(m => instance.StrategyInfoId)
+                        }
+                     </td>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.TickerId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                            @Html.DropDownListFor(m => instance.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => instance.Ticker.Code, attr)
+                            @Html.HiddenFor(m => instance.TickerId);
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.TimeFrameId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                           @Html.DropDownListFor(m => instance.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => instance.TimeFrame.Name, attr)
+                            @Html.HiddenFor(m => instance.TimeFrameId);
+                        }                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.Balance)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => instance.Balance, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.Slippage)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => instance.Slippage, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.Rent)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => instance.Rent, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => instance.Description)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => instance.Description, new { @class = "form-control" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="ajaxStrategyParams">
+            @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = instance.Id, strategyInfoId = instance.StrategyInfoId })
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        }
+
+    </div>

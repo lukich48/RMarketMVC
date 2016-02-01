@@ -1,0 +1,187 @@
+﻿@using RMarket.ClassLib.Entities;
+@using RMarket.ClassLib.Models;
+@using System.Dynamic;
+
+@model SelectionModel
+
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+
+        $("#selection_StrategyInfoId").change(function () {
+            $("#ajaxStrategyParams").load("@Url.Action("EditParams")?strategyInfoId=" + this.value)
+        });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "Редактирование селекции";
+}
+
+@{
+    SelectionModel selection = Model;
+    bool isCreate = selection.Id == 0 ? true : false;
+    object attr;
+    if (isCreate)
+    {
+        attr = new
+        {
+            @class = "form-control",
+        };
+    }
+    else
+    {
+        attr = new
+        {
+            @class = "form-control",
+            @readonly = "readonly",
+        };
+
+    }
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование селекции: <span class="text-info">@selection.Name</span></h3>
+    </div>
+
+    @using (Html.BeginForm("Edit","Selection"))
+    {
+        @Html.ValidationSummary()
+
+        @Html.HiddenFor(m => selection.Id)
+        @Html.HiddenFor(m => selection.GroupID)
+
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.Name)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.Name, attr)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.StrategyInfoId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                            @Html.DropDownListFor(m => selection.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => selection.StrategyInfo.Name, attr);
+                            @Html.HiddenFor(m => selection.StrategyInfoId);
+                        }
+                    </td>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.TickerId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                            @Html.DropDownListFor(m => selection.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => selection.Ticker.Code, attr);
+                            @Html.HiddenFor(m => selection.TickerId);
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.TimeFrameId)
+                    </td>
+                    <td>
+                        @if (isCreate)
+                        {
+                            @Html.DropDownListFor(m => selection.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => selection.TimeFrame.Name, attr);
+                            @Html.HiddenFor(m => selection.TimeFrameId);
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m=> selection.DateFrom)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.DateFrom, new { @class = "form-control datepicker" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.DateTo)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.DateTo, new { @class = "form-control datepicker" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.AmountResults)
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => selection.AmountResults, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.Balance)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.Balance, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.Slippage)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.Slippage, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.Rent)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => selection.Rent, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => selection.Description)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => selection.Description, new { @class = "form-control" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="ajaxStrategyParams">
+            @Html.Action("EditParams", new { selectionParams = Model.SelectionParams, instanceId = selection.Id, strategyInfoId = selection.StrategyInfoId })
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+</div>
+
+
+

@@ -1,0 +1,98 @@
+﻿@using RMarket.ClassLib.Models;
+
+@model SettingModel
+
+<script>
+    $(function () {
+        $("#EntityInfoId").change(function () {
+            var typeSetting = $("#TypeSetting").val();
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?typeSetting=" + typeSetting +"&entityInfoId=" + this.value)
+        });
+
+    });
+</script>
+
+@{
+    ViewBag.Title = "Редактирование настройки";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование настройки: <span class="text-info">@Model.Name</span></h3>
+    </div>
+
+    @using (Html.BeginForm("Edit","Setting"))
+    {
+        @Html.ValidationSummary()
+
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Name)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Name, new {@class="form-control"})
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.StrategyInfoId)
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>,"ALL", new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.TypeSetting)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => Model.TypeSetting, new { @class = "form-control", @readonly = "readonly"})
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.EntityInfoId)
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.EntityInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Description)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Priority)
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.Priority, new { @class = "form-control"})
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="ajaxStrategyParams">
+            @Html.Action("EditParams", new { entityParams = Model.EntityParams, settingId = Model.Id })
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+</div>
+
+
+
+
+

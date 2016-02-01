@@ -1,0 +1,8 @@
+﻿@using RMarket.ClassLib.Entities
+
+@model IEnumerable<Selection>
+
+@foreach (Selection m in Model)
+{
+    @Html.Partial("InstanceRec", m)
+}

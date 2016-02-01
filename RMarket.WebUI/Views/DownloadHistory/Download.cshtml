@@ -1,0 +1,58 @@
+﻿@model RMarket.WebUI.Models.DownloadHistoryModel
+
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+
+<script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+</script>
+
+@{
+    ViewBag.Title = "Index";
+    string actionName = Model.ProviderName;
+}
+
+@using (Html.BeginForm(actionName, "DownloadHistory"))
+{
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(m=>m.ProviderName)
+<div>
+    <table>
+        <tr>
+            <td>
+                @Html.Label("Инструмент")
+            </td>
+            <td>
+                @Html.DropDownListFor(m=>m.Ticker.Id, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Таймфрейм")
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.TimeFrame.Id, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Дата с")
+            </td>
+            <td>
+                @Html.TextBoxFor(m=>m.DateFrom, new { @class = "form-control datepicker" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Дата по")
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control datepicker" })
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>
+}

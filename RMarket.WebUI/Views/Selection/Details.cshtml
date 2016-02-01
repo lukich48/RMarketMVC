@@ -1,0 +1,118 @@
+﻿@using RMarket.ClassLib.Entities;
+@using RMarket.ClassLib.Models;
+@using System.Dynamic;
+
+@model SelectionModel
+
+@{
+    ViewBag.Title = "Просмотр стратегии";
+}
+
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Просмотр стратегии: <span class="text-info">@Model.Name</span></h3>
+    </div>
+   
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.StrategyInfoId)
+                    </td>
+                    <td>
+                         @Html.DisplayFor(m => m.StrategyInfo.Name)
+                    </td>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.TickerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Ticker.Code)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.TimeFrameId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.TimeFrame.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.DateFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.DateFrom)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.DateTo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.DateTo)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.AmountResults)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.AmountResults)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Balance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Balance)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Slippage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Slippage)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Rent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Rent)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Description)
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        @Html.Action("EditParams", new { strategyParams = Model.SelectionParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
+
+        <div class="panel-footer">
+            @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-default" })
+        </div>
+
+</div>
+
+
+

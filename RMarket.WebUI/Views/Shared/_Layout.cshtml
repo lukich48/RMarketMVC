@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    @*<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>*@
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .btn .caret, .cstm-text{
+        margin-left: 4px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="container navbar-inverse" role="navigation">
+        <div class="row">
+            <div class="btn-toolbar" role="toolbar">
+                @Html.ActionLink("Мои стратегии","Index", "Instance",null, new { @class = "btn btn-default btn-success" })
+                <div class="btn-group ">
+                    @Html.ActionLink("загрузка истории", "Index", "DownloadHistory", null, new { @class = "btn btn-default" })
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="text-right">@Html.ActionLink("Finam", "Download", "DownloadHistory", new { providerName = "finam" }, null)</li>
+                    </ul>
+                </div>
+                @Html.ActionLink("Тестирование", "Index", "Tester", null, new { @class = "btn btn-default" })
+                @Html.ActionLink("Эмуляция", "Index", "Emul", null, new { @class = "btn btn-default" })
+                @Html.ActionLink("Селекции", "Index", "Selection", null, new { @class = "btn btn-default" })
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Справочники<span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li class="text-right">@Html.ActionLink("Стратегии", "Index", "StrategyInfoes")</li>
+                        <li class="text-right">@Html.ActionLink("Инструменты", "Index", "Tickers")</li>
+                        <li class="text-right">@Html.ActionLink("Интервалы", "Index", "TimeFrames")</li>
+                        <li class="text-right">@Html.ActionLink("Коннекторы", "Index", "ConnectorInfoes")</li>
+                    </ul>
+                </div>
+                <div class="btn-group pull-right">
+                    <a href=@Url.Action("Index", "Setting") class="btn btn-info"><span class="glyphicon glyphicon-cog"></span><span class="cstm-text">Настройки</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @TempData["message"]
+            </div>
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @TempData["error"]
+            </div>
+        }
+        @if (TempData["warning"] != null)
+        {
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @TempData["warning"]
+            </div>
+        }
+
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year</p>
+        </footer>
+    </div>
+
+</body>
+</html>

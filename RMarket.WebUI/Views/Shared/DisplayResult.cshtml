@@ -1,0 +1,254 @@
+﻿@model RMarket.WebUI.Models.TestResult
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/highstock/highstock.js"></script>
+
+<style>
+    #chart{
+        height:700px;
+    }
+</style>
+
+<script>
+    var lastDate = 0;
+    var maxCount = 400;
+    var timeout = @Model.Strategy.Instr.TimeFrame.ToMinute * 60 * 1000;
+
+    var min;
+    var max;
+    var userMin;
+    var userMax;
+
+    var chart;
+
+    $(function () {
+
+        InitiateChart();
+        var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=right";
+        GetDataInit(chart, url);
+
+
+        $("#btnLeftSkip").click(function(){
+            UpdateVariable();
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=left";
+            GetDataInit(chart, url);
+        });
+
+        $("#btnRightSkip").click(function(){
+            UpdateVariable();
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=right";
+            GetDataInit(chart, url);
+        });
+
+        $("#btnLeftFast").click(function(){
+            UpdateVariable();
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+min+"&maxCount=" + maxCount+"&way=left";
+            GetDataInit(chart, url);
+        });
+
+        $("#btnRightFast").click(function(){
+            UpdateVariable();
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+max+"&maxCount=" + maxCount+"&way=right";
+            GetDataInit(chart, url);
+        });
+
+        $("#btnLeft").click(function(){
+            UpdateVariable();
+            var _data = chart.series[0].data;
+            var _maxCount =  maxCount>>1;
+            var _lastDate = min;
+            if(_data.length > _maxCount)
+                _lastDate = _data[_maxCount-1].x;
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=left";
+            GetDataInit(chart, url);
+        });
+
+        $("#btnRight").click(function(){
+            UpdateVariable();
+            var _data = chart.series[0].data;
+            var _maxCount =  maxCount>>1;
+            var _lastDate = max;
+            if(_data.length > _maxCount)
+                _lastDate = _data[_data.length-_maxCount-1].x;
+            InitiateChart();
+            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=right";
+            GetDataInit(chart, url);
+        });
+
+    });
+
+    // create the chart
+    function InitiateChart(){
+
+        $('#chart').highcharts('StockChart', {
+            xAxis: {
+                minRange: timeout
+            },
+            rangeSelector: {
+                buttons: [{
+                    type: 'hour',count: 1,text: '1h'
+                }, {
+                    type: 'day',count: 1,text: '1d'
+                }, {
+                    type: 'month',count: 1,text: '1m'
+                }, {
+                    type: 'year',count: 1,text: '1y'
+                }, {
+                    type: 'all',text: 'All'
+                }],
+                selected: 4
+            },
+            title: {
+                text: 'Результат'
+            },
+            yAxis: [{
+                title: {
+                    text: 'OHLC'
+                },
+                height: '68%',
+                lineWidth: 2
+            }, {
+                title: {
+                    text: 'Balance'
+                },
+                top: '70%',
+                height: '30%',
+                offset: 0,
+                lineWidth: 2
+            }],
+            series: [{
+                type: 'ohlc',
+                name: 'OHLC',
+                dataGrouping: {
+                    enabled: false},
+            },
+            {
+                type: 'line',
+                name: 'Balance',
+                yAxis: 1,
+                dataGrouping: {
+                    enabled: false
+                }
+            },
+            ]
+        });
+
+        chart = $('#chart').highcharts();
+    }
+
+    function UpdateVariable(){
+        //save old user values
+        min = chart.xAxis[0].dataMin;
+        max = chart.xAxis[0].dataMax;
+        userMin = chart.xAxis[0].userMin;
+        userMax = chart.xAxis[0].userMax;
+
+    };
+
+    function GetDataInit(chart,url) {
+        $.getJSON(url,
+        function (data) {
+            if (data != null) {
+                chart.series[0].update({
+                    data:data.Candles
+                },false);
+                chart.series[1].update(
+                    data.Orders
+                ,false);
+                for(var i = 0; i<data.Indicators.length; i++){
+                    chart.addSeries(
+                   data.Indicators[i]                    
+                ,false,false);
+                }
+                for(var i = 0; i<data.ProfitList.length; i++){
+                    chart.addSeries(
+                   data.ProfitList[i]                    
+                ,false,false);
+                }
+                chart.redraw(false);
+                //запускаем подгрузку свечей
+                if(data.Status==1)
+                    setTimeout(AddPoint(chart), timeout);
+
+                HideNavigateButton(data.Status);
+            }
+        });
+    };
+
+    function AddPoint(chart) {
+        return; //доделать для реалтайм
+        var series = chart.series[0];
+        $.getJSON("@{@Url.Action("GetDataJsonAdd")}?resultId=@Model.Id&lastDateUTC="+lastDate+"&maxCount=" + maxCount,
+        function (data) {
+            //alert(data);
+            if (data != null) {
+                var candleList = data.Candles;
+                for (var i = 0; i < candleList.length; i++) {
+                    series.addPoint(candleList[i], false);
+                }
+                chart.redraw();
+                lastDate = dataList[candleList.length - 1][0];
+
+                if(data.Status==1)
+                    setTimeout(AddPoint(chart), timeout);
+            }
+        });
+    };
+
+    function HideNavigateButton(status)
+    {
+        var _displayLeft = "";
+        var _displayRight = "";
+
+        if(status==3)
+            _displayLeft = "none";
+        else if(status == 1 || status == 2)
+            _displayRight = "none";
+
+        $("#btnRight").css("display",_displayRight);
+        $("#btnRightFast").css("display",_displayRight);
+        $("#btnRightSkip").css("display",_displayRight);
+        $("#btnLeftSkip").css("display",_displayLeft);
+        $("#btnLeftFast").css("display",_displayLeft);
+        $("#btnLeft").css("display",_displayLeft);
+    }
+
+
+
+</script>
+
+
+@{
+    ViewBag.Title = "DisplayResult";
+}
+
+<h2>DisplayResult</h2>
+
+<div id="chart"></div>
+<div class="container">
+    <button id="btnLeftSkip">
+        <img src="~/Content/Img/1441930899_ic_skip_previous_48px.png" />
+    </button>
+    <button id="btnLeftFast">
+        <img src="~/Content/Img/1441852748_ic_fast_rewind_48px.png" />
+    </button>
+    <button id="btnLeft">
+        <img src="~/Content/Img/1441852585_ic_keyboard_arrow_left_48px.png" />
+    </button>
+
+    <button id="btnRightSkip" class="pull-right">
+        <img src="~/Content/Img/1441930718_ic_skip_next_48px.png" />
+    </button>
+    <button id="btnRightFast" class="pull-right">
+        <img src="~/Content/Img/1441852769_ic_fast_forward_48px.png" />
+    </button>
+    <button id="btnRight" class="pull-right">
+        <img class="pull-right" src="~/Content/Img/1441852569_ic_keyboard_arrow_right_48px.png" />
+    </button>
+</div>
+<div id="balanceChart"></div>

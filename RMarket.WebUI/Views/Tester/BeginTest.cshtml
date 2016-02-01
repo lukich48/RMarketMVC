@@ -1,0 +1,46 @@
+﻿@model RMarket.WebUI.Models.TesterModel
+
+<script>
+    $(function () {
+        $(".dp").datepicker();
+    });
+</script>
+
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm("BeginTest", "Tester"))
+{
+    @Html.ValidationSummary()
+<table>
+    <tr>
+        <td>
+            @Html.Label("Вариант стратегии")
+        </td>
+        <td>
+            @Html.DropDownListFor(m => m.InstanceId, ViewBag.InstanceList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Дата с")
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.DateFrom, new { @class = "form-control dp" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Дата по")
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control dp" })
+        </td>
+    </tr>
+</table>
+
+<div class="panel-footer">
+    <input type="submit" value="Поехали" class="btn btn-primary" />
+    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
+</div>
+}

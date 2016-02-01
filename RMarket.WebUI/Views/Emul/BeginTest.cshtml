@@ -1,0 +1,24 @@
+﻿@model RMarket.WebUI.Models.TesterModel
+
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+<table>
+    <tr>
+        <td>
+            @Html.Label("Вариант стратегии")
+        </td>
+        <td>
+            @Html.DropDownListFor(m => m.InstanceId, ViewBag.InstanceList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+        </td>
+    </tr>
+</table>
+
+<div class="panel-footer">
+    <input type="submit" value="Поехали" class="btn btn-primary" />
+    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
+</div>
+}
