@@ -37,7 +37,7 @@ namespace RMarket.ClassLib.EFRepository
                 return null;
 
             SettingModel setting = new SettingModel();
-            setting.FillFields(dto, d => new { d.StrategyInfo});
+            setting.CopyObject(dto, d => new { d.StrategyInfo});
             IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(dto.StrParams);
 
             IEntityInfo entityInfo = SettingHelper.GetEntityInfo(setting.TypeSetting, setting.EntityInfoId);
@@ -82,7 +82,7 @@ namespace RMarket.ClassLib.EFRepository
             setting.CreateDate = DateTime.Now;
 
             Setting dto = new Setting();
-            dto.FillFields(setting, d => new { d.StrategyInfo });
+            dto.CopyObject(setting, d => new { d.StrategyInfo });
             dto.StrParams = Serializer.Serialize(setting.EntityParams);
 
             if (setting.Id == 0) //Insert

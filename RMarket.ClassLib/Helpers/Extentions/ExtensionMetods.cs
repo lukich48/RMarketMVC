@@ -68,12 +68,12 @@ namespace RMarket.ClassLib.Helpers.Extentions
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <param name="newObj"></param>
-        /// <param name="oldObj"></param>
+        /// <param name="copiedObj">Объект, с котрого копируем</param>
         /// <param name="excludeFields">объект с полями, которые нужно исключить из копирования</param>
         /// <param name="includeFields">объект с полями, которые нужно скопировать</param>
-        public static void FillFields<T1, T2>(this T1 newObj, T2 oldObj, Func<T1, object> excludeFields = null, Func<T1, object> includeFields = null)
-        { 
-            PropertyInfo[] propsObj = oldObj.GetType().GetProperties();
+        public static void CopyObject<T1, T2>(this T1 newObj, T2 copiedObj, Func<T1, object> excludeFields = null, Func<T1, object> includeFields = null)
+        {
+            PropertyInfo[] propsObj = copiedObj.GetType().GetProperties();
             PropertyInfo[] propsNew = newObj.GetType().GetProperties();
 
             PropertyInfo[] propsExclude = null;
@@ -91,7 +91,7 @@ namespace RMarket.ClassLib.Helpers.Extentions
             }
             foreach (PropertyInfo prop in propsObj)
             {
-                if(propsInclude!=null)
+                if (propsInclude != null)
                 {
                     if (!propsInclude.Any(p => p.Name == prop.Name))
                         continue;
@@ -104,13 +104,13 @@ namespace RMarket.ClassLib.Helpers.Extentions
                 }
 
                 PropertyInfo newProp = Array.Find(propsNew, p => p.Name == prop.Name && p.PropertyType == prop.PropertyType);
-                if(newProp!=null)
+                if (newProp != null)
                 {
-                    newProp.SetValue(newObj, prop.GetValue(oldObj));
+                    newProp.SetValue(newObj, prop.GetValue(copiedObj));
                 }
             }
 
-            FieldInfo[] fieldsObj = oldObj.GetType().GetFields();
+            FieldInfo[] fieldsObj = copiedObj.GetType().GetFields();
             FieldInfo[] fieldsNew = newObj.GetType().GetFields();
 
             foreach (FieldInfo field in fieldsObj)
@@ -118,7 +118,7 @@ namespace RMarket.ClassLib.Helpers.Extentions
                 FieldInfo newField = Array.Find(fieldsNew, p => p.Name == field.Name && p.FieldType == field.FieldType);
                 if (newField != null)
                 {
-                    newField.SetValue(newObj, field.GetValue(oldObj));
+                    newField.SetValue(newObj, field.GetValue(copiedObj));
                 }
             }
         }

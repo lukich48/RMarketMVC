@@ -21,7 +21,7 @@ namespace RMarket.ClassLib.Optimization
 
             List<InstanceModel> res = new List<InstanceModel>();
 
-            //Выбрка начальной популяции !!! Мощность популяции
+            //Выбрка начальной популяции !!! Мощность популяции в настройки
             List<InstanceModel> first = OptimizationHelper.CreateFirstGeneration(selection,1);
             
             //1. Определяем значение фитнес-функции

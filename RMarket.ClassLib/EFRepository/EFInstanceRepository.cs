@@ -37,7 +37,7 @@ namespace RMarket.ClassLib.EFRepository
                 return null;
 
             InstanceModel instance = new InstanceModel();
-            instance.FillFields(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection }); 
+            instance.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection }); 
             instance.StrategyParams = StrategyHelper.GetStrategyParams(data);
 
             return instance;
@@ -81,7 +81,7 @@ namespace RMarket.ClassLib.EFRepository
             instance.CreateDate = DateTime.Now;
 
             Instance dto = new Instance();
-            dto.FillFields(instance, d=> new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection });
+            dto.CopyObject(instance, d=> new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection });
             dto.StrParams = Serializer.Serialize(instance.StrategyParams);
 
             if (instance.Id == 0) //Insert

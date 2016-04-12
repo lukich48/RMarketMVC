@@ -37,7 +37,7 @@ namespace RMarket.ClassLib.EFRepository
                 return null;
 
             SelectionModel selection = new SelectionModel();
-            selection.FillFields(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Instances });
+            selection.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Instances });
             selection.SelectionParams = StrategyHelper.GetStrategyParams(data);
 
             return selection;
@@ -79,7 +79,7 @@ namespace RMarket.ClassLib.EFRepository
             selection.CreateDate = DateTime.Now;
 
             Selection dto = new Selection();
-            dto.FillFields(selection, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Instances});
+            dto.CopyObject(selection, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Instances});
             dto.StrParams = Serializer.Serialize(selection.SelectionParams);
 
             if (selection.Id == 0) //Insert

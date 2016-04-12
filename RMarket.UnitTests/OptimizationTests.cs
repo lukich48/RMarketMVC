@@ -65,21 +65,25 @@ namespace RMarket.UnitTests
                     new ParamSelection
                     {
                         FieldName="Param1",
-                        ValueMin = 1,
-                        ValueMax=5
+                        TypeName = "System.Int32",
+                        ValueMin = 6,
+                        ValueMax=10
                     },
                     new ParamSelection
                     {
                         FieldName="Param2",
                         ValueMin = (byte)1,
+                        TypeName = "System.Byte",
                         ValueMax=(byte)5
                     },
                     new ParamSelection
                     {
                         FieldName="OtherParam",
+                        TypeName = "System.Boolean",
                         ValueMin = true,
                         ValueMax=true
                     }
+                    //Добавить вещественный
                 }
             };
 
@@ -92,7 +96,8 @@ namespace RMarket.UnitTests
             Assert.AreEqual(30, instances1[0].SelectionId);
 
             Assert.AreEqual(true, instances1[0].StrategyParams.Any(p=>p.FieldName== "OtherParam" && (bool)p.FieldValue==true));
-            Assert.AreEqual(true, instances1[0].StrategyParams.Any(p=>p.FieldName== "Param1" && (int)p.FieldValue>=1 && (int)p.FieldValue <= 5));
+            Assert.AreEqual(true, instances1[0].StrategyParams.Any(p=>p.FieldName== "Param1" && (int)p.FieldValue >= 6 && (int)p.FieldValue <= 10));
+            Assert.AreEqual(true, instances1[0].StrategyParams.Where(p=>p.FieldName == "Param2").Single().FieldValue.GetType() == typeof(byte));
 
         }
     }
