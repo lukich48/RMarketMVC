@@ -13,7 +13,7 @@ namespace RMarket.ClassLib.Managers
 {
     public class TesterManager: IManager
     {
-        public ICandleRepository candleRepository = CurrentRepository.CandleRepository;
+        public ICandleRepository candleRepository = Current.CandleRepository;
         private CancellationTokenSource cts;
 
         public TesterManager(IStrategy strategy, Instrument instr, Portfolio portf)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
-using Moq;
 using Ninject;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.EFRepository;

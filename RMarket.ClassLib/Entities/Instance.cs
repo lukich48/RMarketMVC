@@ -38,13 +38,13 @@ namespace RMarket.ClassLib.Entities
 
         public int? SelectionId { get; set; }
 
-        public virtual StrategyInfo StrategyInfo { get; set; }
+        public StrategyInfo StrategyInfo { get; set; }
 
-        public virtual Ticker Ticker { get; set; }
+        public Ticker Ticker { get; set; }
 
-        public virtual TimeFrame TimeFrame { get; set; }
+        public TimeFrame TimeFrame { get; set; }
 
-        public virtual Selection Selection { get; set; }
+        public Selection Selection { get; set; }
 
     }
 }

@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.Models
     {
         private StrategyInfo _strategyInfo;
 
-        public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
+        public IStrategyInfoRepository strategyInfoRepository = Current.StrategyInfoRepository;
 
 
         public int Id { get; set; }

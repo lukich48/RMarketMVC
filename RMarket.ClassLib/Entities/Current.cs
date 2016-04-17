@@ -1,4 +1,5 @@
-﻿using RMarket.ClassLib.Abstract;
+﻿using AutoMapper;
+using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.EFRepository;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    public static class CurrentRepository
+    public static class Current
     {
 
         private static IAliveStrategyRepository _aliveStrategyRepository;
@@ -200,7 +201,26 @@ namespace RMarket.ClassLib.Entities
             }
         }
 
+        /// <summary>
+        /// AutoMapper
+        /// </summary>
+        public static MapperConfiguration Mapper
+        {
+            get
+            {
+                if (_mapper == null)
+                {
+                    _mapper = new Infrastructure.AutoMapperConfiguration().CreateDefaultConfiguration();
+                }
+                return _mapper;
 
+            }
+            set
+            {
+                _mapper = value;
+            }
+        }
+        private static MapperConfiguration _mapper;
 
 
     }

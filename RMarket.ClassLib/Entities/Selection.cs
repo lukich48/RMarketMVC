@@ -40,13 +40,13 @@ namespace RMarket.ClassLib.Entities
 
         public string StrParams { get; set; }
 
-        public virtual StrategyInfo StrategyInfo { get; set; }
+        public StrategyInfo StrategyInfo { get; set; }
 
-        public virtual Ticker Ticker { get; set; }
+        public Ticker Ticker { get; set; }
 
-        public virtual TimeFrame TimeFrame { get; set; }
+        public TimeFrame TimeFrame { get; set; }
 
-        public virtual IEnumerable<Instance> Instances { get; set; }
+        public IEnumerable<Instance> Instances { get; set; }
 
     }
 }

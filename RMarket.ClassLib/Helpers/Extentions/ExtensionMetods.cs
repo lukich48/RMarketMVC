@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,5 +126,17 @@ namespace RMarket.ClassLib.Helpers.Extentions
         }
 
         #endregion
+
+        public static IQueryable<TEntity>IncludeProperties<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> res = query;
+
+            if (includeProperties!=null)
+                query = (includeProperties.Aggregate(query, (current, include) => current.Include(include)));
+
+            return query;
+
+
+        }
     }
 }

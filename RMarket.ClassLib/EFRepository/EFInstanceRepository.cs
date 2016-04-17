@@ -9,6 +9,7 @@ using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
+using System.Linq.Expressions;
 
 namespace RMarket.ClassLib.EFRepository
 {
@@ -33,15 +34,26 @@ namespace RMarket.ClassLib.EFRepository
         {
             Instance data = context.Instances.Find(id);
 
-            if (data == null)
-                return null;
+            InstanceModel instance = Current.Mapper.CreateMapper().Map<Instance, InstanceModel>(data);
+            //if (data == null)
+            //    return null;
 
-            InstanceModel instance = new InstanceModel();
-            instance.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection }); 
-            instance.StrategyParams = StrategyHelper.GetStrategyParams(data);
+            //InstanceModel instance = new InstanceModel();
+            //instance.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection }); 
+            //instance.StrategyParams = StrategyHelper.GetStrategyParams(data);
 
             return instance;
         }
+
+        public InstanceModel FindModelInclude(int id, params Expression<Func<Instance, object>>[] includeProperties)
+        {
+            Instance data = Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+
+            InstanceModel instance = Current.Mapper.CreateMapper().Map<Instance, InstanceModel>(data);
+
+            return instance;
+        }
+
 
 
         public int Save(Instance instance, IEnumerable<ParamEntity> strategyParams)
