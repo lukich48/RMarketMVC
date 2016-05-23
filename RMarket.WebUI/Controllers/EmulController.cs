@@ -69,7 +69,7 @@ namespace RMarket.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Instance instance = instanceRepository.Find(model.InstanceId);
+                InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy

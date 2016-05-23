@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -49,67 +50,33 @@ namespace RMarket.ClassLib.Models
 
         public List<ParamEntity> StrategyParams { get; set; }
 
-        public StrategyInfo StrategyInfo
-        {
-            get
-            {
-                if (_strategyInfo == null && StrategyInfoId != 0)
-                    _strategyInfo = strategyInfoRepository.Find(StrategyInfoId);
-                return _strategyInfo;
-            }
-            set
-            {
-                _strategyInfo = value;
-            }
-        }
+        public StrategyInfo StrategyInfo { get; set; }
 
-        public Ticker Ticker
-        {
-            get
-            {
-                if (_ticker == null && TickerId != 0)
-                    _ticker = tickerRepository.Find(TickerId);
-                return _ticker;
-            }
-            set
-            {
-                _ticker = value;
-            }
-        }
+        public Ticker Ticker { get; set; }
 
-        public TimeFrame TimeFrame
-        {
-            get
-            {
-                if (_timeFrame == null && TimeFrameId != 0)
-                    _timeFrame = timeFrameRepository.Find(TimeFrameId);
-                return _timeFrame;
-            }
-            set
-            {
-                _timeFrame = value;
-            }
-        }
+        public TimeFrame TimeFrame { get; set; }
 
-        public Selection Selection
-        {
-            get
-            {
-                if (_selection == null && SelectionId != 0 && SelectionId != null)
-                    _selection = selectionRepository.Find((int)SelectionId);
-                return _selection;
-            }
-            set
-            {
-                _selection = value;
-            }
-        }
-
+        public Selection Selection { get; set; }
 
         public InstanceModel()
         {
             StrategyParams = new List<ParamEntity>();
         }
 
+        public void LoadNavigationProperties()
+        {
+            if(StrategyInfo == null && StrategyInfoId != 0)
+                StrategyInfo = strategyInfoRepository.Find(StrategyInfoId);
+
+            if (Ticker == null && TickerId!=0)
+                Ticker = tickerRepository.Find(TickerId);
+
+            if (TimeFrame == null && TimeFrameId != 0)
+                TimeFrame = timeFrameRepository.Find(TimeFrameId);
+
+            if (Selection == null && SelectionId != 0 && SelectionId != null)
+                Selection = selectionRepository.Find((int)SelectionId);
+            
+        }
     }
 }

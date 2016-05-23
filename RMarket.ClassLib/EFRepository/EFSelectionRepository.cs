@@ -37,8 +37,8 @@ namespace RMarket.ClassLib.EFRepository
                 return null;
 
             SelectionModel selection = new SelectionModel();
-            selection.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Instances });
-            selection.SelectionParams = StrategyHelper.GetStrategyParams(data);
+            selection.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo });
+            selection.SelectionParams = StrategyHelper.GetStrategyParams(data).ToList();
 
             return selection;
         }

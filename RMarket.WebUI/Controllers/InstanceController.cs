@@ -9,6 +9,7 @@ using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
 using RMarket.ClassLib.Helpers;
+using RMarket.WebUI.Models;
 
 namespace RMarket.WebUI.Controllers
 {
@@ -33,13 +34,14 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ViewResult Index(int strategyInfoId = 0)
         {
-            IQueryable<Instance> res = instanceRepository.Instances
-                .Where(i=>i.StrategyInfoId==strategyInfoId || strategyInfoId==0)
+            IEnumerable<InstanceModel> res = instanceRepository.Get(T => T
+                .Where(i => i.StrategyInfoId == strategyInfoId || strategyInfoId == 0)
                 .GroupBy(s => s.GroupID)
                 .SelectMany(g => g.Select(s => s)
                     .OrderByDescending(s => s.Id)
                     .Take(1)
-                ).Include(m => m.StrategyInfo);
+                ).Include(m => m.StrategyInfo)
+            );
 
             return View(res);
 
@@ -50,40 +52,25 @@ namespace RMarket.WebUI.Controllers
         /// </summary>
         /// <param name="instanceId">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
-        private ActionResult _Edit(InstanceModel model = null, int instanceId = 0)
+        [HttpGet]
+        public ActionResult Edit(int instanceId = 0)
         {
-            ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
-            ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
-            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
+            InitializeLists();
+            InstanceModel model = null;
 
-            if (model != null && model.StrategyInfo != null) //повторно пришло
+            if (instanceId != 0)
             {
-                model.StrategyParams = EntityHelper.GetEntityParams(model.StrategyInfo, model.StrategyParams);
-            }
-            else if (instanceId != 0)
-            {
-                model = instanceRepository.FindModel(instanceId);
+                model = instanceRepository.GetById(instanceId, true);
                 if (model == null)
                 {
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
                     return RedirectToAction("Index");
                 }
             }
-            else //Запрос без параметров
+            else 
                 model = new InstanceModel();
 
             return View("Edit", model);
-
-        }
-
-        /// <summary>
-        /// Редактирование стратегии
-        /// </summary>
-        /// <param name="instanceId">Если 0 - создание нвого варианта</param>
-        /// <returns></returns>
-        public ActionResult Edit(int instanceId = 0)
-        {
-            return _Edit(instanceId: instanceId);
         }
 
         [HttpPost]
@@ -102,7 +89,7 @@ namespace RMarket.WebUI.Controllers
 
             else
             {
-                return _Edit(model: instance);
+                return _Edit(instance);
             }
 
         }
@@ -118,7 +105,7 @@ namespace RMarket.WebUI.Controllers
                 if (instanceId != 0)
                 {
                     //Сохраненный вариант
-                    InstanceModel instance = instanceRepository.FindModel(instanceId);
+                    InstanceModel instance = instanceRepository.GetById(instanceId, i=>i.StrategyInfo);
                     strategyParams = instance.StrategyParams;
                 }
                 else if (strategyInfoId != 0)
@@ -132,9 +119,10 @@ namespace RMarket.WebUI.Controllers
             return PartialView(strategyParams);
         }
 
+        [HttpGet]
         public ActionResult Copy(int instanceId)
         {
-            InstanceModel instance = instanceRepository.FindModel(instanceId);
+            InstanceModel instance = instanceRepository.GetById(instanceId, true);
             if (instance == null)
             {
                 TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
@@ -143,14 +131,18 @@ namespace RMarket.WebUI.Controllers
 
             instance.Id = 0;
 
-            return _Edit(model: instance);
+            return _Edit(instance);
         }
 
         public PartialViewResult MenuNav(int strategyInfoId = 0)
         {
             ViewBag.CurStrategyInfoId = strategyInfoId;
 
-            return PartialView(instanceRepository.Instances);
+            IEnumerable<MenuNavModel> models = instanceRepository.Get(t => t
+            .GroupBy(i => i.StrategyInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel{ StrategyInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
+            );
+
+            return PartialView(models);
         }
 
         public ActionResult Details(int instanceId)
@@ -158,7 +150,7 @@ namespace RMarket.WebUI.Controllers
             InstanceModel model = new InstanceModel();
             if (instanceId != 0)
             {
-                model = instanceRepository.FindModel(instanceId);
+                model = instanceRepository.GetById(instanceId, true);
                 if (model == null)
                 {
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
@@ -181,23 +173,51 @@ namespace RMarket.WebUI.Controllers
             base.Dispose(disposing);
         }
 
-        #region AJAX
+        #region ////////////////////////////AJAX
         public PartialViewResult InstanceRecCollection(int instanceId)
         {
-            Instance instance = instanceRepository.Find(instanceId);
-            IEnumerable<Instance> oldInstances = instanceRepository.Instances.Where(i => i.GroupID == instance.GroupID && i.Id != instanceId).OrderByDescending(i => i.Id);
+            InstanceModel instance = instanceRepository.GetById(instanceId);
+            IEnumerable<InstanceModel> oldInstances = instanceRepository.Get(T=>T
+                .Where(i => i.GroupID == instance.GroupID && i.Id != instanceId)
+                .OrderByDescending(i => i.Id)
+            );
 
             return PartialView(oldInstances);
         }
 
         public PartialViewResult InstanceRecTooltip(int instanceId)
         {
-            InstanceModel instance = instanceRepository.FindModel(instanceId);
+            InstanceModel instance = instanceRepository.GetById(instanceId);
 
             return PartialView(instance);
         }
+        #endregion
 
 
+        #region////////////////////////////Private metods
+        /// <summary>
+        /// Редактирование стратегии
+        /// </summary>
+        /// <param name="instanceId">Если 0 - создание нвого варианта</param>
+        /// <returns></returns>
+        private ActionResult _Edit(InstanceModel model)
+        {
+            InitializeLists();
+
+            model.LoadNavigationProperties();
+            model.StrategyParams = EntityHelper.GetEntityParams(model.StrategyInfo, model.StrategyParams);
+
+            return View("Edit", model);
+
+        }
+
+        private void InitializeLists()
+        {
+            ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
+            ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
+            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
+
+        }
         #endregion
 
     }

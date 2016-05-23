@@ -10,6 +10,7 @@ using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
 using System.Linq.Expressions;
+using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.EFRepository
 {
@@ -17,73 +18,46 @@ namespace RMarket.ClassLib.EFRepository
     {
         private RMarketContext context = RMarketContext.Current;
 
-        public IQueryable<Instance> Instances 
+        public IEnumerable<InstanceModel> Get()
         {
-            get
-            {
-                return context.Instances;//.Include(m=>m.StrategyInfo).Include(m => m.Ticker).Include(m => m.TimeFrame);
-            }
+            return Current.Mapper.Map<IQueryable<Instance>, IEnumerable<InstanceModel>>(context.Instances);
         }
 
-        public Instance Find(int id)
+        public IEnumerable<InstanceModel> Get(Expression<Func<IQueryable<Instance>,IQueryable<Instance>>> expression)
         {
-            return context.Instances.Find(id);
+            IQueryable<Instance> dataCollection = expression.Compile()(context.Instances);
+
+            return Current.Mapper.Map<IQueryable<Instance>, IEnumerable<InstanceModel>>(dataCollection);
         }
 
-        public InstanceModel FindModel(int id)
+        public IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<Instance>, IQueryable<TResult>>> expression)
         {
-            Instance data = context.Instances.Find(id);
+            IEnumerable<TResult> dataCollection = expression.Compile()(context.Instances).ToList();
 
-            InstanceModel instance = Current.Mapper.CreateMapper().Map<Instance, InstanceModel>(data);
-            //if (data == null)
-            //    return null;
-
-            //InstanceModel instance = new InstanceModel();
-            //instance.CopyObject(data, d => new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection }); 
-            //instance.StrategyParams = StrategyHelper.GetStrategyParams(data);
-
-            return instance;
+            return dataCollection;
         }
 
-        public InstanceModel FindModelInclude(int id, params Expression<Func<Instance, object>>[] includeProperties)
+        public InstanceModel GetById(int id, bool includeAll = false)
         {
-            Instance data = Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+            Instance data = null;
 
-            InstanceModel instance = Current.Mapper.CreateMapper().Map<Instance, InstanceModel>(data);
-
-            return instance;
-        }
-
-
-
-        public int Save(Instance instance, IEnumerable<ParamEntity> strategyParams)
-        {
-            int res = 0;
-
-            if (strategyParams != null)
-            {
-                string jsonParam = Serializer.Serialize(strategyParams); 
-                instance.StrParams = jsonParam;
-            }
-
-            instance.CreateDate = DateTime.Now;
-
-            if (instance.Id == 0) //Insert
-            {
-                instance.GroupID = Guid.NewGuid();
-                context.Instances.Add(instance);
-                res = 1;
-            }
-            else //Update
-            {
-                context.Instances.Add(instance);
-                res = 2;
-            }
-
+            if(includeAll)
+                data = context.Instances.IncludeAll().SingleOrDefault(i => i.Id == id);
+            else
+                data = context.Instances.Find(id);
             
-            context.SaveChanges();
+            InstanceModel instance = Current.Mapper.Map<Instance, InstanceModel>(data);
+    
+            return instance;
+        }
 
-            return res;
+        public InstanceModel GetById(int id, params Expression<Func<Instance, object>>[] includeProperties)
+        {
+            Instance data = context.Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+
+            InstanceModel instance = Current.Mapper.Map<Instance, InstanceModel>(data);
+
+            return instance;
         }
 
         public int Save(InstanceModel instance)
@@ -92,22 +66,19 @@ namespace RMarket.ClassLib.EFRepository
 
             instance.CreateDate = DateTime.Now;
 
-            Instance dto = new Instance();
-            dto.CopyObject(instance, d=> new { d.Ticker, d.TimeFrame, d.StrategyInfo, d.Selection });
-            dto.StrParams = Serializer.Serialize(instance.StrategyParams);
-
             if (instance.Id == 0) //Insert
             {
-                dto.GroupID = Guid.NewGuid();
-                context.Instances.Add(dto);
+                instance.GroupID = Guid.NewGuid();
                 res = 1;
             }
             else //Update
             {
-                context.Instances.Add(dto);
                 res = 2;
             }
 
+            Instance dto = Current.Mapper.Map<Instance>(instance);
+
+            context.Instances.Add(dto);
             context.SaveChanges();
 
             return res;

@@ -1,8 +1,8 @@
-﻿@using RMarket.ClassLib.Entities
+﻿@using RMarket.ClassLib.Models
 
-@model IEnumerable<Instance>
+@model IEnumerable<InstanceModel>
 
-@foreach (Instance m in Model)
+@foreach (InstanceModel m in Model)
 {
     @Html.Partial("InstanceRec", m)
 }

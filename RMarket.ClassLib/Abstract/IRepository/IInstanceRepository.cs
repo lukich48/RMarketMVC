@@ -3,15 +3,11 @@ using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Models;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IInstanceRepository:IDisposable
+    public interface IInstanceRepository:IRepositoryBase<Instance,InstanceModel>, IDisposable
     {
-        IQueryable<Instance> Instances { get; }
-        Instance Find(int id);
-        InstanceModel FindModel(int id);
-        int Save(Instance instance, IEnumerable<ParamEntity> strategyParams);
-        int Save(InstanceModel instance);
     }
 }

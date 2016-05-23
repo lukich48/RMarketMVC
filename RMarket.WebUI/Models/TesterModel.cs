@@ -23,7 +23,7 @@ namespace RMarket.WebUI.Models
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
-        public Instance Instance { get; set; }
+        public InstanceModel Instance { get; set; }
         public IStrategy Strategy { get; set; }
         public IManager Manager { get; set; }
         //Ключ - имя индикатора

@@ -117,6 +117,7 @@
     <Compile Include="Abstract\IRepository\IInstanceRepository.cs" />
     <Compile Include="Abstract\IManager.cs" />
     <Compile Include="Abstract\IRepository\IOrderRepository.cs" />
+    <Compile Include="Abstract\IRepository\IRepositoryBase.cs" />
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
     <Compile Include="Abstract\IRepository\ISettingRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickRepository.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="EFRepository\EFTimaFrameRepository.cs" />
     <Compile Include="Entities\Candle.cs" />
     <Compile Include="Entities\ConnectorInfo.cs" />
-    <Compile Include="Entities\Current.cs" />
     <Compile Include="Entities\Instance.cs" />
     <Compile Include="Entities\Instance_metadata.cs" />
     <Compile Include="Entities\Order.cs" />
@@ -156,12 +156,14 @@
     <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
     <Compile Include="Helpers\OptimizationHelper.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
     <Compile Include="Helpers\TickHelper.cs" />
     <Compile Include="HistoricalProviders\Finam.cs" />
     <Compile Include="Infrastructure\AutoMapperConfigure.cs" />
+    <Compile Include="Infrastructure\Current.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
     <Compile Include="Models\CustomExceptions.cs" />

@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Concurrent;

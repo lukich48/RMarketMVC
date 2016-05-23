@@ -90,6 +90,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\ReflectionHelperTest.cs" />
     <Compile Include="InstanceControllerTests.cs" />
     <Compile Include="OptimizationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

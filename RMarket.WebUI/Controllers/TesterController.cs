@@ -66,7 +66,7 @@ namespace RMarket.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Instance instance = instanceRepository.Find(model.InstanceId);
+                InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
 
                 //получаем стратегию 
                 IStrategy strategy = StrategyHelper.CreateStrategy(instance);

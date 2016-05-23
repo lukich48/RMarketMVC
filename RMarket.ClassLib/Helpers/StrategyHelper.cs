@@ -50,19 +50,20 @@ namespace RMarket.ClassLib.Helpers
         /// <param name="strategyInfo"></param>
         /// <param name="strategyParams"></param>
         /// <returns></returns>
-        public static IStrategy CreateStrategy(Instance instance)
+        public static IStrategy CreateStrategy(InstanceModel instance)
         {
-            IStrategy strategy = (IStrategy)EntityHelper.CreateEntity(instance.StrategyInfo);
+            if (instance.StrategyInfo == null)
+                throw new CustomException($"instanceId={instance.Id}. StrategyInfo is null!");
 
-            IEnumerable<ParamEntity> strategyParams = GetStrategyParams(instance);
+            IStrategy strategy = (IStrategy)EntityHelper.CreateEntity(instance.StrategyInfo);
 
             //Применяем сохраненные параметры
             MemberInfo[] arrayProp = EntityHelper.GetEntityProps(strategy);
             foreach (MemberInfo prop in arrayProp)
             {
-                ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
+                ParamEntity savedParam = instance.StrategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
 
-                if (savedParam!= null)
+                if (savedParam != null)
                 {
                     FieldInfo curField = prop as FieldInfo;
                     curField.SetValue(strategy, savedParam.FieldValue);
@@ -74,13 +75,17 @@ namespace RMarket.ClassLib.Helpers
             return strategy;
         }
 
+
         /// <summary>
         /// Создает параметры из объекта Стратегии и сохраненных данных 
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        public static List<ParamEntity> GetStrategyParams(Instance instance)
+        public static IEnumerable<ParamEntity> GetStrategyParams(Instance instance)
         {
+            if (instance.StrategyInfo == null)
+                throw new CustomException($"instanceId={instance.Id}. StrategyInfo is null!");
+
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(instance);
 
             List<ParamEntity> res = EntityHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams);
@@ -93,7 +98,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="selection"></param>
         /// <returns></returns>
-        public static List<ParamSelection> GetStrategyParams(Selection selection)
+        public static IEnumerable<ParamSelection> GetStrategyParams(Selection selection)
         {
             IEnumerable<ParamSelection> savedParams = GetSavedStrategyParams(selection);
 
@@ -146,11 +151,11 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         private static IEnumerable<ParamEntity> GetSavedStrategyParams(Instance instance)
         {
-            IEnumerable<ParamEntity> strategyParams;
+            List<ParamEntity> strategyParams;
 
             if (!String.IsNullOrEmpty(instance.StrParams))
             {
-                strategyParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(instance.StrParams);
+                strategyParams = Serializer.Deserialize<List<ParamEntity>>(instance.StrParams);
             }
             else
                 strategyParams = new List<ParamEntity>();
@@ -169,7 +174,7 @@ namespace RMarket.ClassLib.Helpers
 
             if (!String.IsNullOrEmpty(selection.StrParams))
             {
-                strategyParams = Serializer.Deserialize<IEnumerable<ParamSelection>>(selection.StrParams);
+                strategyParams = Serializer.Deserialize<List<ParamSelection>>(selection.StrParams);
             }
             else
                 strategyParams = new List<ParamSelection>();

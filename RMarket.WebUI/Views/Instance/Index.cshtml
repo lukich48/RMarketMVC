@@ -1,7 +1,8 @@
 ﻿@using RMarket.ClassLib.Entities;
+@using RMarket.ClassLib.Models;
 @using System.Linq;
 
-@model IQueryable<Instance>
+@model IEnumerable<InstanceModel>
 
 <style>
 
@@ -56,7 +57,7 @@
     </div>
     <div class="col-xs-12 col-sm-10">
         @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
-        @foreach (Instance m in @Model)
+        @foreach (InstanceModel m in @Model)
         {
             <div class="well">
                 <div class="row">

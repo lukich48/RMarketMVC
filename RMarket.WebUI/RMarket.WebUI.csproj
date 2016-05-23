@@ -256,6 +256,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\SessionHelper.cs" />
     <Compile Include="Models\DownloadHistoryModel.cs" />
+    <Compile Include="Models\MenuNavModel.cs" />
     <Compile Include="Models\TesterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

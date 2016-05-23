@@ -18,11 +18,43 @@ namespace RMarket.ClassLib.Infrastructure
             {
                 cfg.CreateMap<Instance, InstanceModel>()
                 .ForMember(m => m.StrategyParams, opt => opt.MapFrom(d =>
-                       StrategyHelper.GetStrategyParams(d)
-                 ));
+                       GetStrategyParamsVaried(d)));
+
+                cfg.CreateMap<InstanceModel, Instance>()
+                .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
+                       Serializer.Serialize(m.StrategyParams)))
+                 .ForMember(d => d.StrategyInfo, opt => opt.Ignore())
+                 .ForMember(d => d.Ticker, opt => opt.Ignore())
+                 .ForMember(d => d.TimeFrame, opt => opt.Ignore())
+                 .ForMember(d => d.Selection, opt => opt.Ignore());
 
 
+                cfg.CreateMap<Selection, SelectionModel>()
+                .ForMember(m => m.SelectionParams, opt => opt.MapFrom(d =>
+                        StrategyHelper.GetStrategyParams(d)
+                    ));
+
+                cfg.CreateMap<SelectionModel, Selection>()
+                .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
+                        Serializer.Serialize(m.SelectionParams)))
+                .ForMember(d => d.StrategyInfo, opt => opt.Ignore())
+                .ForMember(d => d.Ticker, opt => opt.Ignore())
+                .ForMember(d => d.TimeFrame, opt => opt.Ignore())
+                .ForMember(d => d.Instances, opt => opt.Ignore());
             });
         }
+
+        public static IEnumerable<ParamEntity> GetStrategyParamsVaried(Instance instance)
+        {
+            IEnumerable<ParamEntity> res = null;
+
+            if (instance.StrategyInfo != null)
+                res = StrategyHelper.GetStrategyParams(instance);
+            else
+                res = new List<ParamEntity>();
+
+            return res;
+        }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.Models
 {

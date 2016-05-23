@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Entities
+namespace RMarket.ClassLib.Infrastructure
 {
     public static class Current
     {
@@ -204,13 +204,13 @@ namespace RMarket.ClassLib.Entities
         /// <summary>
         /// AutoMapper
         /// </summary>
-        public static MapperConfiguration Mapper
+        public static IMapper Mapper
         {
             get
             {
                 if (_mapper == null)
                 {
-                    _mapper = new Infrastructure.AutoMapperConfiguration().CreateDefaultConfiguration();
+                    _mapper = new Infrastructure.AutoMapperConfiguration().CreateDefaultConfiguration().CreateMapper();
                 }
                 return _mapper;
 
@@ -220,7 +220,7 @@ namespace RMarket.ClassLib.Entities
                 _mapper = value;
             }
         }
-        private static MapperConfiguration _mapper;
+        private static IMapper _mapper;
 
 
     }

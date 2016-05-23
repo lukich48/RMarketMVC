@@ -26,7 +26,7 @@ namespace RMarket.WebUI.Infrastructure
 
         public static SelectList GetInstanceList(IInstanceRepository instanceRepository)
         {
-            return new SelectList(instanceRepository.Instances, "Id", "Name");
+            return new SelectList(instanceRepository.Get(), "Id", "Name");
         }
 
         public static SelectList GetConnectorInfoList(IConnectorInfoRepository connectorInfoRepository)
