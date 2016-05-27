@@ -37,7 +37,7 @@ namespace RMarket.ClassLib.EFRepository
             return dataCollection;
         }
 
-        public InstanceModel GetById(int id, bool includeAll = false)
+        public InstanceModel GetById(int id, bool includeAll)
         {
             Instance data = null;
 
@@ -53,7 +53,12 @@ namespace RMarket.ClassLib.EFRepository
 
         public InstanceModel GetById(int id, params Expression<Func<Instance, object>>[] includeProperties)
         {
-            Instance data = context.Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+            Instance data = null;
+
+            if (includeProperties.Length > 0)
+                data = context.Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+            else
+                data = context.Instances.Find(id);
 
             InstanceModel instance = Current.Mapper.Map<Instance, InstanceModel>(data);
 

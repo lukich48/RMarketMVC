@@ -9,12 +9,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using RMarket.ClassLib.Helpers.Extentions;
+using RMarket.ClassLib.Infrastructure;
+using System.Linq.Expressions;
 
 namespace RMarket.ClassLib.EFRepository
 {
     public class EFSelectionRepository:ISelectionRepository
     {
         private RMarketContext context = RMarketContext.Current;
+
+        public IEnumerable<SelectionModel> Get()
+        {
+            return Current.Mapper.Map<IQueryable<Selection>, IEnumerable<SelectionModel>>(context.Selections);
+        }
+
+        public IEnumerable<SelectionModel> Get(Expression<Func<IQueryable<Selection>, IQueryable<Selection>>> expression)
+        {
+            IQueryable<Selection> dataCollection = expression.Compile()(context.Selections);
+
+            return Current.Mapper.Map<IQueryable<Selection>, IEnumerable<SelectionModel>>(dataCollection);
+        }
+
+        public IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<Selection>, IQueryable<TResult>>> expression)
+        {
+            IEnumerable<TResult> dataCollection = expression.Compile()(context.Selections).ToList();
+
+            return dataCollection;
+        }
+
+        public SelectionModel GetById(int id, bool includeAll)
+        {
+            Selection data = null;
+
+            if (includeAll)
+                data = context.Selections.IncludeAll().SingleOrDefault(i => i.Id == id);
+            else
+                data = context.Selections.Find(id);
+
+            SelectionModel instance = Current.Mapper.Map<Selection, SelectionModel>(data);
+
+            return instance;
+        }
+
+        public SelectionModel GetById(int id, params Expression<Func<Selection, object>>[] includeProperties)
+        {
+            Selection data = null;
+
+            if (includeProperties.Length > 0)
+                data = context.Selections.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+            else
+                data = context.Selections.Find(id);
+
+            SelectionModel instance = Current.Mapper.Map<Selection, SelectionModel>(data);
+
+            return instance;
+        }
 
         public IQueryable<Selection> Selections
         {

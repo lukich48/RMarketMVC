@@ -16,7 +16,7 @@ namespace RMarket.ClassLib.Models
         private StrategyInfo _strategyInfo;
         private Ticker _ticker;
         private TimeFrame _timeFrame;
-        private Selection _selection;
+        private SelectionModel _selection;
 
         public IStrategyInfoRepository strategyInfoRepository = Current.StrategyInfoRepository;
         public ITickerRepository tickerRepository = Current.TickerRepository;
@@ -56,7 +56,7 @@ namespace RMarket.ClassLib.Models
 
         public TimeFrame TimeFrame { get; set; }
 
-        public Selection Selection { get; set; }
+        public SelectionModel Selection { get; set; }
 
         public InstanceModel()
         {
@@ -75,7 +75,7 @@ namespace RMarket.ClassLib.Models
                 TimeFrame = timeFrameRepository.Find(TimeFrameId);
 
             if (Selection == null && SelectionId != 0 && SelectionId != null)
-                Selection = selectionRepository.Find((int)SelectionId);
+                Selection = selectionRepository.GetById((int)SelectionId);
             
         }
     }

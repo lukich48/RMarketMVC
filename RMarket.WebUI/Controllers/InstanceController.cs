@@ -74,9 +74,9 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(InstanceModel instance, IEnumerable<ParamEntity> strategyParems)
+        public ActionResult Edit(InstanceModel instance, IEnumerable<ParamEntity> strategyParams)
         {
-            instance.StrategyParams = strategyParems.ToList();
+            instance.StrategyParams = strategyParams.ToList();
 
             if (ModelState.IsValid)
             {
@@ -136,7 +136,6 @@ namespace RMarket.WebUI.Controllers
 
         public PartialViewResult MenuNav(int strategyInfoId = 0)
         {
-            ViewBag.CurStrategyInfoId = strategyInfoId;
 
             IEnumerable<MenuNavModel> models = instanceRepository.Get(t => t
             .GroupBy(i => i.StrategyInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel{ StrategyInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })

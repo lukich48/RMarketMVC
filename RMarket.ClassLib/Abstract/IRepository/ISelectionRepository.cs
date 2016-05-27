@@ -6,12 +6,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface ISelectionRepository:IDisposable
+    public interface ISelectionRepository: IRepositoryBase<Selection,SelectionModel>, IDisposable
     {
-        IQueryable<Selection> Selections { get; }
-        Selection Find(int id);
-        SelectionModel FindModel(int id);
-        int Save(Selection selection, IEnumerable<ParamSelection> selectionParams);
-        int Save(SelectionModel selection);
     }
 }

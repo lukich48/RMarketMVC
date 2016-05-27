@@ -19,7 +19,7 @@ namespace RMarket.ClassLib.Optimization
 
         public List<InstanceModel> Start(int selectionId)
         {
-            SelectionModel selection = selectionRepository.FindModel(selectionId);
+            SelectionModel selection = selectionRepository.GetById(selectionId, s=>s.StrategyInfo);
 
             List<InstanceModel> res = new List<InstanceModel>();
 

@@ -1,6 +1,6 @@
-﻿@using RMarket.ClassLib.Entities;
+﻿@using RMarket.ClassLib.Models
 
-@model IQueryable<Selection>
+@model IEnumerable<SelectionModel>
 
 <script>
     $(function () {
@@ -51,7 +51,7 @@
     </div>
     <div class="col-xs-12 col-sm-10">
         @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
-        @foreach (Selection m in @Model)
+        @foreach (SelectionModel m in @Model)
         {
             <div class="well">
                 <div class="row">

@@ -303,13 +303,12 @@
     <Content Include="Views\Instance\InstanceRec.cshtml" />
     <Content Include="Views\Instance\InstanceRecCollection.cshtml" />
     <Content Include="Views\Instance\Details.cshtml" />
-    <Content Include="Views\Instance\MenuNav.cshtml" />
     <Content Include="Views\Instance\InstanceRecTooltip.cshtml" />
     <Content Include="Views\Selection\Details.cshtml" />
     <Content Include="Views\Selection\InstanceRec.cshtml" />
     <Content Include="Views\Selection\InstanceRecCollection.cshtml" />
     <Content Include="Views\Selection\InstanceRecTooltip.cshtml" />
-    <Content Include="Views\Selection\MenuNav.cshtml" />
+    <Content Include="Views\Shared\MenuNav.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,6 +16,7 @@ namespace RMarket.ClassLib.Infrastructure
         {
             return new MapperConfiguration(cfg =>
             {
+                //Instance
                 cfg.CreateMap<Instance, InstanceModel>()
                 .ForMember(m => m.StrategyParams, opt => opt.MapFrom(d =>
                        GetStrategyParamsVaried(d)));
@@ -28,10 +29,10 @@ namespace RMarket.ClassLib.Infrastructure
                  .ForMember(d => d.TimeFrame, opt => opt.Ignore())
                  .ForMember(d => d.Selection, opt => opt.Ignore());
 
-
+                //Selection
                 cfg.CreateMap<Selection, SelectionModel>()
                 .ForMember(m => m.SelectionParams, opt => opt.MapFrom(d =>
-                        StrategyHelper.GetStrategyParams(d)
+                        GetSelectionParamsVaried(d)
                     ));
 
                 cfg.CreateMap<SelectionModel, Selection>()
@@ -55,6 +56,19 @@ namespace RMarket.ClassLib.Infrastructure
 
             return res;
         }
+
+        public static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection instance)
+        {
+            IEnumerable<ParamSelection> res = null;
+
+            if (instance.StrategyInfo != null)
+                res = StrategyHelper.GetStrategyParams(instance);
+            else
+                res = new List<ParamSelection>();
+
+            return res;
+        }
+
 
     }
 }

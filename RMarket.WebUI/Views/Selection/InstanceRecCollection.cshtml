@@ -1,8 +1,8 @@
-﻿@using RMarket.ClassLib.Entities
+﻿@using RMarket.ClassLib.Models
 
-@model IEnumerable<Selection>
+@model IEnumerable<SelectionModel>
 
-@foreach (Selection m in Model)
+@foreach (SelectionModel m in Model)
 {
     @Html.Partial("InstanceRec", m)
 }
