@@ -11,6 +11,7 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
 using System.Linq.Expressions;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.ClassLib.EFRepository
 {

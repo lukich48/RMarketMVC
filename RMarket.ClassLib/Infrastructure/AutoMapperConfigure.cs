@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Models;
 using System;

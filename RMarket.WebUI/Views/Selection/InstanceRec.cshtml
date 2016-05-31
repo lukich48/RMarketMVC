@@ -1,4 +1,6 @@
-﻿@model RMarket.ClassLib.Models.SelectionModel
+﻿@using RMarket.ClassLib.EntityModels;
+
+@model SelectionModel
 
 <a class="list-group-item" href="@Url.Action("Details", new { instanceId = Model.Id })" data-instanceId="@Model.Id" data-toggle="tooltip" data-placement="bottom">
     <strong class="h3">@Model.Name</strong>

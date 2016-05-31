@@ -123,8 +123,8 @@ namespace RMarket.ClassLib.Managers
             order.StopLoss = stoploss;
             order.TakeProfit = takeprofit;
             order.Expiration = expiration;
-            order.DateOpenCandle = Instr.Candles[0].DateOpen;
-            order.DateOpenUTS = DateTime.UtcNow;
+            order.DateOpen = Instr.Candles[0].DateOpen;
+            order.DateOpenUTC = DateTime.UtcNow;
             order.PriceOpen = Instr.Candles[0].ClosePrice + Portf.Slippage * ((order.OrderType == OrderType.Sell) ? (-1) : 1);
 
             decimal oldBalance = Portf.Balance;
@@ -146,7 +146,7 @@ namespace RMarket.ClassLib.Managers
 
         public int OrderCloseAll(OrderType orderType)
         {
-            List<Order> foundOrders = Strategy.Orders.FindAll(ord => ord.OrderType == orderType && ord.DateCloseCandle == DateTime.MinValue);
+            List<Order> foundOrders = Strategy.Orders.FindAll(ord => ord.OrderType == orderType && ord.DateClose == DateTime.MinValue);
 
             foreach (Order order in foundOrders)
             {
@@ -160,8 +160,8 @@ namespace RMarket.ClassLib.Managers
         {
             int res = 0;
 
-            order.DateCloseCandle = Instr.Candles[0].DateOpen;
-            order.DateCloseUTS = DateTime.UtcNow;
+            order.DateClose = Instr.Candles[0].DateOpen;
+            order.DateCloseUTC = DateTime.UtcNow;
 
             order.PriceClose = Instr.Candles[0].ClosePrice;
             order.Profit = order.Volume * (order.PriceClose - order.PriceOpen) * ((order.OrderType == OrderType.Sell) ? (-1) : 1);

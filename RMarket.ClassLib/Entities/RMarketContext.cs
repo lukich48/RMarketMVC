@@ -103,19 +103,19 @@ namespace RMarket.ClassLib.Entities
                 .HasPrecision(3);
 
             modelBuilder.Entity<Order>()
-                .Property(e => e.DateOpenCandle).HasColumnType("datetime2")
+                .Property(e => e.DateOpen).HasColumnType("datetime2")
                 .HasPrecision(0);
 
             modelBuilder.Entity<Order>()
-                .Property(e => e.DateCloseCandle).HasColumnType("datetime2")
+                .Property(e => e.DateClose).HasColumnType("datetime2")
                 .HasPrecision(0);
 
             modelBuilder.Entity<Order>()
-                .Property(e => e.DateOpenUTS).HasColumnType("datetime2")
+                .Property(e => e.DateOpenUTC).HasColumnType("datetime2")
                 .HasPrecision(3);
 
             modelBuilder.Entity<Order>()
-                .Property(e => e.DateCloseUTS).HasColumnType("datetime2")
+                .Property(e => e.DateCloseUTC).HasColumnType("datetime2")
                 .HasPrecision(3);
 
             modelBuilder.Entity<Order>()

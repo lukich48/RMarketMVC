@@ -4,6 +4,7 @@ using RMarket.ClassLib.Models;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.ClassLib.Abstract
 {

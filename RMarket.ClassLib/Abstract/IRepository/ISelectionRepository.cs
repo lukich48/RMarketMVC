@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;

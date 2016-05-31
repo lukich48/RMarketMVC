@@ -26,11 +26,11 @@ namespace RMarket.ClassLib.Entities
         /// </summary>
         public decimal StopLoss { get; set; }
 
-        public DateTime DateOpenCandle { get; set; }
-        public DateTime DateOpenUTS { get; set; }
+        public DateTime DateOpen { get; set; }
+        public DateTime DateOpenUTC { get; set; }
         public DateTime Expiration { get; set; }
-        public DateTime DateCloseCandle { get; set; }
-        public DateTime DateCloseUTS { get; set; }
+        public DateTime DateClose { get; set; }
+        public DateTime DateCloseUTC { get; set; }
 
         public int Volume { get; set; }
         public decimal PriceOpen { get; set; }

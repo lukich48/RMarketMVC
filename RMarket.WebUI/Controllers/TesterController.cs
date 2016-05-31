@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.WebUI.Controllers
 {

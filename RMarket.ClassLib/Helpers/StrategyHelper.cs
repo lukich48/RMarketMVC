@@ -8,6 +8,7 @@ using System.Reflection;
 using RMarket.ClassLib.Entities;
 using System.Globalization;
 using RMarket.ClassLib.Models;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.ClassLib.Helpers
 {

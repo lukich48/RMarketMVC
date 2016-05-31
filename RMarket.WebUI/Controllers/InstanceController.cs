@@ -10,6 +10,7 @@ using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
 using RMarket.ClassLib.Helpers;
 using RMarket.WebUI.Models;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.WebUI.Controllers
 {

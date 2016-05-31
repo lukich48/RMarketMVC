@@ -2,6 +2,7 @@
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Connectors;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Models;

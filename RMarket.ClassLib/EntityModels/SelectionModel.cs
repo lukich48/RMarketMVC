@@ -1,6 +1,7 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Models
+namespace RMarket.ClassLib.EntityModels
 {
     [MetadataType(typeof(Selection_metadata))]
     public class SelectionModel

@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure.HighChart;
@@ -86,7 +87,7 @@ namespace RMarket.WebUI.Models
 
             candles = Strategy.Instr.Candles.Where(c => c.DateOpen > lastDate).OrderBy(c => c.DateOpen).Take(maxCount).ToList();
             DateTime dateMin = candles[0].DateOpen;
-            orders = Strategy.Orders.Where(o => o.DateOpenCandle >= dateMin).OrderBy(o => o.DateOpenCandle).ToList();
+            orders = Strategy.Orders.Where(o => o.DateOpen >= dateMin).OrderBy(o => o.DateOpen).ToList();
 
             indicators = new Dictionary<string, List<IndicatorValue>>();
             foreach (KeyValuePair<string, IIndicator> indPair in IndicatorsDict)
@@ -127,7 +128,7 @@ namespace RMarket.WebUI.Models
             {
                 candles = Strategy.Instr.Candles.Where((c, i) => i < maxCount).OrderBy(c => c.DateOpen).ToList();
                 DateTime dateMin = candles[0].DateOpen;
-                orders = Strategy.Orders.Where(o => o.DateOpenCandle >= dateMin).OrderBy(o => o.DateOpenCandle).ToList();
+                orders = Strategy.Orders.Where(o => o.DateOpen >= dateMin).OrderBy(o => o.DateOpen).ToList();
 
                 foreach (KeyValuePair<string, IIndicator> indPair in IndicatorsDict)
                 {
@@ -142,7 +143,7 @@ namespace RMarket.WebUI.Models
             {
                 candles = Strategy.Instr.Candles.Where((c, i) => i >= (Strategy.Instr.Candles.Count - maxCount)).OrderBy(c => c.DateOpen).ToList();
                 DateTime dateMax = candles.Last().DateOpen;
-                orders = Strategy.Orders.Where(o => o.DateOpenCandle <= dateMax).OrderBy(o => o.DateOpenCandle).ToList();
+                orders = Strategy.Orders.Where(o => o.DateOpen <= dateMax).OrderBy(o => o.DateOpen).ToList();
 
                 foreach (KeyValuePair<string, IIndicator> indPair in IndicatorsDict)
                 {
@@ -181,7 +182,7 @@ namespace RMarket.WebUI.Models
             {
                 candles = Strategy.Instr.Candles.Where(c => c.DateOpen > lastDate).OrderBy(c => c.DateOpen).Take(maxCount).ToList();
                 DateTime dateMax = candles.Last().DateOpen;
-                orders = Strategy.Orders.Where(o => o.DateOpenCandle > lastDate && o.DateOpenCandle <= dateMax).OrderBy(o => o.DateOpenCandle).ToList();
+                orders = Strategy.Orders.Where(o => o.DateOpen > lastDate && o.DateOpen <= dateMax).OrderBy(o => o.DateOpen).ToList();
 
                 foreach (KeyValuePair<string, IIndicator> indPair in IndicatorsDict)
                 {
@@ -196,7 +197,7 @@ namespace RMarket.WebUI.Models
             {
                 candles = Strategy.Instr.Candles.Where(c => c.DateOpen < lastDate).Take(maxCount).OrderBy(c => c.DateOpen).ToList();
                 DateTime dateMin = candles[0].DateOpen;
-                orders = Strategy.Orders.Where(o => o.DateOpenCandle >= dateMin && o.DateOpenCandle < lastDate).OrderBy(o => o.DateOpenCandle).ToList();
+                orders = Strategy.Orders.Where(o => o.DateOpen >= dateMin && o.DateOpen < lastDate).OrderBy(o => o.DateOpen).ToList();
 
                 foreach (KeyValuePair<string, IIndicator> indPair in IndicatorsDict)
                 {
@@ -242,14 +243,14 @@ namespace RMarket.WebUI.Models
             }
 
             //Ордера. нужно определить начальный баланс
-            decimal startBalance = Manager.Portf.Balance + Strategy.Orders.Where(o => o.DateOpenCandle < orders[0].DateOpenCandle).Sum(o => o.Profit);
+            decimal startBalance = Manager.Portf.Balance + Strategy.Orders.Where(o => o.DateOpen < orders[0].DateOpen).Sum(o => o.Profit);
             List<SeriesData> orderData = new List<SeriesData>();
             orderData.Add(new SeriesData { x = candles[0].DateOpen.MillisecondUTC(), y = startBalance }); //крайнее значение
             foreach (Order curOrder in orders)
             {
                 startBalance += curOrder.Profit;
                 SeriesData data = new SeriesData();
-                data.x = curOrder.DateOpenCandle.MillisecondUTC();
+                data.x = curOrder.DateOpen.MillisecondUTC();
                 data.y = startBalance;
 
                 orderData.Add(data);
@@ -286,7 +287,7 @@ namespace RMarket.WebUI.Models
 
                 dataList.Add( new SeriesData
                 {
-                    x = curOrder.DateOpenCandle.MillisecondUTC(),
+                    x = curOrder.DateOpen.MillisecondUTC(),
                     y = curOrder.PriceOpen
                 });
 
@@ -294,7 +295,7 @@ namespace RMarket.WebUI.Models
                 {
                     dataList.Add(new SeriesData
                     {
-                        x = curOrder.DateCloseCandle.MillisecondUTC(),
+                        x = curOrder.DateClose.MillisecondUTC(),
                         y = curOrder.PriceClose,
                         dataLabels = new DataLabel
                         {

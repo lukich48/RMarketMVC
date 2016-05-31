@@ -169,15 +169,16 @@
     <Compile Include="Models\CustomExceptions.cs" />
     <Compile Include="Models\HistoricalProviderBase.cs" />
     <Compile Include="Models\IndicatorBase.cs" />
-    <Compile Include="Models\InstanceModel.cs" />
+    <Compile Include="EntityModels\InstanceModel.cs" />
     <Compile Include="Models\Instrument.cs" />
     <Compile Include="Models\Portfolio.cs" />
-    <Compile Include="Models\SelectionModel.cs" />
+    <Compile Include="EntityModels\SelectionModel.cs" />
     <Compile Include="Models\ServiceClasses.cs" />
     <Compile Include="Models\ParamSelection.cs" />
     <Compile Include="Models\ParamEntity.cs" />
     <Compile Include="Models\ParamBase.cs" />
-    <Compile Include="Models\SettingModel.cs" />
+    <Compile Include="EntityModels\SettingModel.cs" />
+    <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
