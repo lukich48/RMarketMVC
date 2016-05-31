@@ -49,14 +49,14 @@ namespace RMarket.ClassLib.Helpers
 
             ConnectorInfo connectorInfo = connectorInfoRepository.Find(setting.EntityInfoId);
 
-            IDataProvider dataProvider =  (IDataProvider)EntityHelper.CreateEntity(connectorInfo);
+            IDataProvider dataProvider =  (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
 
             IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(setting.StrParams);
 
-            IEnumerable<ParamEntity> strategyParams = EntityHelper.GetEntityParams<ParamEntity>(connectorInfo, savedParams);
+            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(connectorInfo, savedParams);
 
             //Применяем сохраненные параметры
-            MemberInfo[] arrayProp = EntityHelper.GetEntityProps(dataProvider);
+            MemberInfo[] arrayProp = ReflectionHelper.GetEntityProps(dataProvider);
             foreach (MemberInfo prop in arrayProp)
             {
                 ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);

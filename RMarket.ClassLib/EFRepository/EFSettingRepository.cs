@@ -43,7 +43,7 @@ namespace RMarket.ClassLib.EFRepository
             IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(dto.StrParams);
 
             IEntityInfo entityInfo = SettingHelper.GetEntityInfo(setting.TypeSetting, setting.EntityInfoId);
-            setting.EntityParams = EntityHelper.GetEntityParams<ParamEntity>(entityInfo, savedParams);
+            setting.EntityParams = StrategyHelper.GetEntityParams<ParamEntity>(entityInfo, savedParams);
 
             return setting;
 

@@ -153,7 +153,6 @@
     <Compile Include="Entities\Ticker.cs" />
     <Compile Include="Entities\TimeFrame.cs" />
     <Compile Include="Entities\AliveStrategy.cs" />
-    <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
     <Compile Include="Helpers\OptimizationHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />

@@ -56,10 +56,10 @@ namespace RMarket.ClassLib.Helpers
             if (instance.StrategyInfo == null)
                 throw new CustomException($"instanceId={instance.Id}. StrategyInfo is null!");
 
-            IStrategy strategy = (IStrategy)EntityHelper.CreateEntity(instance.StrategyInfo);
+            IStrategy strategy = (IStrategy)ReflectionHelper.CreateEntity(instance.StrategyInfo);
 
             //Применяем сохраненные параметры
-            MemberInfo[] arrayProp = EntityHelper.GetEntityProps(strategy);
+            MemberInfo[] arrayProp = ReflectionHelper.GetEntityProps(strategy);
             foreach (MemberInfo prop in arrayProp)
             {
                 ParamEntity savedParam = instance.StrategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
@@ -76,6 +76,37 @@ namespace RMarket.ClassLib.Helpers
             return strategy;
         }
 
+        /// <summary>
+        /// Создает параметры ParamBase на основании переданного объекта
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entityInfo"></param>
+        /// <param name="savedParams"></param>
+        /// <returns></returns>
+        public static List<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null)
+            where T : ParamBase, new()
+        {
+            if (savedParams == null)
+                savedParams = new List<T>();
+
+            List<T> res = new List<T>();
+
+            object entity = ReflectionHelper.CreateEntity(entityInfo);
+
+            MemberInfo[] arrayProp = ReflectionHelper.GetEntityProps(entity);
+
+            foreach (MemberInfo prop in arrayProp)
+            {
+                T savedParam = savedParams.FirstOrDefault(p => p.FieldName == prop.Name);
+                if (savedParam == null)
+                    savedParam = new T();
+
+                savedParam.RepairValue(prop, entity);
+                res.Add(savedParam);
+            }
+
+            return res;
+        }
 
         /// <summary>
         /// Создает параметры из объекта Стратегии и сохраненных данных 
@@ -89,7 +120,7 @@ namespace RMarket.ClassLib.Helpers
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(instance);
 
-            List<ParamEntity> res = EntityHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams);
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams);
 
             return res;
         }
@@ -103,7 +134,7 @@ namespace RMarket.ClassLib.Helpers
         {
             IEnumerable<ParamSelection> savedParams = GetSavedStrategyParams(selection);
 
-            List<ParamSelection> res = EntityHelper.GetEntityParams<ParamSelection>(selection.StrategyInfo, savedParams);
+            List<ParamSelection> res = StrategyHelper.GetEntityParams<ParamSelection>(selection.StrategyInfo, savedParams);
 
             return res;
         }
@@ -119,7 +150,7 @@ namespace RMarket.ClassLib.Helpers
             Dictionary<string, IIndicator> listIndicators = new Dictionary<string, IIndicator>();
             MemberInfo[] arrayProp = strategy.GetType().FindMembers(MemberTypes.Field | MemberTypes.Property,
                 BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                new MemberFilter(EntityHelper.FilterAttributes), new DisplayChartAttribute());
+                new MemberFilter(ReflectionHelper.FilterAttributes), new DisplayChartAttribute());
 
             foreach (MemberInfo prop in arrayProp)
             {

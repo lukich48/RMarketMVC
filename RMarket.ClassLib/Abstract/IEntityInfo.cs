@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Abstract
 {
+    /// <summary>
+    /// интерфейс позволяет создавать из объекта описания объект указанного типа
+    /// </summary>
     public interface IEntityInfo
     {
         string Name { get; set; }
