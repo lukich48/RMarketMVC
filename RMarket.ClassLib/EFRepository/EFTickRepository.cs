@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFTickRepository:ITickRepository
     {
-        private RMarketContext context = RMarketContext.Current;
+        private RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<Tick> Ticks
         {

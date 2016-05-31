@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using System.Data.Entity;
+using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.EFRepository
 {
     public  class EFOrderRepository: IOrderRepository
     {
-        private RMarketContext context = RMarketContext.Current;
+        private RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<Order> Orders
         {

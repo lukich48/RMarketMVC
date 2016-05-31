@@ -9,12 +9,14 @@ using RMarket.ClassLib.Models;
 using System.Data.Entity;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
+using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.EFRepository
 {
     public class EFSettingRepository : ISettingRepository
     {
-        private RMarketContext context = RMarketContext.Current;
+        private RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<Setting> Settings
         {

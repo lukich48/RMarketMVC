@@ -17,23 +17,23 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFSelectionRepository:ISelectionRepository
     {
-        private RMarketContext context = RMarketContext.Current;
+        private RMarketContext context = CurrentRepository.Context;
 
         public IEnumerable<SelectionModel> Get()
         {
-            return Current.Mapper.Map<IQueryable<Selection>, IEnumerable<SelectionModel>>(context.Selections);
+            return Current.Mapper.Map<IQueryable<Selection>, IEnumerable<SelectionModel>>(Context.Selections);
         }
 
         public IEnumerable<SelectionModel> Get(Expression<Func<IQueryable<Selection>, IQueryable<Selection>>> expression)
         {
-            IQueryable<Selection> dataCollection = expression.Compile()(context.Selections);
+            IQueryable<Selection> dataCollection = expression.Compile()(Context.Selections);
 
             return Current.Mapper.Map<IQueryable<Selection>, IEnumerable<SelectionModel>>(dataCollection);
         }
 
         public IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<Selection>, IQueryable<TResult>>> expression)
         {
-            IEnumerable<TResult> dataCollection = expression.Compile()(context.Selections).ToList();
+            IEnumerable<TResult> dataCollection = expression.Compile()(Context.Selections).ToList();
 
             return dataCollection;
         }
@@ -43,9 +43,9 @@ namespace RMarket.ClassLib.EFRepository
             Selection data = null;
 
             if (includeAll)
-                data = context.Selections.IncludeAll().SingleOrDefault(i => i.Id == id);
+                data = Context.Selections.IncludeAll().SingleOrDefault(i => i.Id == id);
             else
-                data = context.Selections.Find(id);
+                data = Context.Selections.Find(id);
 
             SelectionModel instance = Current.Mapper.Map<Selection, SelectionModel>(data);
 
@@ -57,9 +57,9 @@ namespace RMarket.ClassLib.EFRepository
             Selection data = null;
 
             if (includeProperties.Length > 0)
-                data = context.Selections.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+                data = Context.Selections.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
             else
-                data = context.Selections.Find(id);
+                data = Context.Selections.Find(id);
 
             SelectionModel instance = Current.Mapper.Map<Selection, SelectionModel>(data);
 
@@ -70,18 +70,31 @@ namespace RMarket.ClassLib.EFRepository
         {
             get
             {
-                return context.Selections;//.Include(m => m.StrategyInfo).Include(m => m.Ticker).Include(m => m.TimeFrame);
+                return Context.Selections;//.Include(m => m.StrategyInfo).Include(m => m.Ticker).Include(m => m.TimeFrame);
+            }
+        }
+
+        public RMarketContext Context
+        {
+            get
+            {
+                return context;
+            }
+
+            set
+            {
+                context = value;
             }
         }
 
         public Selection Find(int id)
         {
-            return context.Selections.Find(id);
+            return Context.Selections.Find(id);
         }
 
         public SelectionModel FindModel(int id)
         {
-            Selection data = context.Selections.Find(id);
+            Selection data = Context.Selections.Find(id);
 
             if (data == null)
                 return null;
@@ -108,16 +121,16 @@ namespace RMarket.ClassLib.EFRepository
             if (selection.Id == 0) //Insert
             {
                 selection.GroupID = Guid.NewGuid();
-                context.Selections.Add(selection);
+                Context.Selections.Add(selection);
                 res = 1;
             }
             else //Update
             {
-                context.Selections.Add(selection);
+                Context.Selections.Add(selection);
                 res = 2;
             }
 
-            context.SaveChanges();
+            Context.SaveChanges();
 
             return res;
         }
@@ -135,16 +148,16 @@ namespace RMarket.ClassLib.EFRepository
             if (selection.Id == 0) //Insert
             {
                 dto.GroupID = Guid.NewGuid();
-                context.Selections.Add(dto);
+                Context.Selections.Add(dto);
                 res = 1;
             }
             else //Update
             {
-                context.Selections.Add(dto);
+                Context.Selections.Add(dto);
                 res = 2;
             }
 
-            context.SaveChanges();
+            Context.SaveChanges();
 
             return res;
         }
@@ -152,7 +165,7 @@ namespace RMarket.ClassLib.EFRepository
         #region IDisposable
         public void Dispose()
         {
-            context.Dispose();
+            Context.Dispose();
         }
         #endregion
     }

@@ -162,8 +162,9 @@
     <Compile Include="Helpers\StrategyHelper.cs" />
     <Compile Include="Helpers\TickHelper.cs" />
     <Compile Include="HistoricalProviders\Finam.cs" />
-    <Compile Include="Infrastructure\AutoMapperConfigure.cs" />
+    <Compile Include="Infrastructure\AutomapperConfigurations\BasicConfigurarion.cs" />
     <Compile Include="Infrastructure\Current.cs" />
+    <Compile Include="Infrastructure\CurrentRepository.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
     <Compile Include="Models\CustomExceptions.cs" />
@@ -190,12 +191,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Quik\DDEInfo.dll" />
-    <Content Include="Resources\Quik\DDEInfo.xml" />
-    <Content Include="Resources\Quik\FTFHelper.dll" />
-    <Content Include="Resources\Quik\FTFHelper.xml" />
-    <Content Include="Resources\Quik\NDde.dll" />
-    <Content Include="Resources\Quik\NDde.xml" />
+    <Content Include="dll\Quik\DDEInfo.dll" />
+    <Content Include="dll\Quik\DDEInfo.xml" />
+    <Content Include="dll\Quik\FTFHelper.dll" />
+    <Content Include="dll\Quik\FTFHelper.xml" />
+    <Content Include="dll\Quik\NDde.dll" />
+    <Content Include="dll\Quik\NDde.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

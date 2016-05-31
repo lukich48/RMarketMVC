@@ -16,7 +16,7 @@ namespace RMarket.ClassLib.Optimization
 {
     public class GASimple
     {
-        ISelectionRepository selectionRepository = Current.SelectionRepository;
+        ISelectionRepository selectionRepository = CurrentRepository.SelectionRepository;
 
         public List<InstanceModel> Start(int selectionId, DateTime dateFrom, DateTime dateTo)
         {

@@ -17,23 +17,36 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFInstanceRepository : IInstanceRepository
     {
-        private RMarketContext context = RMarketContext.Current;
+        private RMarketContext context = CurrentRepository.Context;
+
+        public RMarketContext Context
+        {
+            get
+            {
+                return context;
+            }
+
+            set
+            {
+                context = value;
+            }
+        }
 
         public IEnumerable<InstanceModel> Get()
         {
-            return Current.Mapper.Map<IQueryable<Instance>, IEnumerable<InstanceModel>>(context.Instances);
+            return Current.Mapper.Map<IQueryable<Instance>, IEnumerable<InstanceModel>>(Context.Instances);
         }
 
         public IEnumerable<InstanceModel> Get(Expression<Func<IQueryable<Instance>,IQueryable<Instance>>> expression)
         {
-            IQueryable<Instance> dataCollection = expression.Compile()(context.Instances);
+            IQueryable<Instance> dataCollection = expression.Compile()(Context.Instances);
 
             return Current.Mapper.Map<IQueryable<Instance>, IEnumerable<InstanceModel>>(dataCollection);
         }
 
         public IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<Instance>, IQueryable<TResult>>> expression)
         {
-            IEnumerable<TResult> dataCollection = expression.Compile()(context.Instances).ToList();
+            IEnumerable<TResult> dataCollection = expression.Compile()(Context.Instances).ToList();
 
             return dataCollection;
         }
@@ -43,9 +56,9 @@ namespace RMarket.ClassLib.EFRepository
             Instance data = null;
 
             if(includeAll)
-                data = context.Instances.IncludeAll().SingleOrDefault(i => i.Id == id);
+                data = Context.Instances.IncludeAll().SingleOrDefault(i => i.Id == id);
             else
-                data = context.Instances.Find(id);
+                data = Context.Instances.Find(id);
             
             InstanceModel instance = Current.Mapper.Map<Instance, InstanceModel>(data);
     
@@ -57,9 +70,9 @@ namespace RMarket.ClassLib.EFRepository
             Instance data = null;
 
             if (includeProperties.Length > 0)
-                data = context.Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
+                data = Context.Instances.IncludeProperties(includeProperties).SingleOrDefault(i => i.Id == id);
             else
-                data = context.Instances.Find(id);
+                data = Context.Instances.Find(id);
 
             InstanceModel instance = Current.Mapper.Map<Instance, InstanceModel>(data);
 
@@ -84,8 +97,8 @@ namespace RMarket.ClassLib.EFRepository
 
             Instance dto = Current.Mapper.Map<Instance>(instance);
 
-            context.Instances.Add(dto);
-            context.SaveChanges();
+            Context.Instances.Add(dto);
+            Context.SaveChanges();
 
             return res;
         }
@@ -93,7 +106,7 @@ namespace RMarket.ClassLib.EFRepository
         #region IDisposable
         public void Dispose()
         {
-            context.Dispose();
+            Context.Dispose();
         }
         #endregion
     }

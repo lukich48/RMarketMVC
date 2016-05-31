@@ -12,7 +12,7 @@ namespace RMarket.ClassLib.Models
 {
     public abstract class HistoricalProviderBase:IHistoricalProvider
     {
-        public ICandleRepository candleRepository = Current.CandleRepository;
+        public ICandleRepository candleRepository = CurrentRepository.CandleRepository;
 
         public virtual int DownloadAndSave(DateTime dateFrom, DateTime dateTo, Ticker ticker, TimeFrame timeFrame)
         {

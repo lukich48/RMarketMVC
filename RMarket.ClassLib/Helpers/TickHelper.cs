@@ -14,7 +14,7 @@ namespace RMarket.ClassLib.Helpers
 {
     public static class TickHelper
     {
-        public static ITickRepository tickRepository = Current.TickRepository;
+        public static ITickRepository tickRepository = CurrentRepository.TickRepository;
 
         private static ConcurrentDictionary<string, byte> usedTickerCode = new ConcurrentDictionary<string, byte>();
         private static ConcurrentBag<Tick> ticksBuffer = new ConcurrentBag<Tick>();

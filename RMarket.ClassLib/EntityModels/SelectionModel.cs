@@ -19,10 +19,10 @@ namespace RMarket.ClassLib.EntityModels
         private TimeFrame _timeFrame;
         private IEnumerable<Instance> _instances;
 
-        public IStrategyInfoRepository strategyInfoRepository = Current.StrategyInfoRepository;
-        public ITickerRepository tickerRepository = Current.TickerRepository;
-        public ITimeFrameRepository timeFrameRepository = Current.TimeFrameRepository;
-        public IInstanceRepository instanceRepository = Current.InstanceRepository;
+        public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
+        public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
+        public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;
+        public IInstanceRepository instanceRepository = CurrentRepository.InstanceRepository;
 
 
         public int Id { get; set; }

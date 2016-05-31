@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Infrastructure
+namespace RMarket.ClassLib.AutomapperConfigurations
 {
-    public class AutoMapperConfiguration
+    public class BasicConfigurarion
     {
         public MapperConfiguration CreateDefaultConfiguration()
         {

@@ -13,8 +13,8 @@ namespace RMarket.ClassLib.Helpers
 {
     public static class SettingHelper
     {
-        public static IConnectorInfoRepository connectorInfoRepository = Current.ConnectorInfoRepository;
-        public static ISettingRepository settingRepository = Current.SettingRepository;
+        public static IConnectorInfoRepository connectorInfoRepository = CurrentRepository.ConnectorInfoRepository;
+        public static ISettingRepository settingRepository = CurrentRepository.SettingRepository;
 
         /// <summary>
         /// Возвращает объект по типу настройки и идентификатору. Генерирует исключение, если неверно задан typeSetting

@@ -14,19 +14,7 @@ namespace RMarket.ClassLib.Entities
     {
         public RMarketContext()
             : base("name=RMarket")
-        {
-        }
-
-        public static RMarketContext Current
-        {
-            get
-            {
-                //IKernel kernel = new StandardKernel();
-                //kernel.Bind<RMarketContext>().ToSelf();
-                //return kernel.TryGet<RMarketContext>();
-                return new RMarketContext();
-            }
-        }
+        { }
 
         public virtual DbSet<Instance> Instances { get; set; }
         public virtual DbSet<StrategyInfo> StrategyInfoes { get; set; }
