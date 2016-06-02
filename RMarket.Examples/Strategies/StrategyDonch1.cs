@@ -63,23 +63,23 @@ namespace RMarket.Examples.Strategies
             if (donch1up == donch2.Results["up"].Values[1].Value && donch1up == donch3.Results["up"].Values[1].Value && Instr.Candles[0].ClosePrice >= donch1up && ordersBuy.Count == 0)
             {
                 //Берем buy
-                Manager.OrderBuy(volume);
+                Manager.OrderSender.OrderBuy(volume);
             }
             else if (donch1down == donch2.Results["down"].Values[1].Value && donch1down == donch3.Results["down"].Values[1].Value && Instr.Candles[0].ClosePrice <= donch1down && ordersSell.Count == 0)
             {
                 //Берем sell 
-                Manager.OrderSell(volume);
+                Manager.OrderSender.OrderSell(volume);
             }
 
             // Выход при пересечении границы быстрого канала
             if (Instr.Candles[0].ClosePrice < donch1down && ordersBuy.Count > 0)
             {
-                Manager.OrderCloseAll(OrderType.Buy);
+                Manager.OrderSender.OrderCloseAll(OrderType.Buy);
             }
 
             if (Instr.Candles[0].ClosePrice > donch1up && ordersSell.Count > 0)
             {
-                Manager.OrderCloseAll(OrderType.Sell);
+                Manager.OrderSender.OrderCloseAll(OrderType.Sell);
             }
 
         }

@@ -155,6 +155,7 @@
     <Compile Include="Entities\AliveStrategy.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
     <Compile Include="Helpers\OptimizationHelper.cs" />
+    <Compile Include="Helpers\OrderSender.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />

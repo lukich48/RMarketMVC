@@ -23,6 +23,7 @@ namespace RMarket.ClassLib.Managers
             this.Instr = instr;
             this.Portf = portf;
             this.IsReal = false;
+            this.OrderSender = new OrderSender(this);
 
             Strategy.Instr = Instr;
             Strategy.Manager = this;
@@ -47,6 +48,13 @@ namespace RMarket.ClassLib.Managers
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public bool IsReal { get; set; }
+        public OrderSender OrderSender { get; set; }
+
+        #region Events
+
+        public event EventHandler StrategyStopped;
+
+        #endregion
 
         public void StartStrategy()
         {
@@ -82,35 +90,9 @@ namespace RMarket.ClassLib.Managers
         {
             cts.Cancel();
             IsStarted = false;
-        }
 
-        #region Отправка ордеров
-
-        /// <summary>
-        /// Рыночный ордер по текущей цене и текущему инструменту
-        /// </summary>
-        /// <param name="volume"></param>
-        /// <param name="loss"></param>
-        /// <param name="profit"></param>
-        /// <param name="expiration"></param>
-        /// <returns></returns>
-        public Order OrderBuy(int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime expiration = new DateTime(), string comment = "")
-        {
-            Order res;
-
-            res = OrderSend(Instr.Ticker.Code, OrderType.Buy, volume, stoploss, takeprofit, expiration, comment);
-
-            return res;
-        }
-
-        public Order OrderSell(int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime expiration = new DateTime(), string comment = "")
-        {
-
-            Order res;
-
-            res = OrderSend(Instr.Ticker.Code, OrderType.Sell, volume, stoploss, takeprofit, expiration, comment);
-
-            return res;
+            if (StrategyStopped != null)
+                StrategyStopped(this, null);
         }
 
         public Order OrderSend(string tickerCode, OrderType orderType, int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime expiration = new DateTime(), string comment = "")
@@ -140,22 +122,6 @@ namespace RMarket.ClassLib.Managers
             return order;
         }
 
-        #endregion
-
-        #region Закрытие ордеров  
-
-        public int OrderCloseAll(OrderType orderType)
-        {
-            List<Order> foundOrders = Strategy.Orders.FindAll(ord => ord.OrderType == orderType && ord.DateClose == DateTime.MinValue);
-
-            foreach (Order order in foundOrders)
-            {
-                OrderClose(order);
-            }
-
-            return foundOrders.Count;
-        }
-
         public int OrderClose(Order order)
         {
             int res = 0;
@@ -172,9 +138,6 @@ namespace RMarket.ClassLib.Managers
         }
 
         #endregion
-
-        #endregion
-
 
     }
 }
