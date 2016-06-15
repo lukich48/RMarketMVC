@@ -126,6 +126,8 @@
     <Compile Include="Abstract\IRepository\IStrategyInfoRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickerRepository.cs" />
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
+    <Compile Include="App_Start\Bootstrapper.cs" />
+    <Compile Include="Connectors\CsvFileConnector.cs" />
     <Compile Include="Connectors\QuikConnector.cs" />
     <Compile Include="EFRepository\EFAliveStrategyRepository.cs" />
     <Compile Include="EFRepository\EFCandleRepository.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="Entities\Ticker.cs" />
     <Compile Include="Entities\TimeFrame.cs" />
     <Compile Include="Entities\AliveStrategy.cs" />
+    <Compile Include="Helpers\ConnectorHelper.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
     <Compile Include="Helpers\OptimizationHelper.cs" />
     <Compile Include="Helpers\OrderSender.cs" />

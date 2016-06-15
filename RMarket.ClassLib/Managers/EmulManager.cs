@@ -74,9 +74,7 @@ namespace RMarket.ClassLib.Managers
                 Strategy.Begin();
             };
 
-            if (!Connector.ServerIsStarted)
-                Connector.StartServer();
-
+            Connector.StartServer();
             
             IsStarted = true;
 

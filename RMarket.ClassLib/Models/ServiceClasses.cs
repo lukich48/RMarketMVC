@@ -74,10 +74,10 @@ namespace RMarket.ClassLib.Models
         /// </summary>
         public Dictionary<string, string> Extended { get; set; }
 
-        public TickEventArgs()
-        {
-            Extended = new Dictionary<string, string>();
-        }
+        //public TickEventArgs()
+        //{
+        //    Extended = new Dictionary<string, string>();
+        //}
 
     }
 

@@ -19,8 +19,7 @@
 }
 
 @{
-    SelectionModel selection = Model;
-    bool isCreate = selection.Id == 0 ? true : false;
+    bool isCreate = Model.Id == 0 ? true : false;
     object attr;
     if (isCreate)
     {
@@ -42,134 +41,134 @@
 
 <div class="panel">
     <div class="panel-heading">
-        <h3>Редактирование селекции: <span class="text-info">@selection.Name</span></h3>
+        <h3>Редактирование селекции: <span class="text-info">@Model.Name</span></h3>
     </div>
 
     @using (Html.BeginForm("Edit","Selection"))
     {
         @Html.ValidationSummary()
 
-        @Html.HiddenFor(m => selection.Id)
-        @Html.HiddenFor(m => selection.GroupID)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.GroupID)
 
         <div class="form-group">
             <table>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.Name)
+                        @Html.LabelFor(m => m.Name)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => selection.Name, attr)
+                        @Html.TextBoxFor(m => m.Name, attr)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.StrategyInfoId)
+                        @Html.LabelFor(m => m.StrategyInfoId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => selection.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                            @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr);
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => selection.StrategyInfo.Name, attr);
-                            @Html.HiddenFor(m => selection.StrategyInfoId);
+                            @Html.TextBoxFor(m => m.StrategyInfo.Name, attr);
+                            @Html.HiddenFor(m => m.StrategyInfoId);
                         }
                     </td>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.TickerId)
+                        @Html.LabelFor(m => m.TickerId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => selection.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                            @Html.DropDownListFor(m => m.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr);
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => selection.Ticker.Code, attr);
-                            @Html.HiddenFor(m => selection.TickerId);
+                            @Html.TextBoxFor(m => m.Ticker.Code, attr);
+                            @Html.HiddenFor(m => m.TickerId);
                         }
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.TimeFrameId)
+                        @Html.LabelFor(m => m.TimeFrameId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => selection.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                            @Html.DropDownListFor(m => m.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr);
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => selection.TimeFrame.Name, attr);
-                            @Html.HiddenFor(m => selection.TimeFrameId);
+                            @Html.TextBoxFor(m => m.TimeFrame.Name, attr);
+                            @Html.HiddenFor(m => m.TimeFrameId);
                         }
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m=> selection.DateFrom)
+                        @Html.LabelFor(m=> m.DateFrom)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => selection.DateFrom, new { @class = "form-control datepicker" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => selection.DateTo)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => selection.DateTo, new { @class = "form-control datepicker" })
+                        @Html.TextBoxFor(m => m.DateFrom, new { @class = "form-control datepicker" })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.AmountResults)
+                        @Html.LabelFor(m => m.DateTo)
                     </td>
                     <td>
-                        @Html.EditorFor(m => selection.AmountResults, new { htmlAttributes = new { @class = "form-control" } })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => selection.Balance)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => selection.Balance, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control datepicker" })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.Slippage)
+                        @Html.LabelFor(m => m.AmountResults)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => selection.Slippage, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => selection.Rent)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => selection.Rent, new { @class = "form-control" })
+                        @Html.EditorFor(m => m.AmountResults, new { htmlAttributes = new { @class = "form-control" } })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => selection.Description)
+                        @Html.LabelFor(m => m.Balance)
                     </td>
                     <td>
-                        @Html.TextAreaFor(m => selection.Description, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Balance, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Slippage)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Slippage, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Rent)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Rent, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Description)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                     </td>
                 </tr>
             </table>
         </div>
 
         <div id="ajaxStrategyParams">
-            @Html.Action("EditParams", new { strategyParams = Model.SelectionParams, instanceId = selection.Id, strategyInfoId = selection.StrategyInfoId })
+            @Html.Action("EditParams", new { strategyParams = Model.SelectionParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
         </div>
 
         <div class="panel-footer">

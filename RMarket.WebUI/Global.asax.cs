@@ -18,8 +18,11 @@ namespace RMarket.WebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //Привязчики
-            ModelBinders.Binders.Add(typeof(Ticker), new TickerBinder(new EFTickerRepository())); //Связанность!!!
-            ModelBinders.Binders.Add(typeof(TimeFrame), new TimeFrameBinder(new EFTimeFrameRepository())); //Связанность!!!
+            //ModelBinders.Binders.Add(typeof(Ticker), new TickerBinder(new EFTickerRepository())); //Связанность!!!
+            //ModelBinders.Binders.Add(typeof(TimeFrame), new TimeFrameBinder(new EFTimeFrameRepository())); //Связанность!!!
+
+            //Активируем миграции
+            //new RMarket.ClassLib.Bootstrapper().SetMigrations<Migrations.Configuration>();
         }
     }
 }

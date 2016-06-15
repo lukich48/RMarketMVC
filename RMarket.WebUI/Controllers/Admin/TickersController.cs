@@ -52,7 +52,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,CodeFinam")] Ticker ticker)
+        public ActionResult Create(Ticker ticker)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,CodeFinam")] Ticker ticker)
+        public ActionResult Edit(Ticker ticker)
         {
             if (ModelState.IsValid)
             {

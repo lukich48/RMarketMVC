@@ -18,8 +18,7 @@
 }
 
 @{
-    InstanceModel instance = Model;
-    bool isCreate = instance.Id == 0 ? true : false;
+    bool isCreate = Model.Id == 0 ? true : false;
     object attr;
     if (isCreate)
     {
@@ -41,110 +40,110 @@
 
 <div class="panel">
     <div class="panel-heading">
-        <h3>Редактирование стратегии: <span class="text-info">@instance.Name</span></h3>
+        <h3>Редактирование стратегии: <span class="text-info">@Model.Name</span></h3>
     </div>
 
     @using (Html.BeginForm("Edit","Instance"))
     {
         @Html.ValidationSummary()
 
-        @Html.HiddenFor(m=> instance.Id)
-        @Html.HiddenFor(m => instance.GroupID)
+        @Html.HiddenFor(m=> m.Id)
+        @Html.HiddenFor(m => m.GroupID)
 
         <div class="form-group">
             <table>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.Name)
+                        @Html.LabelFor(m => m.Name)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => instance.Name, attr)
+                        @Html.TextBoxFor(m => m.Name, attr)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.StrategyInfoId)
+                        @Html.LabelFor(m => m.StrategyInfoId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => instance.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                            @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr)
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => instance.StrategyInfo.Name, attr);
-                            @Html.HiddenFor(m => instance.StrategyInfoId)
+                            @Html.TextBoxFor(m => m.StrategyInfo.Name, attr);
+                            @Html.HiddenFor(m => m.StrategyInfoId)
                         }
                      </td>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.TickerId)
+                        @Html.LabelFor(m => m.TickerId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => instance.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                            @Html.DropDownListFor(m => m.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr)
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => instance.Ticker.Code, attr)
-                            @Html.HiddenFor(m => instance.TickerId);
+                            @Html.TextBoxFor(m => m.Ticker.Code, attr)
+                            @Html.HiddenFor(m => m.TickerId);
                         }
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.TimeFrameId)
+                        @Html.LabelFor(m => m.TimeFrameId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                           @Html.DropDownListFor(m => instance.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                           @Html.DropDownListFor(m => m.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr)
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => instance.TimeFrame.Name, attr)
-                            @Html.HiddenFor(m => instance.TimeFrameId);
+                            @Html.TextBoxFor(m => m.TimeFrame.Name, attr)
+                            @Html.HiddenFor(m => m.TimeFrameId);
                         }                        
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.Balance)
+                        @Html.LabelFor(m => m.Balance)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => instance.Balance, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => instance.Slippage)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => instance.Slippage, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Balance, new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.Rent)
+                        @Html.LabelFor(m => m.Slippage)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => instance.Rent, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Slippage, new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => instance.Description)
+                        @Html.LabelFor(m => m.Rent)
                     </td>
                     <td>
-                        @Html.TextAreaFor(m => instance.Description, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Rent, new { @class = "form-control" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Description)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                     </td>
                 </tr>
             </table>
         </div>
 
         <div id="ajaxStrategyParams">
-            @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = instance.Id, strategyInfoId = instance.StrategyInfoId })
+            @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
         </div>
 
         <div class="panel-footer">

@@ -255,6 +255,15 @@
     <Compile Include="Infrastructure\ModelHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\SessionHelper.cs" />
+    <Compile Include="Migrations\201601031633232_InitialCreate.cs" />
+    <Compile Include="Migrations\201601031633232_InitialCreate.Designer.cs">
+      <DependentUpon>201601031633232_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606101707518_AddQtyOfLot.cs" />
+    <Compile Include="Migrations\201606101707518_AddQtyOfLot.Designer.cs">
+      <DependentUpon>201606101707518_AddQtyOfLot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DownloadHistoryModel.cs" />
     <Compile Include="Models\MenuNavModel.cs" />
     <Compile Include="Models\TesterModel.cs" />
@@ -331,6 +340,14 @@
       <Project>{8293baa1-615f-4e86-adc0-19f0b6afe850}</Project>
       <Name>RMarket.Examples</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201601031633232_InitialCreate.resx">
+      <DependentUpon>201601031633232_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606101707518_AddQtyOfLot.resx">
+      <DependentUpon>201606101707518_AddQtyOfLot.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -24,8 +24,14 @@ namespace RMarket.ClassLib.Connectors
         [Parameter(Description = "Колонка в таблице: Дата")]
         string col_Date = "Date";
 
+        [Parameter(Description = "Формат даты")]
+        string formatDate = "dd.MM.yyyy";
+
         [Parameter(Description = "Колонка в таблице: Время")]
         string col_Time = "Time";
+
+        [Parameter(Description = "Формат времени")]
+        string formatTime = "HH:mm:ss";
 
         [Parameter(Description = "Колонка в таблице: Код бумаги")]
         string col_TickerCode = "Security code";
@@ -37,17 +43,29 @@ namespace RMarket.ClassLib.Connectors
         string col_Qty = "Qty";
 
         [Parameter(Description = "Колонка в таблице: Период")]
-        string col_Period = "Period";
+        string col_TradePeriod = "Period";
+
+        [Parameter(Description = "Значение периода: Открытие")]
+        string val_PeriodOpening = "Opening";
+
+        [Parameter(Description = "Значение периода: Нормальный")]
+        string val_PeriodTrading = "Trading";
+
+        [Parameter(Description = "Значение периода: Закрытие")]
+        string val_PeriodClosing = "Closing";
+
+        [Parameter(Description = "Время начала сессии(если нетколонки период)")]
+        TimeSpan val_SessionStart = new TimeSpan(10,0,0);
+
+        [Parameter(Description = "Время окнчания сессии(если нетколонки период)")]
+        TimeSpan val_SessionFinish = new TimeSpan(19, 0, 0);
+
 
         #endregion
 
-        private Dictionary<string, int> headTable = new Dictionary<string, int>();
+        private Dictionary<string, int> headTable;
 
         public event EventHandler<TickEventArgs> TickPoked;
-        public bool ServerIsStarted
-        {
-            get { return Server.IsRegistered; }
-        }
 
         public InfoServer Server { get
             {
@@ -65,8 +83,6 @@ namespace RMarket.ClassLib.Connectors
         {
         }
 
-        #region IConnector
-
         public void StartServer()
         {
             Server.DataPoked += OnDataPoked; //!!!Проконтролировать
@@ -80,7 +96,6 @@ namespace RMarket.ClassLib.Connectors
             Server.Unregister();
             return;
         }
-        #endregion
 
         /// <summary>
         /// Метод выполняется по подписке при передачи данных из терминала Quik
@@ -89,65 +104,48 @@ namespace RMarket.ClassLib.Connectors
         /// <param name="e"></param>
         private void OnDataPoked(object sender, DataPokeddEventArgs e)
         {
-            bool isRealTime = e.Cells.Length == 1 ? true : false; //Если пришла одна строка, то скорее всего это реал тайм )).
+            bool isRealTime = e.Cells.Length == 1 ? true : false; //Если пришла одна строка, то скорее всего это реал тайм )). Или проверить время сервера
+
+            ConnectorHelper helper = new ConnectorHelper();
 
             foreach (object[] cells in e.Cells)
             {
-                if (headTable.Count == 0) //Должна быть строка с заголовками
+                if (headTable == null) //Должна быть строка с заголовками
                 {
-                    FillHeadTable(cells); 
+                    headTable = helper.FillHeadTable(cells); 
                     continue;
                 }
 
                 try
                 {
                     TickEventArgs tick = new TickEventArgs();
-                    tick.Date = headTable.ContainsKey(col_Date) ? DateTime.ParseExact(cells[headTable[col_Date]].ToString() + cells[headTable[col_Time]].ToString(), "dd.MM.yyyyHH:mm:ss", null) :
-                                                                DateTime.ParseExact(cells[headTable[col_Time]].ToString(), "HH:mm:ss", null);
-                    tick.TickerCode = cells[headTable[col_TickerCode]].ToString();
-                    tick.Price = Convert.ToDecimal(cells[headTable[col_Price]], CultureInfo.InvariantCulture);
-                    tick.Quantity = Convert.ToInt32(cells[headTable[col_Qty]]);
+                    tick.Date = helper.ParseDate(cells, headTable, col_Date, col_Time, formatDate, formatTime);
+                    tick.TickerCode = helper.ParseTickerCode(cells, headTable, col_TickerCode);
+                    tick.Price = helper.ParsePrice(cells, headTable, col_Price, CultureInfo.InvariantCulture);
+                    tick.Quantity = helper.ParseQuantity(cells, headTable, col_Qty);
                     tick.IsRealTime = isRealTime;
 
-                    if (headTable.ContainsKey(col_Period))
-                    {
-                        if (cells[headTable[col_Period]].ToString() == "Opening" || cells[headTable[col_Period]].ToString() == "Открытие")
-                            tick.TradePeriod = TradePeriodEnum.Opening;
-                        else if (cells[headTable[col_Period]].ToString() == "Trading" || cells[headTable[col_Period]].ToString() == "Нормальный")
-                            tick.TradePeriod = TradePeriodEnum.Trading;
-                        else if (cells[headTable[col_Period]].ToString() == "Closing" || cells[headTable[col_Period]].ToString() == "Закрытие")
-                            tick.TradePeriod = TradePeriodEnum.Closing;
-                    }
+                    tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, val_PeriodOpening, val_PeriodTrading, val_PeriodClosing);
+                    if (tick.TradePeriod == TradePeriodEnum.Undefended)
+                        tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, formatTime, val_SessionStart, val_SessionFinish);
 
-                    foreach (var row in headTable)
-                    {
-                        tick.Extended.Add(row.Key, cells[row.Value].ToString());
-                    }
+                    tick.Extended = helper.CreateExtended(cells, headTable);
 
                     //вызвать событие IConnector
-                    if (TickPoked != null)
-                        TickPoked(this, tick);
+                    var tickPoked = TickPoked;
+                    tickPoked?.Invoke(this, tick);
 
                     //Запишем тик в историю
                     //!!!TickHelper.InsertNewTick(tick);
                 }
                 catch(Exception)
-                { }
+                {
+                    throw;
+                }
             }
 
         }
 
-        private void FillHeadTable(object[] cells)
-        {
-            for (int i = 0; i < cells.Length; i++)
-            {
-                string cell = cells[i] as string;
-                headTable.Add(cell, i);
-            }
-
-            //!!!проверка на наличие всех обязательных колонок
-
-        }
 
     }
 }

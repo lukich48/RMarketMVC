@@ -21,5 +21,8 @@ namespace RMarket.ClassLib.Entities
         [StringLength(20)]
         public string CodeFinam { get; set; }
 
+        [Display(Name = "Количество в 1 лоте")]
+        public int? QtyInLot { get; set; } 
+
     }
 }

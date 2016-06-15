@@ -130,13 +130,13 @@ namespace RMarket.ClassLib.Entities
         }
     }
 
-    public class RMarketInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<RMarketContext>
+    public class RMarketInitializer : System.Data.Entity.CreateDatabaseIfNotExists<RMarketContext>
     {
         protected override void Seed(RMarketContext context)
         {
             List<Ticker> listTicker = new List<Ticker>
             {
-                new Ticker {Id=1, Name="SBER", Code="SBER", CodeFinam="3"},
+                new Ticker {Id=1, Name="SBER", Code="SBER", CodeFinam="3", QtyInLot=10},
                 new Ticker {Id=2,  Name="GAZP", Code="GAZP", CodeFinam="16842"},
                 new Ticker {Id=3, Name="AVAZ", Code="AVAZ", CodeFinam="39"},
             };
