@@ -14,11 +14,6 @@ namespace RMarket.ClassLib.EntityModels
     [MetadataType(typeof(Instance_metadata))]
     public class InstanceModel
     {
-        private StrategyInfo _strategyInfo;
-        private Ticker _ticker;
-        private TimeFrame _timeFrame;
-        private SelectionModel _selection;
-
         public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
         public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
         public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;

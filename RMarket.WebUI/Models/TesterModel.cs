@@ -6,6 +6,7 @@ using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure.HighChart;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -14,7 +15,10 @@ namespace RMarket.WebUI.Models
 {
     public class TesterModel
     {
+        [Display(Name = "Вариант")]
         public int InstanceId { get; set; }
+        [Display(Name = "Коннектор")]
+        public int ConnectorInfoId { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
 

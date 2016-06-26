@@ -8,17 +8,24 @@ using System.Threading.Tasks;
 using System.IO;
 using RMarket.ClassLib.Helpers;
 using System.Globalization;
+using RMarket.ClassLib.EFRepository;
+using RMarket.ClassLib.Entities;
+using System.Threading;
+using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.Connectors
 {
     public class CsvFileConnector: IDataProvider
     {
+        private ITickerRepository tickerRepository;
+
         private Dictionary<string, int> headTable = new Dictionary<string, int>();
+        private CancellationTokenSource cts;
 
         #region PARAMS
 
         [Parameter(Description = "Путь к файлу")]
-        string filePath = "";
+        string filePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv";
 
         [Parameter(Description = "Разделитель")]
         char separator = ';';
@@ -70,65 +77,85 @@ namespace RMarket.ClassLib.Connectors
 
         public event EventHandler<TickEventArgs> TickPoked;
 
+        public CsvFileConnector()
+            :this(CurrentRepository.TickerRepository)
+        {
+        }
+
+        public CsvFileConnector(ITickerRepository tickerRepository)
+        {
+            this.tickerRepository = tickerRepository;
+
+            cts = new CancellationTokenSource();
+        }
+
         public void StartServer()
         {
-            //запустить обход файла
-            using (StreamReader sr = new StreamReader(filePath))
+            TaskFactory factory = new TaskFactory(cts.Token);
+            factory.StartNew(() =>
             {
-                string line;
-                while ((line = sr.ReadLine()) != null)
+
+                //запустить обход файла
+                using (StreamReader sr = new StreamReader(filePath))
                 {
-                    string[] cells = line.Split(separator);
-
-                    bool isRealTime = true;
-
-                    ConnectorHelper helper = new ConnectorHelper();
-
-                    if (headTable == null) //Должна быть строка с заголовками
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        headTable = helper.FillHeadTable(cells);
-                        continue;
+                        if (cts.Token.IsCancellationRequested) //выход из потока по кнопке "Стоп"
+                            return;
+
+                        string[] cells = line.Split(separator);
+
+                        bool isRealTime = true;
+
+                        ConnectorHelper helper = new ConnectorHelper();
+
+                        if (headTable == null) //Должна быть строка с заголовками
+                        {
+                            headTable = helper.FillHeadTable(cells);
+                            continue;
+                        }
+
+                        try
+                        {
+                            TickEventArgs tick = new TickEventArgs();
+                            tick.Date = helper.ParseDate(cells, headTable, col_Date, col_Time, formatDate, formatTime);
+                            tick.TickerCode = helper.ParseTickerCode(cells, headTable, col_TickerCode);
+                            tick.Price = helper.ParsePrice(cells, headTable, col_Price, CultureInfo.InvariantCulture);
+                            tick.Quantity = helper.ParseQuantity(cells, headTable, col_Qty);
+                            if (tick.Quantity == 0)
+                            {
+                                Ticker ticker = tickerRepository.Tickers.FirstOrDefault(t => t.Code == tick.TickerCode); //!!!проверить кеширование
+                                if (ticker != null && ticker.QtyInLot.HasValue)
+                                    tick.Quantity = helper.ParseQuantity(cells, headTable, col_Volume, ticker.QtyInLot.Value);
+                            }
+                            tick.IsRealTime = isRealTime;
+
+                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, val_PeriodOpening, val_PeriodTrading, val_PeriodClosing);
+                            if (tick.TradePeriod == TradePeriodEnum.Undefended)
+                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, formatTime, val_SessionStart, val_SessionFinish);
+
+                            tick.Extended = helper.CreateExtended(cells, headTable);
+
+                            //вызвать событие IConnector
+                            var tickPoked = TickPoked;
+                            tickPoked?.Invoke(this, tick);
+
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+
                     }
-
-                    try
-                    {
-                        TickEventArgs tick = new TickEventArgs();
-                        tick.Date = helper.ParseDate(cells, headTable, col_Date, col_Time, formatDate, formatTime);
-                        tick.TickerCode = helper.ParseTickerCode(cells, headTable, col_TickerCode);
-                        tick.Price = helper.ParsePrice(cells, headTable, col_Price, CultureInfo.InvariantCulture);
-                        tick.Quantity = helper.ParseQuantity(cells, headTable, col_Qty);
-                        if(tick.Quantity==0)
-                            tick.Quantity = helper.ParseQuantity(cells, headTable, col_Volume, 1);//!!! заполнить инфо о размере лота
-
-                        tick.IsRealTime = isRealTime;
-
-                        tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, val_PeriodOpening, val_PeriodTrading, val_PeriodClosing);
-                        if (tick.TradePeriod == TradePeriodEnum.Undefended)
-                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, formatTime, val_SessionStart, val_SessionFinish);
-
-                        tick.Extended = helper.CreateExtended(cells, headTable);
-
-                        //вызвать событие IConnector
-                        var tickPoked = TickPoked;
-                        tickPoked?.Invoke(this, tick);
-                        
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-
-
 
                 }
-
-            }
-
+            });
 
         }
         public void StopServer()
         {
-            //закрыть файл
+            cts.Cancel();
         }
 
 

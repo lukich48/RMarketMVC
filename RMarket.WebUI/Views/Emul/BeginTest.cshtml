@@ -6,19 +6,30 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary()
-<table>
-    <tr>
-        <td>
-            @Html.Label("Вариант стратегии")
-        </td>
-        <td>
-            @Html.DropDownListFor(m => m.InstanceId, ViewBag.InstanceList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
-        </td>
-    </tr>
-</table>
+    <div class="control-group">
+        @Html.LabelFor(m => m.InstanceId, new { @class = "control-label" })
+        @Html.DropDownListFor(m => m.InstanceId, ViewBag.InstanceList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
 
-<div class="panel-footer">
-    <input type="submit" value="Поехали" class="btn btn-primary" />
-    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
-</div>
-}
+    </div>
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.InstanceId, new { @class = "control-label" })
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.InstanceId, ViewBag.InstanceList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                </td>
+                <td>
+                    @Html.LabelFor(m => m.ConnectorInfoId)
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.ConnectorInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                </td>
+            </tr>
+        </table>
+
+        <div class="panel-footer">
+            <input type="submit" value="Поехали" class="btn btn-primary" />
+            @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        }

@@ -19,14 +19,16 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private IInstanceRepository instanceRepository;
+        private IConnectorInfoRepository connectorInfoRepository;
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<TestResult> strategyResultCollection = SessionHelper.Get<List<TestResult>>("EmulResultCollection");
 
-        public EmulController(IInstanceRepository instanceRepository, IAliveStrategyRepository aliveStrategyRepository)
+        public EmulController(IInstanceRepository instanceRepository, IConnectorInfoRepository connectorInfoRepository, IAliveStrategyRepository aliveStrategyRepository)
         {
             this.instanceRepository = instanceRepository;
+            this.connectorInfoRepository = connectorInfoRepository;
             this.aliveStrategyRepository = aliveStrategyRepository;
 
             jsonSerializerSettings = new JsonSerializerSettings();
@@ -54,6 +56,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
+            ViewBag.ConnectorInfoList = ModelHelper.GetConnectorInfoList(connectorInfoRepository);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;

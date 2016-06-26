@@ -20,12 +20,13 @@
         {
             <tr>
                 <td>
-                    @Html.Label(Model[i].DisplayName)
+                    @Html.LabelFor(m => m[i].FieldValue, Model[i].DisplayName)
                     @Html.HiddenFor(m => m[i].FieldName)
                     @Html.HiddenFor(m => m[i].DisplayName)
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].FieldValue)
+                    @Html.Partial("EditorForObject", new KeyValuePair<string, object>($"[{i}].FieldValue", Model[i].FieldValue))
+                    @*@Html.EditorFor(m=>m[i].FieldValue)*@
                 </td>
                 <td>
                     @Html.Label(Model[i].Description)

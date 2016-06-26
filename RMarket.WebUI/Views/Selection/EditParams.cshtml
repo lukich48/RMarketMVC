@@ -28,10 +28,10 @@
                     @Html.HiddenFor(m => m[i].DisplayName)
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].ValueMin)
+                    @Html.Partial("EditorForObject", new KeyValuePair<string, object>($"[{i}].FieldValue", Model[i].ValueMin))
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].ValueMax)
+                    @Html.Partial("EditorForObject", new KeyValuePair<string, object>($"[{i}].FieldValue", Model[i].ValueMax))
                 </td>
                 <td>
                     @Html.Label(Model[i].Description)

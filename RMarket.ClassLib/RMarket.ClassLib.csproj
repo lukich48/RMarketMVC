@@ -160,6 +160,7 @@
     <Compile Include="Helpers\OptimizationHelper.cs" />
     <Compile Include="Helpers\OrderSender.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Helpers\RMarketInitializerHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />

@@ -1,0 +1,12 @@
+﻿@model KeyValuePair<string,object>
+
+@if (Model.Value.GetType() == typeof(bool))
+{
+    string isChecked = (bool)Model.Value ? "checked=checked" : "";
+    <input name=@Model.Key type="checkbox" value="true" @isChecked>
+    <input name=@Model.Key type="hidden" value="false">
+}
+else
+{
+    <input type="text" name="@Model.Key" value="@Model.Value" />
+}
