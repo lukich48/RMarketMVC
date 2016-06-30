@@ -3,10 +3,10 @@
 @if (Model.Value.GetType() == typeof(bool))
 {
     string isChecked = (bool)Model.Value ? "checked=checked" : "";
-    <input name=@Model.Key type="checkbox" value="true" @isChecked>
+    <input id="@Model.Key" name=@Model.Key type="checkbox" value="true" @isChecked class="form-control">
     <input name=@Model.Key type="hidden" value="false">
 }
 else
 {
-    <input type="text" name="@Model.Key" value="@Model.Value" />
+    <input type="text" id="@Model.Key" name="@Model.Key" value="@Model.Value" class="form-control"/>
 }

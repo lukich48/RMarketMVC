@@ -38,109 +38,91 @@
     }
 }
 
-<div class="panel">
     <div class="panel-heading">
         <h3>Редактирование стратегии: <span class="text-info">@Model.Name</span></h3>
     </div>
 
-    @using (Html.BeginForm("Edit","Instance"))
+    @using (Html.BeginForm("Edit","Instance", FormMethod.Post, new {@class= "form-horizontal", role = "form" }))
     {
         @Html.ValidationSummary()
 
         @Html.HiddenFor(m=> m.Id)
         @Html.HiddenFor(m => m.GroupID)
 
-        <div class="form-group">
-            <table>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Name)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.Name, attr)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.StrategyInfoId)
-                    </td>
-                    <td>
-                        @if (isCreate)
-                        {
-                            @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr)
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.StrategyInfo.Name, attr);
-                            @Html.HiddenFor(m => m.StrategyInfoId)
-                        }
-                     </td>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.TickerId)
-                    </td>
-                    <td>
-                        @if (isCreate)
-                        {
-                            @Html.DropDownListFor(m => m.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr)
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.Ticker.Code, attr)
-                            @Html.HiddenFor(m => m.TickerId);
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.TimeFrameId)
-                    </td>
-                    <td>
-                        @if (isCreate)
-                        {
-                           @Html.DropDownListFor(m => m.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr)
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.TimeFrame.Name, attr)
-                            @Html.HiddenFor(m => m.TimeFrameId);
-                        }                        
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Balance)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.Balance, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Slippage)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.Slippage, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Rent)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.Rent, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Description)
-                    </td>
-                    <td>
-                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Name, attr)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StrategyInfoId, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @if (isCreate)
+                {
+                        @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.StrategyInfo.Name, attr);
+                        @Html.HiddenFor(m => m.StrategyInfoId)
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TickerId, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @if (isCreate)
+                {
+                        @Html.DropDownListFor(m => m.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Ticker.Code, attr)
+                        @Html.HiddenFor(m => m.TickerId);
+                }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TimeFrameId, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @if (isCreate)
+                {
+                        @Html.DropDownListFor(m => m.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", attr)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.TimeFrame.Name, attr)
+                        @Html.HiddenFor(m => m.TimeFrameId);
+                }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Balance, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Balance, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Slippage, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Slippage, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Rent, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Rent, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "col-sm-2" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                </div>
+            </div>
+        </fieldset>
 
         <div id="ajaxStrategyParams">
             @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
@@ -151,5 +133,3 @@
             @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-default" })
         </div>
         }
-
-    </div>

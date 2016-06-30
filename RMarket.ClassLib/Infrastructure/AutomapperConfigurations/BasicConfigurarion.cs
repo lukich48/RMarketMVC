@@ -46,7 +46,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             });
         }
 
-        public static IEnumerable<ParamEntity> GetStrategyParamsVaried(Instance instance)
+        private static IEnumerable<ParamEntity> GetStrategyParamsVaried(Instance instance)
         {
             IEnumerable<ParamEntity> res = null;
 
@@ -58,7 +58,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             return res;
         }
 
-        public static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection instance)
+        private static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection instance)
         {
             IEnumerable<ParamSelection> res = null;
 

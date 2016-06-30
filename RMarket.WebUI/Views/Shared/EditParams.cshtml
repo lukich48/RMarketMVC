@@ -20,7 +20,7 @@
         {
             <tr>
                 <td>
-                    @Html.LabelFor(m => m[i].FieldValue, Model[i].DisplayName)
+                    <label for="[@i].FieldValue"> @Model[i].DisplayName</label>
                     @Html.HiddenFor(m => m[i].FieldName)
                     @Html.HiddenFor(m => m[i].DisplayName)
                 </td>

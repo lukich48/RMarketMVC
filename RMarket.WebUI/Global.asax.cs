@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace RMarket.WebUI
@@ -16,7 +17,7 @@ namespace RMarket.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Привязчики
             //ModelBinders.Binders.Add(typeof(Ticker), new TickerBinder(new EFTickerRepository())); //Связанность!!!
             //ModelBinders.Binders.Add(typeof(TimeFrame), new TimeFrameBinder(new EFTimeFrameRepository())); //Связанность!!!
