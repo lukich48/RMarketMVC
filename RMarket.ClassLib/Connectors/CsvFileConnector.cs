@@ -15,7 +15,7 @@ using RMarket.ClassLib.Infrastructure;
 
 namespace RMarket.ClassLib.Connectors
 {
-    public class CsvFileConnector: IDataProvider
+    public class CsvFileConnector : IDataProvider
     {
         private ITickerRepository tickerRepository;
 
@@ -25,53 +25,37 @@ namespace RMarket.ClassLib.Connectors
         #region PARAMS
 
         [Parameter(Description = "Путь к файлу")]
-        string filePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv";
-
+        string FilePath { get; set; }
         [Parameter(Description = "Разделитель")]
-        char separator = ';';
-
+        char Separator { get; set; }
         [Parameter(Description = "Колонка в таблице: Дата")]
-        string col_Date = "Date";
-
+        string Col_Date { get; set; }
         [Parameter(Description = "Формат даты")]
-        string formatDate = "yyyyMMdd";
-
+        string FormatDate { get; set; }
         [Parameter(Description = "Колонка в таблице: Время")]
-        string col_Time = "Time";
-
+        string Col_Time { get; set; }
         [Parameter(Description = "Формат времени")]
-        string formatTime = "HHmmss";
-
+        string FormatTime { get; set; }
         [Parameter(Description = "Колонка в таблице: Код бумаги")]
-        string col_TickerCode = "TICKER";
-
+        string Col_TickerCode { get; set; }
         [Parameter(Description = "Колонка в таблице: Цена")]
-        string col_Price = "LAST";
-
+        string Col_Price { get; set; }
         [Parameter(Description = "Колонка в таблице: Кол-во")]
-        string col_Qty = "Qty";
-
+        string Col_Qty { get; set; }
         [Parameter(Description = "Объем (если не заполнено количество)")]
-        string col_Volume = "VOL";
-
+        string Col_Volume { get; set; } 
         [Parameter(Description = "Колонка в таблице: Период")]
-        string col_TradePeriod = "Period";
-
+        string Col_TradePeriod { get; set; }
         [Parameter(Description = "Значение периода: Открытие")]
-        string val_PeriodOpening = "Opening";
-
+        string Val_PeriodOpening { get; set; } 
         [Parameter(Description = "Значение периода: Нормальный")]
-        string val_PeriodTrading = "Trading";
-
+        string Val_PeriodTrading { get; set; } 
         [Parameter(Description = "Значение периода: Закрытие")]
-        string val_PeriodClosing = "Closing";
-
+        string Val_PeriodClosing { get; set; } 
         [Parameter(Description = "Время начала сессии(если нет колонки период)")]
-        TimeSpan val_SessionStart = new TimeSpan(10, 0, 0);
-
+        TimeSpan Val_SessionStart { get; set; } 
         [Parameter(Description = "Время окнчания сессии(если нет колонки период)")]
-        TimeSpan val_SessionFinish = new TimeSpan(19, 0, 0);
-
+        TimeSpan Val_SessionFinish { get; set; } 
 
         #endregion
 
@@ -86,6 +70,23 @@ namespace RMarket.ClassLib.Connectors
         {
             this.tickerRepository = tickerRepository;
 
+            FilePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv";
+            Separator = ';';
+            Col_Date = "Date";
+            FormatDate = "yyyyMMdd";
+            Col_Time = "Time";
+            FormatTime = "HHmmss";
+            Col_TickerCode = "TICKER";
+            Col_Price = "LAST";
+            Col_Qty = "Qty";
+            Col_Volume = "VOL";
+            Col_TradePeriod = "Period";
+            Val_PeriodOpening = "Opening";
+            Val_PeriodTrading = "Trading";
+            Val_PeriodClosing = "Closing";
+            Val_SessionStart = new TimeSpan(10, 0, 0);
+            Val_SessionFinish = new TimeSpan(19, 0, 0);
+
             cts = new CancellationTokenSource();
         }
 
@@ -96,7 +97,7 @@ namespace RMarket.ClassLib.Connectors
             {
 
                 //запустить обход файла
-                using (StreamReader sr = new StreamReader(filePath))
+                using (StreamReader sr = new StreamReader(FilePath))
                 {
                     string line;
                     while ((line = sr.ReadLine()) != null)
@@ -104,7 +105,7 @@ namespace RMarket.ClassLib.Connectors
                         if (cts.Token.IsCancellationRequested) //выход из потока по кнопке "Стоп"
                             return;
 
-                        string[] cells = line.Split(separator);
+                        string[] cells = line.Split(Separator);
 
                         bool isRealTime = true;
 
@@ -119,21 +120,21 @@ namespace RMarket.ClassLib.Connectors
                         try
                         {
                             TickEventArgs tick = new TickEventArgs();
-                            tick.Date = helper.ParseDate(cells, headTable, col_Date, col_Time, formatDate, formatTime);
-                            tick.TickerCode = helper.ParseTickerCode(cells, headTable, col_TickerCode);
-                            tick.Price = helper.ParsePrice(cells, headTable, col_Price, CultureInfo.InvariantCulture);
-                            tick.Quantity = helper.ParseQuantity(cells, headTable, col_Qty);
+                            tick.Date = helper.ParseDate(cells, headTable, Col_Date, Col_Time, FormatDate, FormatTime);
+                            tick.TickerCode = helper.ParseTickerCode(cells, headTable, Col_TickerCode);
+                            tick.Price = helper.ParsePrice(cells, headTable, Col_Price, CultureInfo.InvariantCulture);
+                            tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Qty);
                             if (tick.Quantity == 0)
                             {
                                 Ticker ticker = tickerRepository.Tickers.FirstOrDefault(t => t.Code == tick.TickerCode); //!!!проверить кеширование
                                 if (ticker != null && ticker.QtyInLot.HasValue)
-                                    tick.Quantity = helper.ParseQuantity(cells, headTable, col_Volume, ticker.QtyInLot.Value);
+                                    tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Volume, ticker.QtyInLot.Value);
                             }
                             tick.IsRealTime = isRealTime;
 
-                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, val_PeriodOpening, val_PeriodTrading, val_PeriodClosing);
+                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
                             if (tick.TradePeriod == TradePeriodEnum.Undefended)
-                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, formatTime, val_SessionStart, val_SessionFinish);
+                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, FormatTime, Val_SessionStart, Val_SessionFinish);
 
                             tick.Extended = helper.CreateExtended(cells, headTable);
 

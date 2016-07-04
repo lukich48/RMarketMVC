@@ -46,17 +46,15 @@ namespace RMarket.ClassLib.Models
             }
         }
 
-        public override void RepairValue(MemberInfo prop, object entity)
+        public override void RepairValue(PropertyInfo prop, object entity)
         {
-            ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute(typeof(ParameterAttribute), false);
+            ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute((Type)typeof(ParameterAttribute), (bool)false);
 
-            FieldInfo curField = prop as FieldInfo;
-
-            FieldName = curField.Name;
+            FieldName = prop.Name;
 
             try
             {
-                ValueMin = Convert.ChangeType(ValueMin, curField.FieldType, CultureInfo.InvariantCulture);
+                ValueMin = Convert.ChangeType(ValueMin, prop.PropertyType, CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -64,11 +62,11 @@ namespace RMarket.ClassLib.Models
             }
 
             if (ValueMin == null)
-                ValueMin = curField.GetValue(entity);
+                ValueMin = prop.GetValue(entity);
 
             try
             {
-                ValueMax = Convert.ChangeType(ValueMax, curField.FieldType, CultureInfo.InvariantCulture);
+                ValueMax = Convert.ChangeType(ValueMax, prop.PropertyType, CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -76,11 +74,11 @@ namespace RMarket.ClassLib.Models
             }
 
             if (ValueMax == null)
-                ValueMax = curField.GetValue(entity);
+                ValueMax = prop.GetValue(entity);
 
-            DisplayName = (attr.Name == null) ? curField.Name : attr.Name;
+            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
             Description = (attr.Description == null) ? "" : attr.Description;
-            TypeName = curField.FieldType.FullName;
+            TypeName = prop.PropertyType.FullName;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

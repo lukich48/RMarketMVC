@@ -19,9 +19,9 @@ namespace RMarket.Examples.Strategies
 
         public void Initialize()
         {
-            ind1 = new DonchianChannel(Instr, period1);
-            ind2 = new DonchianChannel(Instr, period2);
-            ind3 = new DonchianChannel(Instr, period3);
+            ind1 = new DonchianChannel(Instr, Period1);
+            ind2 = new DonchianChannel(Instr, Period2);
+            ind3 = new DonchianChannel(Instr, 15);
         }
 
         [DisplayChart(Name = "Индикатор1")]
@@ -31,26 +31,33 @@ namespace RMarket.Examples.Strategies
         public DonchianChannel ind3;
 
         [Parameter(Name = "period1", Description = "Период наименьшего канала")]
-        public int period1 = 5;
+        public int Period1 { get; set; }
 
         [Parameter(Description = "Период среднего канала")]
-        public int period2 = 15;
-
-        [Parameter]
-        public int period3 = 30;
+        public int Period2 { get; set; }
 
         [Parameter(Description = "Объем лота")]
-        public int volume = 1;
+        public int Volume { get; set; }
 
         [Parameter(Name = "decimal param", Description = "Какой-то параметр типа Decimal")]
-        public decimal decimalParam = 30.25m;
+        public decimal DecimalParam { get; set; }
 
         [Parameter(Name = "Включает задержку")]
-        public bool withSleep = false;
+        public bool WithSleep { get; set; }
+
+        public StrategyMock()
+        {
+            Period1 = 5;
+            Period2 = 15;
+            Volume = 1;
+            DecimalParam = 30.25m;
+            WithSleep = false;
+
+        }
 
         public void Begin()
         {
-            if (withSleep)
+            if (WithSleep)
                 Thread.Sleep(100);
 
             //покупаем и продаем через каждые 50 свечек

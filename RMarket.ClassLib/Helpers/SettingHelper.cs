@@ -56,15 +56,14 @@ namespace RMarket.ClassLib.Helpers
             IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(connectorInfo, savedParams);
 
             //Применяем сохраненные параметры
-            MemberInfo[] arrayProp = ReflectionHelper.GetEntityProps(dataProvider);
-            foreach (MemberInfo prop in arrayProp)
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityProps(dataProvider);
+            foreach (PropertyInfo prop in arrayProp)
             {
                 ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
 
                 if (savedParam != null)
                 {
-                    FieldInfo curField = prop as FieldInfo;
-                    curField.SetValue(dataProvider, savedParam.FieldValue);
+                    prop.SetValue(dataProvider, savedParam.FieldValue);
                 }
             }
 

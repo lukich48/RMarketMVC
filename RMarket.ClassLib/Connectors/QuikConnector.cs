@@ -19,46 +19,34 @@ namespace RMarket.ClassLib.Connectors
         #region PARAMS
 
         [Parameter(Description ="Имя DDE сервера")]
-        string serverName = "RMarket";
+        string ServerName { get; set; }
 
         [Parameter(Description = "Колонка в таблице: Дата")]
-        string col_Date = "Date";
-
+        string Col_Date { get; set; }
         [Parameter(Description = "Формат даты")]
-        string formatDate = "dd.MM.yyyy";
-
+        string FormatDate { get; set; }
         [Parameter(Description = "Колонка в таблице: Время")]
-        string col_Time = "Time";
-
+        string Col_Time { get; set; }
         [Parameter(Description = "Формат времени")]
-        string formatTime = "HH:mm:ss";
-
+        string FormatTime { get; set; }
         [Parameter(Description = "Колонка в таблице: Код бумаги")]
-        string col_TickerCode = "Security code";
-
+        string Col_TickerCode { get; set; }
         [Parameter(Description = "Колонка в таблице: Цена")]
-        string col_Price = "Price";
-
+        string Col_Price { get; set; }
         [Parameter(Description = "Колонка в таблице: Кол-во")]
-        string col_Qty = "Qty";
-
+        string Col_Qty { get; set; }
         [Parameter(Description = "Колонка в таблице: Период")]
-        string col_TradePeriod = "Period";
-
+        string Col_TradePeriod { get; set; }
         [Parameter(Description = "Значение периода: Открытие")]
-        string val_PeriodOpening = "Opening";
-
+        string Val_PeriodOpening { get; set; }
         [Parameter(Description = "Значение периода: Нормальный")]
-        string val_PeriodTrading = "Trading";
-
+        string Val_PeriodTrading { get; set; }
         [Parameter(Description = "Значение периода: Закрытие")]
-        string val_PeriodClosing = "Closing";
-
-        [Parameter(Description = "Время начала сессии(если нетколонки период)")]
-        TimeSpan val_SessionStart = new TimeSpan(10,0,0);
-
-        [Parameter(Description = "Время окнчания сессии(если нетколонки период)")]
-        TimeSpan val_SessionFinish = new TimeSpan(19, 0, 0);
+        string Val_PeriodClosing { get; set; }
+        [Parameter(Description = "Время начала сессии(если нет колонки период)")]
+        TimeSpan Val_SessionStart { get; set; }
+        [Parameter(Description = "Время окнчания сессии(если нет колонки период)")]
+        TimeSpan Val_SessionFinish { get; set; }
 
 
         #endregion
@@ -70,7 +58,7 @@ namespace RMarket.ClassLib.Connectors
         public InfoServer Server { get
             {
                 if (_server == null)
-                    _server = new InfoServer(serverName);
+                    _server = new InfoServer(ServerName);
                 return _server;
             }
             set
@@ -81,6 +69,21 @@ namespace RMarket.ClassLib.Connectors
 
         public QuikConnector() 
         {
+            ServerName = "RMarket";
+            Col_Date = "Date";
+            FormatDate = "yyyyMMdd";
+            Col_Time = "Time";
+            FormatTime = "HHmmss";
+            Col_TickerCode = "TICKER";
+            Col_Price = "LAST";
+            Col_Qty = "Qty";
+            Col_TradePeriod = "Period";
+            Val_PeriodOpening = "Opening";
+            Val_PeriodTrading = "Trading";
+            Val_PeriodClosing = "Closing";
+            Val_SessionStart = new TimeSpan(10, 0, 0);
+            Val_SessionFinish = new TimeSpan(19, 0, 0);
+
         }
 
         public void StartServer()
@@ -119,15 +122,15 @@ namespace RMarket.ClassLib.Connectors
                 try
                 {
                     TickEventArgs tick = new TickEventArgs();
-                    tick.Date = helper.ParseDate(cells, headTable, col_Date, col_Time, formatDate, formatTime);
-                    tick.TickerCode = helper.ParseTickerCode(cells, headTable, col_TickerCode);
-                    tick.Price = helper.ParsePrice(cells, headTable, col_Price, CultureInfo.InvariantCulture);
-                    tick.Quantity = helper.ParseQuantity(cells, headTable, col_Qty);
+                    tick.Date = helper.ParseDate(cells, headTable, Col_Date, Col_Time, FormatDate, FormatTime);
+                    tick.TickerCode = helper.ParseTickerCode(cells, headTable, Col_TickerCode);
+                    tick.Price = helper.ParsePrice(cells, headTable, Col_Price, CultureInfo.InvariantCulture);
+                    tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Qty);
                     tick.IsRealTime = isRealTime;
 
-                    tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, val_PeriodOpening, val_PeriodTrading, val_PeriodClosing);
+                    tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
                     if (tick.TradePeriod == TradePeriodEnum.Undefended)
-                        tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, col_TradePeriod, formatTime, val_SessionStart, val_SessionFinish);
+                        tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, FormatTime, Val_SessionStart, Val_SessionFinish);
 
                     tick.Extended = helper.CreateExtended(cells, headTable);
 

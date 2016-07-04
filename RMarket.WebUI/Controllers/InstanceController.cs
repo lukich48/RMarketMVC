@@ -40,7 +40,7 @@ namespace RMarket.WebUI.Controllers
                 .GroupBy(s => s.GroupID)
                 .SelectMany(g => g.Select(s => s)
                     .OrderByDescending(s => s.Id)
-                    .Take(1)
+                    .Take()
                 ).Include(m => m.StrategyInfo)
             );
 

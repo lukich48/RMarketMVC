@@ -6,7 +6,7 @@
 
 <script>
     $(function () {
-        $("#instance_StrategyInfoId").change(function () {
+        $("#StrategyInfoId").change(function () {
             $("#ajaxStrategyParams").load("@Url.Action("EditParams")?strategyInfoId=" + this.value) 
         });
 

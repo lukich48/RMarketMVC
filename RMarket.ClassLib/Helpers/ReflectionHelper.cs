@@ -30,11 +30,11 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static MemberInfo[] GetEntityProps(object entity)
+        public static IEnumerable<PropertyInfo> GetEntityProps(object entity)
         {
-            MemberInfo[] arrayProp = entity.GetType().FindMembers(MemberTypes.Field, //!!! Добавить для свойств
-                    BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                    new MemberFilter(FilterAttributes), new ParameterAttribute());
+            PropertyInfo[] arrayProp = entity.GetType().FindMembers(MemberTypes.Property,
+                    BindingFlags.Instance | BindingFlags.Public,
+                    new MemberFilter(FilterAttributes), new ParameterAttribute()).Cast<PropertyInfo>().ToArray();
 
             return arrayProp;
         }

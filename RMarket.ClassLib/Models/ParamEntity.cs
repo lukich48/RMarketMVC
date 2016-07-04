@@ -41,17 +41,15 @@ namespace RMarket.ClassLib.Models
             this.Description = Description;
         }
 
-        public override void RepairValue(MemberInfo prop, object entity)
+        public override void RepairValue(PropertyInfo prop, object entity)
         {
             ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute(typeof(ParameterAttribute), false);
 
-            FieldInfo curField = prop as FieldInfo;
-
-            FieldName = curField.Name;
+            FieldName = prop.Name;
 
             try
             {
-                FieldValue = Convert.ChangeType(FieldValue, curField.FieldType, CultureInfo.InvariantCulture);
+                FieldValue = Convert.ChangeType(FieldValue, prop.PropertyType, CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -59,11 +57,11 @@ namespace RMarket.ClassLib.Models
             }
 
             if (FieldValue == null)
-                FieldValue = curField.GetValue(entity);
+                FieldValue = prop.GetValue(entity);
 
-            DisplayName = (attr.Name == null) ? curField.Name : attr.Name;
+            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
             Description = (attr.Description == null) ? "": attr.Description;
-            TypeName = curField.FieldType.FullName;
+            TypeName = prop.PropertyType.FullName;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

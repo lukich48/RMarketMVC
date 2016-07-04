@@ -37,7 +37,7 @@ namespace RMarket.ClassLib.Models
         /// </summary>
         /// <param name="prop"></param>
         /// <param name="entity"></param>
-        public abstract void RepairValue(MemberInfo prop, object entity);
+        public abstract void RepairValue(PropertyInfo prop, object entity);
 
         protected virtual bool ValidateParam(ref object fieldValue)
         {

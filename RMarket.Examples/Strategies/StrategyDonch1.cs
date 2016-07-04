@@ -9,7 +9,7 @@ using RMarket.ClassLib.Entities;
 
 namespace RMarket.Examples.Strategies
 {
-    public class StrategyDonch1: IStrategy
+    public class StrategyDonch1 : IStrategy
     {
         public Instrument Instr { get; set; }
         public IManager Manager { get; set; }
@@ -24,16 +24,16 @@ namespace RMarket.Examples.Strategies
         [DisplayChart(Name = "Donch3")]
         public DonchianChannel donch3;
 
-        [Parameter(Name = "period1", Description = "Период наименьшего канала")]
+        //[Parameter(Name = "period1", Description = "Период наименьшего канала")]
         public int period1 = 5;
 
-        [Parameter(Description = "Период среднего канала")]
+        //[Parameter(Description = "Период среднего канала")]
         public int period2 = 15;
 
-        [Parameter(Description = "Период медленного канала")]
+        //[Parameter(Description = "Период медленного канала")]
         public int period3 = 30;
 
-        [Parameter(Description="Объем лота")]
+        //[Parameter(Description = "Объем лота")]
         public int volume = 1;
 
         public void Initialize()
@@ -44,7 +44,7 @@ namespace RMarket.Examples.Strategies
             donch3 = new DonchianChannel(Instr, period3);
 
         }
-        public void OnTickPoked(object sender, TickEventArgs e) 
+        public void OnTickPoked(object sender, TickEventArgs e)
         { }
 
         public void Begin()

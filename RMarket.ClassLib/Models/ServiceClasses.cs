@@ -88,7 +88,7 @@ namespace RMarket.ClassLib.Models
     /// <summary>
     /// Атрибут параметров стратегии. Поля помеченные этим атрибутам можно изменить из интерфейса до старта стратегии
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class ParameterAttribute : System.Attribute
     {
         public string Name { get; set; }
