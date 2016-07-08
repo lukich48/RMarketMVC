@@ -74,6 +74,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
+                ConnectorInfo connectorInfo = connectorInfoRepository.Find(model.ConnectorInfoId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy
@@ -96,7 +97,8 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IDataProvider connector = SettingHelper.CreateDataProvider(instance.StrategyInfo);
+                //IDataProvider connector = SettingHelper.CreateDataProvider(instance.StrategyInfo);
+                IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
 
                 IManager manager = new EmulManager(strategy, instr, portf, connector, aliveStrategy);
 

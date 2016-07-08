@@ -40,7 +40,7 @@ namespace RMarket.WebUI.Controllers
                 .GroupBy(s => s.GroupID)
                 .SelectMany(g => g.Select(s => s)
                     .OrderByDescending(s => s.Id)
-                    .Take()
+                    .Take(1)
                 ).Include(m => m.StrategyInfo)
             );
 
@@ -205,7 +205,7 @@ namespace RMarket.WebUI.Controllers
             InitializeLists();
 
             model.LoadNavigationProperties();
-            model.StrategyParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.StrategyParams);
+            model.StrategyParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.StrategyParams).ToList();
 
             return View("Edit", model);
 

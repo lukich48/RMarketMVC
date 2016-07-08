@@ -37,6 +37,11 @@ namespace RMarket.ClassLib.Helpers
             return entityInfo;
         }
 
+        /// <summary>
+        /// Находит провайдер по умолчанию для стратегии
+        /// </summary>
+        /// <param name="strategyInfo"></param>
+        /// <returns></returns>
         public static IDataProvider CreateDataProvider(StrategyInfo strategyInfo)
         {
             //Найдем актуальную настройку для стратегии

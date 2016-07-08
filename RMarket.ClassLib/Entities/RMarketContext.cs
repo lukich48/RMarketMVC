@@ -91,6 +91,10 @@ namespace RMarket.ClassLib.Entities
                 .HasPrecision(3);
 
             modelBuilder.Entity<Order>()
+                .Property(e => e.ExpirationDate).HasColumnType("datetime2")
+                .HasPrecision(0);
+
+            modelBuilder.Entity<Order>()
                 .Property(e => e.DateOpen).HasColumnType("datetime2")
                 .HasPrecision(0);
 
@@ -126,6 +130,9 @@ namespace RMarket.ClassLib.Entities
                  .Property(e => e.Profit)
                  .HasPrecision(19, 2);
 
+            //modelBuilder.Entity<Ticker>()
+            //    .Property(e=>e.Code)
+            //    .HasColumnAnnotation()
         }
     }
 

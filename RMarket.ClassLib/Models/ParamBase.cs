@@ -18,11 +18,18 @@ namespace RMarket.ClassLib.Models
         public virtual string TypeName { get; set; }
 
         /// <summary>
-        /// метод создан чтобы во время стандартной привязки нк получить тип string[]
+        /// приводит значение параметра к его типу. Если приведение невозможно восстанавливает умолчание.
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="entity"></param>
+        public abstract void RepairValue(PropertyInfo prop, object entity);
+
+        /// <summary>
+        /// метод создан чтобы во время стандартной привязки не получить тип string[]
         /// </summary>
         /// <param name="fieldValue"></param>
         /// <returns></returns>
-        protected virtual object GetValue(object fieldValue)
+        protected object GetValue(object fieldValue)
         {
             if (fieldValue != null && fieldValue.GetType() == typeof(string[]) && ((string[])fieldValue).Length > 0) //почему-то связывает с типом string[]
             {
@@ -33,26 +40,22 @@ namespace RMarket.ClassLib.Models
         }
 
         /// <summary>
-        /// приводит значение параметра к его типу. Если приведение невозможно восстанавливвет умолчание.
+        /// Приводит значение к своему типу. Генерируе исключение, если приведение невозможно
         /// </summary>
-        /// <param name="prop"></param>
-        /// <param name="entity"></param>
-        public abstract void RepairValue(PropertyInfo prop, object entity);
-
-        protected virtual bool ValidateParam(ref object fieldValue)
+        /// <param name="fieldValue"></param>
+        /// <returns></returns>
+        protected object CastToType(object fieldValue)
         {
-            bool res = true;
+            object value = null;
 
-            try
+            if (Type.GetType(TypeName) == typeof(TimeSpan))
             {
-                fieldValue = Convert.ChangeType(fieldValue, Type.GetType(TypeName), CultureInfo.InvariantCulture);
+                value = TimeSpan.Parse(fieldValue.ToString());
             }
-            catch (Exception)
-            {
-                res = false;
-            }
+            else 
+                value = Convert.ChangeType(fieldValue, Type.GetType(TypeName), CultureInfo.InvariantCulture);
 
-            return res;
+            return value;
         }
 
     }

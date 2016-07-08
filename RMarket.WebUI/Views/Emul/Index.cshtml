@@ -1,4 +1,4 @@
-﻿@using RMarket.ClassLib.Entities;
+﻿@using RMarket.ClassLib.EntityModels;
 @using RMarket.WebUI.Models
 
 @model IEnumerable<TestResult>
@@ -11,7 +11,7 @@
 
 @foreach (TestResult testResult in @Model)
 {
-    InstanceDto instance = testResult.Instance;
+    InstanceModel instance = testResult.Instance;
 
     <div class="well">
         @if (testResult.Manager.IsStarted)

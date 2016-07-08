@@ -61,12 +61,12 @@ namespace RMarket.Examples.Strategies
                 Thread.Sleep(100);
 
             //покупаем и продаем через каждые 50 свечек
-            if(Instr.Candles.Count % 50 == 0)
+            if(Instr.Candles.Count % 30 == 0)
             {
                 Manager.OrderSender.OrderCloseAll(OrderType.Buy);
                 Manager.OrderSender.OrderCloseAll(OrderType.Sell);
 
-                if((Instr.Candles.Count / 50) % 2 == 0)
+                if((Instr.Candles.Count / 30) % 2 == 0)
                 {
                     Manager.OrderSender.OrderBuy(1);
                 }

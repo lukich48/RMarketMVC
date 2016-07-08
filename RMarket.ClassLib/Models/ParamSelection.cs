@@ -54,7 +54,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMin = Convert.ChangeType(ValueMin, prop.PropertyType, CultureInfo.InvariantCulture);
+                ValueMin = CastToType(ValueMin);
             }
             catch (Exception)
             {
@@ -66,7 +66,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMax = Convert.ChangeType(ValueMax, prop.PropertyType, CultureInfo.InvariantCulture);
+                ValueMax = CastToType(ValueMax);
             }
             catch (Exception)
             {
@@ -85,11 +85,20 @@ namespace RMarket.ClassLib.Models
         {
             List<ValidationResult> errors = new List<ValidationResult>();
 
-            if(!ValidateParam(ref _valueMin))
+            try
+            {
+                ValueMin = CastToType(ValueMin);
+            }
+            catch (Exception)
             {
                 errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMin" }));
             }
-            if (!ValidateParam(ref _valueMax))
+
+            try
+            {
+                ValueMax = CastToType(ValueMax);
+            }
+            catch (Exception)
             {
                 errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMax" }));
             }

@@ -210,7 +210,7 @@ namespace RMarket.WebUI.Controllers
             InitializeLists();
 
             model.LoadNavigationProperties();
-            model.SelectionParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.SelectionParams);
+            model.SelectionParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.SelectionParams).ToList();
 
             return View("Edit", model);
 

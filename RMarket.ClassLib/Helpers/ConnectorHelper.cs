@@ -48,9 +48,12 @@ namespace RMarket.ClassLib.Helpers
 
         public int ParseQuantity(object[] cells, Dictionary<string, int> headTable, string col_Qty)
         {
-            int qty;
-
-            int.TryParse(cells[headTable[col_Qty]].ToString(), out qty);
+            int qty = 0;
+            if(headTable.ContainsKey(col_Qty))
+            {
+                int.TryParse(cells[headTable[col_Qty]].ToString(), out qty);
+            }
+            
             return qty;
         }
 
@@ -85,7 +88,8 @@ namespace RMarket.ClassLib.Helpers
         {
             TradePeriodEnum tradePeriod = TradePeriodEnum.Trading;
 
-            TimeSpan curTime = TimeSpan.ParseExact(cells[headTable[col_Time]].ToString(), formatTime, null);
+            TimeSpan curTime = DateTime.ParseExact(DateTime.Today.ToString("yyyyMMdd")+ cells[headTable[col_Time]].ToString(), "yyyyMMdd"+formatTime, null).TimeOfDay;
+            //TimeSpan curTime = TimeSpan.ParseExact(cells[headTable[col_Time]].ToString(), formatTime, null);
             if (curTime < val_SessionStart)
                 tradePeriod = TradePeriodEnum.Opening;
             else if (curTime > val_SessionFinish)

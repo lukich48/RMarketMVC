@@ -53,8 +53,8 @@ namespace RMarket.Examples.Strategies
                 return;
 
             //Незакрытые ордера
-            List<Order> ordersBuy = Orders.FindAll(ord => ord.OrderType == OrderType.Buy && ord.DateClose == DateTime.MinValue);
-            List<Order> ordersSell = Orders.FindAll(ord => ord.OrderType == OrderType.Sell && ord.DateClose == DateTime.MinValue);
+            List<Order> ordersBuy = Orders.FindAll(ord => ord.OrderType == OrderType.Buy && ord.DateClose == null);
+            List<Order> ordersSell = Orders.FindAll(ord => ord.OrderType == OrderType.Sell && ord.DateClose == null);
 
             //1. Три границы равны (сильный тренд). Покупаем на пробое.
             decimal donch1up = donch1.Results["up"].Values[1].Value; //пред бар

@@ -49,7 +49,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                FieldValue = Convert.ChangeType(FieldValue, prop.PropertyType, CultureInfo.InvariantCulture);
+                FieldValue = CastToType(FieldValue);
             }
             catch (Exception)
             {
@@ -68,7 +68,11 @@ namespace RMarket.ClassLib.Models
         {
             List<ValidationResult> errors = new List<ValidationResult>();
 
-            if (!ValidateParam(ref _fieldValue))
+            try
+            {
+                FieldValue = CastToType(FieldValue);
+            }
+            catch(Exception)
             {
                 errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "FieldValue" }));
             }

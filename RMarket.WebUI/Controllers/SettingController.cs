@@ -41,7 +41,7 @@ namespace RMarket.WebUI.Controllers
             if (model != null) //повторно пришло
             {
                 IEntityInfo entityInfo = SettingHelper.GetEntityInfo(model.TypeSetting, model.EntityInfoId);
-                model.EntityParams = StrategyHelper.GetEntityParams(entityInfo, model.EntityParams);
+                model.EntityParams = StrategyHelper.GetEntityParams(entityInfo, model.EntityParams).ToList();
             }
             else if (settingId != 0)
             {
@@ -67,6 +67,7 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(SettingModel model, IEnumerable<ParamEntity> entityParams)
         {
             model.EntityParams = entityParams.ToList();

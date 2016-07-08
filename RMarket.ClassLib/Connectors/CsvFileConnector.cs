@@ -19,43 +19,43 @@ namespace RMarket.ClassLib.Connectors
     {
         private ITickerRepository tickerRepository;
 
-        private Dictionary<string, int> headTable = new Dictionary<string, int>();
+        private Dictionary<string, int> headTable;
         private CancellationTokenSource cts;
 
         #region PARAMS
 
         [Parameter(Description = "Путь к файлу")]
-        string FilePath { get; set; }
+        public string FilePath { get; set; }
         [Parameter(Description = "Разделитель")]
-        char Separator { get; set; }
+        public char Separator { get; set; }
         [Parameter(Description = "Колонка в таблице: Дата")]
-        string Col_Date { get; set; }
+        public string Col_Date { get; set; }
         [Parameter(Description = "Формат даты")]
-        string FormatDate { get; set; }
+        public string FormatDate { get; set; }
         [Parameter(Description = "Колонка в таблице: Время")]
-        string Col_Time { get; set; }
+        public string Col_Time { get; set; }
         [Parameter(Description = "Формат времени")]
-        string FormatTime { get; set; }
+        public string FormatTime { get; set; }
         [Parameter(Description = "Колонка в таблице: Код бумаги")]
-        string Col_TickerCode { get; set; }
+        public string Col_TickerCode { get; set; }
         [Parameter(Description = "Колонка в таблице: Цена")]
-        string Col_Price { get; set; }
+        public string Col_Price { get; set; }
         [Parameter(Description = "Колонка в таблице: Кол-во")]
-        string Col_Qty { get; set; }
+        public string Col_Qty { get; set; }
         [Parameter(Description = "Объем (если не заполнено количество)")]
-        string Col_Volume { get; set; } 
+        public string Col_Volume { get; set; } 
         [Parameter(Description = "Колонка в таблице: Период")]
-        string Col_TradePeriod { get; set; }
+        public string Col_TradePeriod { get; set; }
         [Parameter(Description = "Значение периода: Открытие")]
-        string Val_PeriodOpening { get; set; } 
+        public string Val_PeriodOpening { get; set; } 
         [Parameter(Description = "Значение периода: Нормальный")]
-        string Val_PeriodTrading { get; set; } 
+        public string Val_PeriodTrading { get; set; } 
         [Parameter(Description = "Значение периода: Закрытие")]
-        string Val_PeriodClosing { get; set; } 
-        [Parameter(Description = "Время начала сессии(если нет колонки период)")]
-        TimeSpan Val_SessionStart { get; set; } 
-        [Parameter(Description = "Время окнчания сессии(если нет колонки период)")]
-        TimeSpan Val_SessionFinish { get; set; } 
+        public string Val_PeriodClosing { get; set; } 
+        [Parameter(Description = "Время начала сессии(если нет колонки период) h:m:s")]
+        public TimeSpan Val_SessionStart { get; set; } 
+        [Parameter(Description = "Время окнчания сессии(если нет колонки период) h:m:s")]
+        public TimeSpan Val_SessionFinish { get; set; } 
 
         #endregion
 
@@ -72,14 +72,14 @@ namespace RMarket.ClassLib.Connectors
 
             FilePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv";
             Separator = ';';
-            Col_Date = "Date";
+            Col_Date = "<DATE>";
             FormatDate = "yyyyMMdd";
-            Col_Time = "Time";
+            Col_Time = "<TIME>";
             FormatTime = "HHmmss";
-            Col_TickerCode = "TICKER";
-            Col_Price = "LAST";
+            Col_TickerCode = "<TICKER>";
+            Col_Price = "<LAST>";
             Col_Qty = "Qty";
-            Col_Volume = "VOL";
+            Col_Volume = "<VOL>";
             Col_TradePeriod = "Period";
             Val_PeriodOpening = "Opening";
             Val_PeriodTrading = "Trading";
@@ -99,6 +99,8 @@ namespace RMarket.ClassLib.Connectors
                 //запустить обход файла
                 using (StreamReader sr = new StreamReader(FilePath))
                 {
+                    Dictionary<string, Ticker> tickersCache = new Dictionary<string, Ticker>();
+
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -117,8 +119,8 @@ namespace RMarket.ClassLib.Connectors
                             continue;
                         }
 
-                        try
-                        {
+                        //try
+                        //{
                             TickEventArgs tick = new TickEventArgs();
                             tick.Date = helper.ParseDate(cells, headTable, Col_Date, Col_Time, FormatDate, FormatTime);
                             tick.TickerCode = helper.ParseTickerCode(cells, headTable, Col_TickerCode);
@@ -126,7 +128,10 @@ namespace RMarket.ClassLib.Connectors
                             tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Qty);
                             if (tick.Quantity == 0)
                             {
-                                Ticker ticker = tickerRepository.Tickers.FirstOrDefault(t => t.Code == tick.TickerCode); //!!!проверить кеширование
+                                if(!tickersCache.ContainsKey(tick.TickerCode))
+                                    tickersCache[tick.TickerCode] = tickerRepository.Tickers.FirstOrDefault(t => t.Code == tick.TickerCode);
+
+                                Ticker ticker = tickersCache[tick.TickerCode];
                                 if (ticker != null && ticker.QtyInLot.HasValue)
                                     tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Volume, ticker.QtyInLot.Value);
                             }
@@ -134,7 +139,7 @@ namespace RMarket.ClassLib.Connectors
 
                             tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
                             if (tick.TradePeriod == TradePeriodEnum.Undefended)
-                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, FormatTime, Val_SessionStart, Val_SessionFinish);
+                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_Time, FormatTime, Val_SessionStart, Val_SessionFinish);
 
                             tick.Extended = helper.CreateExtended(cells, headTable);
 
@@ -142,11 +147,11 @@ namespace RMarket.ClassLib.Connectors
                             var tickPoked = TickPoked;
                             tickPoked?.Invoke(this, tick);
 
-                        }
-                        catch (Exception)
-                        {
-                            throw;
-                        }
+                        //}
+                        //catch (Exception)
+                        //{
+                        //    throw;
+                        //}
 
                     }
 

@@ -27,7 +27,7 @@ namespace RMarket.ClassLib.Abstract
         void StartStrategy();
         void StopStrategy();
 
-        Order OrderSend(string tickerCode, OrderType orderType, int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime expiration = new DateTime(), string comment = "");
+        Order OrderSend(string tickerCode, OrderType orderType, int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime? expirationdate = null, string comment = "");
         int OrderClose(Order order);
     }
 

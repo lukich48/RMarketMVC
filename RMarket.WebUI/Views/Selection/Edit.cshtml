@@ -7,7 +7,7 @@
     $(function () {
         $(".datepicker").datepicker();
 
-        $("#selection_StrategyInfoId").change(function () {
+        $("#StrategyInfoId").change(function () {
             $("#ajaxStrategyParams").load("@Url.Action("EditParams")?strategyInfoId=" + this.value)
         });
 

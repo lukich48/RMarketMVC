@@ -82,7 +82,7 @@ namespace RMarket.ClassLib.Helpers
         /// <param name="entityInfo"></param>
         /// <param name="savedParams"></param>
         /// <returns></returns>
-        public static List<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null)
+        public static IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null) 
             where T : ParamBase, new()
         {
             if (savedParams == null)
@@ -119,7 +119,7 @@ namespace RMarket.ClassLib.Helpers
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(instance);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams);
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams).ToList();
 
             return res;
         }
@@ -133,7 +133,7 @@ namespace RMarket.ClassLib.Helpers
         {
             IEnumerable<ParamSelection> savedParams = GetSavedStrategyParams(selection);
 
-            List<ParamSelection> res = StrategyHelper.GetEntityParams<ParamSelection>(selection.StrategyInfo, savedParams);
+            IEnumerable<ParamSelection> res = StrategyHelper.GetEntityParams<ParamSelection>(selection.StrategyInfo, savedParams);
 
             return res;
         }

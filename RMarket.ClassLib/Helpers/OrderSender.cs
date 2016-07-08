@@ -53,7 +53,7 @@ namespace RMarket.ClassLib.Helpers
 
         public int OrderCloseAll(OrderType orderType)
         {
-            List<Order> foundOrders = manager.Strategy.Orders.FindAll(ord => ord.OrderType == orderType && ord.DateClose == DateTime.MinValue);
+            List<Order> foundOrders = manager.Strategy.Orders.FindAll(ord => ord.OrderType == orderType && ord.DateClose == null);
 
             foreach (Order order in foundOrders)
             {

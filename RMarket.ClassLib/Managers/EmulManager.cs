@@ -101,7 +101,7 @@ namespace RMarket.ClassLib.Managers
 
         }
        
-        public Order OrderSend(string tickerCode, OrderType orderType, int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime expiration = new DateTime(), string comment = "")
+        public Order OrderSend(string tickerCode, OrderType orderType, int volume, decimal stoploss = 0, decimal takeprofit = 0, DateTime? expirationDate = null, string comment = "")
         {
 
             Order order = new Order();
@@ -110,7 +110,7 @@ namespace RMarket.ClassLib.Managers
             order.Volume = volume;
             order.StopLoss = stoploss;
             order.TakeProfit = takeprofit;
-            order.Expiration = expiration;
+            order.ExpirationDate = expirationDate;
             order.DateOpen = Instr.Candles[0].DateOpen;
             order.DateOpenUTC = DateTime.UtcNow;
             order.PriceOpen = Instr.Candles[0].ClosePrice + Portf.Slippage * ((order.OrderType == OrderType.Sell) ? (-1) : 1);

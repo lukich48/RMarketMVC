@@ -299,7 +299,7 @@ namespace RMarket.WebUI.Models
                 {
                     dataList.Add(new SeriesData
                     {
-                        x = curOrder.DateClose.MillisecondUTC(),
+                        x = curOrder.DateClose?.MillisecondUTC(),
                         y = curOrder.PriceClose,
                         dataLabels = new DataLabel
                         {

@@ -19,35 +19,33 @@ namespace RMarket.ClassLib.Connectors
         #region PARAMS
 
         [Parameter(Description ="Имя DDE сервера")]
-        string ServerName { get; set; }
-
+        public string ServerName { get; set; }
         [Parameter(Description = "Колонка в таблице: Дата")]
-        string Col_Date { get; set; }
+        public string Col_Date { get; set; }
         [Parameter(Description = "Формат даты")]
-        string FormatDate { get; set; }
+        public string FormatDate { get; set; }
         [Parameter(Description = "Колонка в таблице: Время")]
-        string Col_Time { get; set; }
+        public string Col_Time { get; set; }
         [Parameter(Description = "Формат времени")]
-        string FormatTime { get; set; }
+        public string FormatTime { get; set; }
         [Parameter(Description = "Колонка в таблице: Код бумаги")]
-        string Col_TickerCode { get; set; }
+        public string Col_TickerCode { get; set; }
         [Parameter(Description = "Колонка в таблице: Цена")]
-        string Col_Price { get; set; }
+        public string Col_Price { get; set; }
         [Parameter(Description = "Колонка в таблице: Кол-во")]
-        string Col_Qty { get; set; }
+        public string Col_Qty { get; set; }
         [Parameter(Description = "Колонка в таблице: Период")]
-        string Col_TradePeriod { get; set; }
+        public string Col_TradePeriod { get; set; }
         [Parameter(Description = "Значение периода: Открытие")]
-        string Val_PeriodOpening { get; set; }
+        public string Val_PeriodOpening { get; set; }
         [Parameter(Description = "Значение периода: Нормальный")]
-        string Val_PeriodTrading { get; set; }
+        public string Val_PeriodTrading { get; set; }
         [Parameter(Description = "Значение периода: Закрытие")]
-        string Val_PeriodClosing { get; set; }
+        public string Val_PeriodClosing { get; set; }
         [Parameter(Description = "Время начала сессии(если нет колонки период)")]
-        TimeSpan Val_SessionStart { get; set; }
+        public TimeSpan Val_SessionStart { get; set; }
         [Parameter(Description = "Время окнчания сессии(если нет колонки период)")]
-        TimeSpan Val_SessionFinish { get; set; }
-
+        public TimeSpan Val_SessionFinish { get; set; }
 
         #endregion
 
