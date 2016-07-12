@@ -46,6 +46,7 @@ namespace RMarket.ClassLib.Models
             ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute(typeof(ParameterAttribute), false);
 
             FieldName = prop.Name;
+            TypeName = prop.PropertyType.FullName;
 
             try
             {
@@ -61,7 +62,6 @@ namespace RMarket.ClassLib.Models
 
             DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
             Description = (attr.Description == null) ? "": attr.Description;
-            TypeName = prop.PropertyType.FullName;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

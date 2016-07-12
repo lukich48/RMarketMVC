@@ -19,16 +19,16 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private IInstanceRepository instanceRepository;
-        private IConnectorInfoRepository connectorInfoRepository;
+        private ISettingRepository settingRepository;
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<TestResult> strategyResultCollection = SessionHelper.Get<List<TestResult>>("EmulResultCollection");
 
-        public EmulController(IInstanceRepository instanceRepository, IConnectorInfoRepository connectorInfoRepository, IAliveStrategyRepository aliveStrategyRepository)
+        public EmulController(IInstanceRepository instanceRepository, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
         {
             this.instanceRepository = instanceRepository;
-            this.connectorInfoRepository = connectorInfoRepository;
+            this.settingRepository = settingRepository;
             this.aliveStrategyRepository = aliveStrategyRepository;
 
             jsonSerializerSettings = new JsonSerializerSettings();
@@ -56,7 +56,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
-            ViewBag.ConnectorInfoList = ModelHelper.GetConnectorInfoList(connectorInfoRepository);
+            ViewBag.SettingList = ModelHelper.GetSettingList(settingRepository, SettingType.ConnectorInfo);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;
@@ -74,7 +74,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
-                ConnectorInfo connectorInfo = connectorInfoRepository.Find(model.ConnectorInfoId);
+                Setting setting = settingRepository.Find(model.SettingId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy
@@ -97,8 +97,8 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                //IDataProvider connector = SettingHelper.CreateDataProvider(instance.StrategyInfo);
-                IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
+                IDataProvider connector = SettingHelper.CreateDataProvider(setting);
+                //IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(setting);
 
                 IManager manager = new EmulManager(strategy, instr, portf, connector, aliveStrategy);
 

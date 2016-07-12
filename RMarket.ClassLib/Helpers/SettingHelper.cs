@@ -47,14 +47,19 @@ namespace RMarket.ClassLib.Helpers
             //Найдем актуальную настройку для стратегии
             Setting setting = settingRepository.Settings.Where(s => s.TypeSetting == SettingType.ConnectorInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority).FirstOrDefault();
 
-            if (setting == null)
-            {
-                setting = settingRepository.Settings.Where(s => s.TypeSetting == SettingType.ConnectorInfo && s.StrategyInfoId == null).OrderByDescending(s => s.Priority).FirstOrDefault();
-            }
+            return CreateDataProvider(setting);
+        }
 
+        /// <summary>
+        /// Находит провайдер по умолчанию для стратегии
+        /// </summary>
+        /// <param name="connectorInfo"></param>
+        /// <returns></returns>
+        public static IDataProvider CreateDataProvider(Setting setting)
+        {
             ConnectorInfo connectorInfo = connectorInfoRepository.Find(setting.EntityInfoId);
 
-            IDataProvider dataProvider =  (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
+            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
 
             IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(setting.StrParams);
 
@@ -74,5 +79,8 @@ namespace RMarket.ClassLib.Helpers
 
             return dataProvider;
         }
+
+        //////////////////////////Private methods
+
     }
 }

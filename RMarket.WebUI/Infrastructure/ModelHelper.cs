@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using RMarket.ClassLib.Abstract;
 using System.Web.Mvc;
+using RMarket.ClassLib.Entities;
 
 namespace RMarket.WebUI.Infrastructure
 {
@@ -33,5 +34,11 @@ namespace RMarket.WebUI.Infrastructure
         {
             return new SelectList(connectorInfoRepository.ConnectorInfoes, "Id", "Name");
         }
+
+        public static SelectList GetSettingList(ISettingRepository settingRepository, SettingType settingType)
+        {
+            return new SelectList(settingRepository.Settings.Where(s=>s.TypeSetting == settingType), "Id", "Name");
+        }
+
     }
 }

@@ -18,7 +18,7 @@ namespace RMarket.WebUI.Models
         [Display(Name = "Вариант")]
         public int InstanceId { get; set; }
         [Display(Name = "Коннектор")]
-        public int ConnectorInfoId { get; set; }
+        public int SettingId { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
 

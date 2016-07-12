@@ -55,7 +55,9 @@ namespace RMarket.ClassLib.Connectors
         [Parameter(Description = "Время начала сессии(если нет колонки период) h:m:s")]
         public TimeSpan Val_SessionStart { get; set; } 
         [Parameter(Description = "Время окнчания сессии(если нет колонки период) h:m:s")]
-        public TimeSpan Val_SessionFinish { get; set; } 
+        public TimeSpan Val_SessionFinish { get; set; }
+        [Parameter(Description = "Задержка. Во сколько раз быстрее реального времени. 0 - без задержки")]
+        public int Delay { get; set; }
 
         #endregion
 
@@ -101,6 +103,7 @@ namespace RMarket.ClassLib.Connectors
                 {
                     Dictionary<string, Ticker> tickersCache = new Dictionary<string, Ticker>();
 
+                    DateTime lastMinute = new DateTime();
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -142,6 +145,13 @@ namespace RMarket.ClassLib.Connectors
                                 tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_Time, FormatTime, Val_SessionStart, Val_SessionFinish);
 
                             tick.Extended = helper.CreateExtended(cells, headTable);
+
+                        //Включаем задержку
+                        if(Delay != 0 && lastMinute < tick.Date)
+                        {
+                            Thread.Sleep(60000 / Delay);
+                            lastMinute = tick.Date.AddMinutes(1);
+                        }
 
                             //вызвать событие IConnector
                             var tickPoked = TickPoked;
