@@ -106,7 +106,7 @@ namespace RMarket.ClassLib.Models
             if (TickPoked != null) //todo: Сделать ассинхронно
                 TickPoked(this, tick);
 
-            if (tick.TradePeriod != TradePeriodEnum.Undefended && tick.TradePeriod != TradePeriodEnum.Trading)
+            if (tick.TradePeriod != TradePeriod.Undefended && tick.TradePeriod != TradePeriod.Trading)
                 return; //торгуем только в сессию!
 
             //Заполнить "нулевой бар"

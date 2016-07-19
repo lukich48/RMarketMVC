@@ -22,7 +22,7 @@ namespace RMarket.ClassLib.Managers
             this.Strategy = strategy;
             this.Instr = instr;
             this.Portf = portf;
-            this.IsReal = false;
+            this.AliveType = AliveType.Test;
             this.OrderSender = new OrderSender(this);
 
             Strategy.Instr = Instr;
@@ -47,7 +47,7 @@ namespace RMarket.ClassLib.Managers
         public bool IsStarted { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public bool IsReal { get; set; }
+        public AliveType AliveType { get; set; }
         public OrderSender OrderSender { get; set; }
 
         #region Events

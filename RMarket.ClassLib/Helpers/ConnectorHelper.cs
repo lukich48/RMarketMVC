@@ -66,34 +66,34 @@ namespace RMarket.ClassLib.Helpers
             return val / qtyInLot;
         }
 
-        public TradePeriodEnum ParseTradePeriod(object[] cells, Dictionary<string, int> headTable, string col_TradePeriod, string val_PeriodOpening, string val_PeriodTrading, string val_PeriodClosing)
+        public TradePeriod ParseTradePeriod(object[] cells, Dictionary<string, int> headTable, string col_TradePeriod, string val_PeriodOpening, string val_PeriodTrading, string val_PeriodClosing)
         {
-            TradePeriodEnum tradePeriod = TradePeriodEnum.Undefended;
+            TradePeriod tradePeriod = TradePeriod.Undefended;
             if (headTable.ContainsKey(col_TradePeriod))
             {
                 string curPeriod = cells[headTable[col_TradePeriod]].ToString();
 
                 if (string.Equals(curPeriod, val_PeriodOpening, StringComparison.OrdinalIgnoreCase))
-                    tradePeriod = TradePeriodEnum.Opening;
+                    tradePeriod = TradePeriod.Opening;
                 else if (string.Equals(curPeriod, val_PeriodTrading, StringComparison.OrdinalIgnoreCase))
-                    tradePeriod = TradePeriodEnum.Trading;
+                    tradePeriod = TradePeriod.Trading;
                 else if (string.Equals(curPeriod, val_PeriodClosing, StringComparison.OrdinalIgnoreCase))
-                    tradePeriod = TradePeriodEnum.Closing;
+                    tradePeriod = TradePeriod.Closing;
             }
 
             return tradePeriod;
         }
 
-        public TradePeriodEnum ParseTradePeriod(object[] cells, Dictionary<string, int> headTable, string col_Time, string formatTime, TimeSpan val_SessionStart, TimeSpan val_SessionFinish)
+        public TradePeriod ParseTradePeriod(object[] cells, Dictionary<string, int> headTable, string col_Time, string formatTime, TimeSpan val_SessionStart, TimeSpan val_SessionFinish)
         {
-            TradePeriodEnum tradePeriod = TradePeriodEnum.Trading;
+            TradePeriod tradePeriod = TradePeriod.Trading;
 
             TimeSpan curTime = DateTime.ParseExact(DateTime.Today.ToString("yyyyMMdd")+ cells[headTable[col_Time]].ToString(), "yyyyMMdd"+formatTime, null).TimeOfDay;
             //TimeSpan curTime = TimeSpan.ParseExact(cells[headTable[col_Time]].ToString(), formatTime, null);
             if (curTime < val_SessionStart)
-                tradePeriod = TradePeriodEnum.Opening;
+                tradePeriod = TradePeriod.Opening;
             else if (curTime > val_SessionFinish)
-                tradePeriod = TradePeriodEnum.Closing;
+                tradePeriod = TradePeriod.Closing;
 
             return tradePeriod;
         }

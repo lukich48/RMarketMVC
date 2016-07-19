@@ -29,7 +29,7 @@ namespace RMarket.ClassLib.Entities
 
         public int Quantity { get; set; }
 
-        public TradePeriodEnum TradePeriod { get; set; } 
+        public TradePeriod TradePeriod { get; set; } 
 
         public virtual IEnumerable<KeyValue> Extended { get; set; }
 

@@ -5,17 +5,20 @@ using System.Web;
 
 namespace RMarket.WebUI.Infrastructure
 {
-    public static class SessionHelper
+    public class SessionHelper
     {
-        public static HttpSessionStateBase session;
+        private HttpSessionStateBase session;
 
-        static SessionHelper()
+        public SessionHelper()
+            : this(new HttpSessionStateWrapper(HttpContext.Current.Session))
+        { }
+
+        public SessionHelper(HttpSessionStateBase session)
         {
-            if(HttpContext.Current!=null)
-                session = new HttpSessionStateWrapper(HttpContext.Current.Session);
+            this.session = session;
         }
 
-        public static T Get<T>(string key) where T :new()
+        public T Get<T>(string key) where T :new()
         {
             if (session[key] == null)
             {
@@ -25,7 +28,7 @@ namespace RMarket.WebUI.Infrastructure
             return (T)session[key];
         }
 
-        public static void Set(string key, object value)
+        public void Set(string key, object value)
         {
             session[key] = value;
         }

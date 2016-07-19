@@ -25,8 +25,8 @@ namespace RMarket.WebUI.Models
     }
 
     public class TestResult
-    {
-        public int Id { get; set; }
+    { //!!!Вынести в библиотеку
+        public int AliveId { get; set; }
         public DateTime StartDate { get; set; }
         public InstanceModel Instance { get; set; }
         public IStrategy Strategy { get; set; }

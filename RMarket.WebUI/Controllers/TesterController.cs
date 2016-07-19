@@ -21,7 +21,7 @@ namespace RMarket.WebUI.Controllers
         private IInstanceRepository instanceRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
-        List<TestResult> strategyResultCollection = SessionHelper.Get<List<TestResult>>("TestResultCollection");
+        List<TestResult> strategyResultCollection = CurrentUI.AliveResults; //!!! добавить различия между Emul  и Real
 
         public TesterController(IInstanceRepository instanceRepository)
         {
@@ -93,7 +93,7 @@ namespace RMarket.WebUI.Controllers
                 //***Положить в сессию
                 TestResult testResult = new TestResult
                 {
-                    Id = strategyResultCollection.Count() + 1,
+                    AliveId = strategyResultCollection.Count() + 1,
                     StartDate = DateTime.Now,
                     Instance = instance,
                     Strategy = strategy,
@@ -106,7 +106,7 @@ namespace RMarket.WebUI.Controllers
                 strategyResultCollection.Add(testResult);
                 //**
 
-                TempData["message"] = string.Format("Тест успешно запущен. Id={0}",testResult.Id);
+                TempData["message"] = string.Format("Тест успешно запущен. Id={0}",testResult.AliveId);
 
                 return RedirectToAction("Index");
             }
@@ -119,7 +119,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ActionResult DisplayResult(int resultId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id:{0}", resultId);
@@ -139,15 +139,14 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public RedirectToRouteResult TerminateTest(int resultId)
         {
-            List<TestResult> testResultCollection = SessionHelper.Get<List<TestResult>>("TestResultCollection");
-            TestResult testResult = testResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult != null && testResult.Manager.IsStarted)
             {
                 testResult.Manager.StopStrategy();
-                TempData["warning"] = string.Format("Тест Id={0} был прерван!", testResult.Id);
+                TempData["warning"] = string.Format("Тест Id={0} был прерван!", testResult.AliveId);
             }
 
-             return RedirectToAction("DisplayResult", new { resultId = testResult.Id });
+             return RedirectToAction("DisplayResult", new { resultId = testResult.AliveId });
         }
 
         #region //////////////////////Навигация по графику
@@ -159,7 +158,7 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ActionResult GetDataJsonInit(int resultId, int maxCount, string way = "right")
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
 
             var res = testResult.GetDataJsonInit(maxCount, way);
 
@@ -179,10 +178,10 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.Id);
+                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
@@ -203,10 +202,10 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.Id);
+                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 

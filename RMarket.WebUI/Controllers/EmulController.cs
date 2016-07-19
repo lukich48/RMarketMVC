@@ -23,7 +23,7 @@ namespace RMarket.WebUI.Controllers
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
-        List<TestResult> strategyResultCollection = SessionHelper.Get<List<TestResult>>("EmulResultCollection");
+        List<TestResult> strategyResultCollection = CurrentUI.AliveResults;
 
         public EmulController(IInstanceRepository instanceRepository, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
         {
@@ -111,7 +111,7 @@ namespace RMarket.WebUI.Controllers
                 //***Положить в сессию
                 TestResult testResult = new TestResult
                 {
-                    Id = aliveStrategy.Id,
+                    AliveId = aliveStrategy.Id,
                     StartDate = DateTime.Now,
                     Instance = instance,
                     Strategy = strategy,
@@ -124,7 +124,7 @@ namespace RMarket.WebUI.Controllers
                 strategyResultCollection.Add(testResult);
                 //**
 
-                TempData["message"] = string.Format("Эмуляция успешно запущена. Id={0}", testResult.Id);
+                TempData["message"] = string.Format("Эмуляция успешно запущена. Id={0}", testResult.AliveId);
 
                 return RedirectToAction("Index");
             }
@@ -137,7 +137,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ActionResult DisplayResult(int resultId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найдена эмуляция Id:{0}", resultId);
@@ -157,14 +157,14 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public RedirectToRouteResult TerminateTest(int resultId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult != null && testResult.Manager.IsStarted)
             {
                 testResult.Manager.StopStrategy();
-                TempData["warning"] = string.Format("Эмуляция Id={0} была прервана!", testResult.Id);
+                TempData["warning"] = string.Format("Эмуляция Id={0} была прервана!", testResult.AliveId);
             }
 
-            return RedirectToAction("DisplayResult", new { resultId = testResult.Id });
+            return RedirectToAction("DisplayResult", new { resultId = testResult.AliveId });
         }
 
 
@@ -177,7 +177,7 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ActionResult GetDataJsonInit(int resultId, int maxCount, string way = "right")
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
 
             var res = testResult.GetDataJsonInit(maxCount, way);
 
@@ -197,10 +197,10 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.Id);
+                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
@@ -221,10 +221,10 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.Id == resultId);
+            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.Id);
+                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 

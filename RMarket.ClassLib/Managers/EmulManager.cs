@@ -24,7 +24,7 @@ namespace RMarket.ClassLib.Managers
             this.Instr = instr;
             this.Portf = portf;
             this.Connector = connector;
-            this.IsReal = false;
+            this.AliveType = AliveType.Emul;
             this.OrderSender = new OrderSender(this);
 
             Strategy.Instr = Instr;
@@ -55,7 +55,7 @@ namespace RMarket.ClassLib.Managers
         /// Пока не используется
         /// </summary>
         public DateTime DateTo { get; set; }
-        public bool IsReal { get; set; }
+        public AliveType AliveType { get; set; }
         public OrderSender OrderSender { get; set; }
 
         #region Events

@@ -127,7 +127,7 @@ namespace RMarket.ClassLib.Connectors
                     tick.IsRealTime = isRealTime;
 
                     tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
-                    if (tick.TradePeriod == TradePeriodEnum.Undefended)
+                    if (tick.TradePeriod == TradePeriod.Undefended)
                         tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, FormatTime, Val_SessionStart, Val_SessionFinish);
 
                     tick.Extended = helper.CreateExtended(cells, headTable);

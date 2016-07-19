@@ -37,7 +37,7 @@ namespace RMarket.WebUI.Infrastructure
 
         public static SelectList GetSettingList(ISettingRepository settingRepository, SettingType settingType)
         {
-            return new SelectList(settingRepository.Settings.Where(s=>s.TypeSetting == settingType), "Id", "Name");
+            return new SelectList(settingRepository.Settings.Where(s=>s.SettingType == settingType), "Id", "Name");
         }
 
     }

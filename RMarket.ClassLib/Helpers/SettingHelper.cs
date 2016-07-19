@@ -45,7 +45,7 @@ namespace RMarket.ClassLib.Helpers
         public static IDataProvider CreateDataProvider(StrategyInfo strategyInfo)
         {
             //Найдем актуальную настройку для стратегии
-            Setting setting = settingRepository.Settings.Where(s => s.TypeSetting == SettingType.ConnectorInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority).FirstOrDefault();
+            Setting setting = settingRepository.Settings.Where(s => s.SettingType == SettingType.ConnectorInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority).FirstOrDefault();
 
             return CreateDataProvider(setting);
         }

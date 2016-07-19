@@ -79,7 +79,7 @@ namespace RMarket.ClassLib.Helpers
             };
             List<Setting> settings = new List<Setting>
             {
-                new Setting {Name="Quik default", StrategyInfoId=null, TypeSetting = SettingType.ConnectorInfo,
+                new Setting {Name="Quik default", StrategyInfoId=null, SettingType = SettingType.ConnectorInfo,
                     EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
@@ -102,7 +102,7 @@ namespace RMarket.ClassLib.Helpers
             };
             List<Setting> settings = new List<Setting>
             {
-                new Setting {Name="Quik default", StrategyInfoId=null, TypeSetting = SettingType.ConnectorInfo,
+                new Setting {Name="Quik default", StrategyInfoId=null, SettingType = SettingType.ConnectorInfo,
                     EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };

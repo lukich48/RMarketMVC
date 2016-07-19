@@ -14,7 +14,7 @@ namespace RMarket.ClassLib.Abstract
         bool IsStarted { get; set; }
         DateTime DateFrom { get; set; }
         DateTime DateTo { get; set; }
-        bool IsReal { get; set; }
+        AliveType AliveType { get; set; }
         OrderSender OrderSender { get; set; }
 
         #region Events
