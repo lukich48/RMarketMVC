@@ -1,4 +1,5 @@
-﻿using RMarket.WebUI.Models;
+﻿using RMarket.ClassLib.Models;
+using RMarket.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,11 @@ namespace RMarket.WebUI.Infrastructure
         /// <summary>
         /// Запущенные стратегии
         /// </summary>
-        public static List<TestResult> AliveResults
+        public static List<AliveResult> AliveResults
         {
             get
             {
-                return SessionHelper.Get<List<TestResult>>("AliveResults");
+                return SessionHelper.Get<List<AliveResult>>("AliveResults");
             }
             set
             {

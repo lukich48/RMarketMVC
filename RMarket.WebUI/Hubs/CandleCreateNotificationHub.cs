@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using RMarket.WebUI.Infrastructure;
+using RMarket.ClassLib.Models;
 
 namespace RMarket.WebUI.Hubs
 {
@@ -16,34 +17,30 @@ namespace RMarket.WebUI.Hubs
         /// </summary>
         /// <param name="tickerCode"></param>
         /// <param name="timeFrame"></param>
-        public void Connect(int resultId)
+        public void Connect(int aliveId)
         {
             NotificationHelper helper = new NotificationHelper
             {
-                ClientId = Context.ConnectionId
+                ConnectionId = Context.ConnectionId
             };
 
-            //подписываемся нв событие формирования свечи
+            //подписываемся на событие формирования свечи
+            AliveResult aliveResult = CurrentUI.AliveResults.FirstOrDefault(t => t.AliveId == aliveId);
+            aliveResult.Manager.Instr.CreatedCandleReal += helper.OnCreatedCandle;
 
-
-            //Groups.Add(Context.ConnectionId, GetGroupName(tickerCode, timeFrame));
         }
 
-        /// <summary>
-        /// Оповестим клиентов о сформерованой свече
-        /// </summary>
-        /// <param name="tickerCode"></param>
-        /// <param name="timeFrame"></param>
-        public static void CreatedCandleSend(string tickerCode, string timeFrame)
-        {
-            //Пока статический   
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<CandleCreateNotificationHub>();
-            context.Clients.Group(GetGroupName(tickerCode, timeFrame)).candleCreated(1);
-        }
+        ///// <summary>
+        ///// Оповестим клиентов о сформерованой свече
+        ///// </summary>
+        ///// <param name="tickerCode"></param>
+        ///// <param name="timeFrame"></param>
+        //public static void CreatedCandleSend(string tickerCode, string timeFrame)
+        //{
+        //    //Пока статический   
+        //    IHubContext context = GlobalHost.ConnectionManager.GetHubContext<CandleCreateNotificationHub>();
+        //    context.Clients.Group(GetGroupName(tickerCode, timeFrame)).candleCreated(1);
+        //}
 
-        private static string GetGroupName(string tickerCode, string timeFrame)
-        {
-            return tickerCode + "_" + timeFrame;
-        }
     }
 }

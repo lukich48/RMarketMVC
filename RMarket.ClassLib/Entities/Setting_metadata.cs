@@ -18,7 +18,7 @@ namespace RMarket.ClassLib.Entities
         public int? StrategyInfoId { get; set; }
 
         [Display(Name = "Тип настройки")]
-        public SettingType TypeSetting { get; set; }
+        public SettingType SettingType { get; set; }
 
         /// <summary>
         /// ид сущности, к которой относятся настройки

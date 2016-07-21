@@ -7,6 +7,7 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
+using RMarket.WebUI.Infrastructure.Helpers;
 using RMarket.WebUI.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace RMarket.WebUI.Controllers
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
-        List<TestResult> strategyResultCollection = CurrentUI.AliveResults;
+        List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
         public EmulController(IInstanceRepository instanceRepository, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
         {
@@ -109,7 +110,7 @@ namespace RMarket.WebUI.Controllers
                 manager.StartStrategy();
 
                 //***Положить в сессию
-                TestResult testResult = new TestResult
+                AliveResult testResult = new AliveResult
                 {
                     AliveId = aliveStrategy.Id,
                     StartDate = DateTime.Now,
@@ -135,18 +136,18 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult DisplayResult(int resultId)
+        public ActionResult DisplayResult(int aliveId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
             if (testResult == null)
             {
-                TempData["error"] = string.Format("Не найдена эмуляция Id:{0}", resultId);
+                TempData["error"] = string.Format("Не найдена эмуляция Id:{0}", aliveId);
                 return RedirectToAction("Index");
             }
 
             //if (testResult.Strategy.Instr.Candles.Count == 0)
             //{
-            //    TempData["error"] = string.Format("Нет сформированных свечей за выбранный период Id:{0}", resultId);
+            //    TempData["error"] = string.Format("Нет сформированных свечей за выбранный период Id:{0}", aliveId);
             //    return RedirectToAction("Index");
             //}
 
@@ -155,16 +156,16 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpGet]
-        public RedirectToRouteResult TerminateTest(int resultId)
+        public RedirectToRouteResult TerminateTest(int aliveId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
             if (testResult != null && testResult.Manager.IsStarted)
             {
                 testResult.Manager.StopStrategy();
                 TempData["warning"] = string.Format("Эмуляция Id={0} была прервана!", testResult.AliveId);
             }
 
-            return RedirectToAction("DisplayResult", new { resultId = testResult.AliveId });
+            return RedirectToAction("DisplayResult", new { aliveId = testResult.AliveId });
         }
 
 
@@ -172,14 +173,15 @@ namespace RMarket.WebUI.Controllers
         /// <summary>
         /// Загрузка последних n свечек
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="maxCount"></param>
         /// <returns></returns>
-        public ActionResult GetDataJsonInit(int resultId, int maxCount, string way = "right")
+        public ActionResult GetDataJsonInit(int aliveId, int maxCount, string way = "right")
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
 
-            var res = testResult.GetDataJsonInit(maxCount, way);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonInit(maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }
@@ -187,24 +189,25 @@ namespace RMarket.WebUI.Controllers
         /// <summary>
         /// загрузка свечей после определенной даты вперед-назад
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="lastDateUTC"></param>
         /// <param name="maxCount"></param>
         /// /// <param name="way">right, left</param>
         /// <returns></returns>
-        public ActionResult GetDataJsonSlice(int resultId, double lastDateUTC, int maxCount, string way = "right")
+        public ActionResult GetDataJsonSlice(int aliveId, double lastDateUTC, int maxCount, string way = "right")
         {
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            var res = testResult.GetDataJsonSlice(lastDate, maxCount, way);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonSlice(lastDate, maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }
@@ -212,23 +215,24 @@ namespace RMarket.WebUI.Controllers
         /// <summary>
         /// подгрузка свечей через интервал
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="lastDateUTC"></param>
         /// <param name="maxCount"></param>
         /// <returns></returns>
-        public ActionResult GetDataJsonAdd(int resultId, double lastDateUTC, int maxCount)
+        public ActionResult GetDataJsonAdd(int aliveId, double lastDateUTC, int maxCount)
         {
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            var res = testResult.GetDataJsonAdd(lastDate, maxCount);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonAdd(lastDate, maxCount);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }

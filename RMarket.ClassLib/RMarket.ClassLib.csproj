@@ -171,6 +171,7 @@
     <Compile Include="Infrastructure\CurrentRepository.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
+    <Compile Include="Models\AliveResult.cs" />
     <Compile Include="Models\CustomExceptions.cs" />
     <Compile Include="Models\HistoricalProviderBase.cs" />
     <Compile Include="Models\IndicatorBase.cs" />

@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.EntityModels;
+using RMarket.WebUI.Infrastructure.Helpers;
 
 namespace RMarket.WebUI.Controllers
 {
@@ -21,7 +22,7 @@ namespace RMarket.WebUI.Controllers
         private IInstanceRepository instanceRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
-        List<TestResult> strategyResultCollection = CurrentUI.AliveResults; //!!! добавить различия между Emul  и Real
+        List<AliveResult> strategyResultCollection = CurrentUI.SessionHelper.Get<List<AliveResult>>("TestResults"); 
 
         public TesterController(IInstanceRepository instanceRepository)
         {
@@ -91,7 +92,7 @@ namespace RMarket.WebUI.Controllers
                 manager.StartStrategy();
 
                 //***Положить в сессию
-                TestResult testResult = new TestResult
+                AliveResult testResult = new AliveResult
                 {
                     AliveId = strategyResultCollection.Count() + 1,
                     StartDate = DateTime.Now,
@@ -119,7 +120,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ActionResult DisplayResult(int resultId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id:{0}", resultId);
@@ -139,7 +140,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public RedirectToRouteResult TerminateTest(int resultId)
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult != null && testResult.Manager.IsStarted)
             {
                 testResult.Manager.StopStrategy();
@@ -158,9 +159,10 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ActionResult GetDataJsonInit(int resultId, int maxCount, string way = "right")
         {
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
 
-            var res = testResult.GetDataJsonInit(maxCount, way);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonInit(maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }
@@ -178,14 +180,15 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            var res = testResult.GetDataJsonSlice(lastDate, maxCount, way);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonSlice(lastDate, maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }
@@ -202,14 +205,15 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            TestResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
+            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == resultId);
             if (testResult == null)
             {
                 TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            var res = testResult.GetDataJsonAdd(lastDate, maxCount);
+            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            var res = helper.GetDataJsonAdd(lastDate, maxCount);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
         }

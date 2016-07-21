@@ -1,4 +1,4 @@
-﻿@model RMarket.WebUI.Models.TestResult
+﻿@model RMarket.ClassLib.Models.AliveResult
 
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <script src="~/Scripts/highstock/highstock.js"></script>
@@ -24,35 +24,35 @@
     $(function () {
 
         InitiateChart();
-        var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=right";
+        var url = "@{@Url.Action("GetDataJsonInit")}?aliveId=@Model.AliveId&maxCount=" + maxCount+"&way=right";
         GetDataInit(chart, url);
 
 
         $("#btnLeftSkip").click(function(){
             UpdateVariable();
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=left";
+            var url = "@{@Url.Action("GetDataJsonInit")}?aliveId=@Model.AliveId&maxCount=" + maxCount+"&way=left";
             GetDataInit(chart, url);
         });
 
         $("#btnRightSkip").click(function(){
             UpdateVariable();
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonInit")}?resultId=@Model.Id&maxCount=" + maxCount+"&way=right";
+            var url = "@{@Url.Action("GetDataJsonInit")}?aliveId=@Model.AliveId&maxCount=" + maxCount+"&way=right";
             GetDataInit(chart, url);
         });
 
         $("#btnLeftFast").click(function(){
             UpdateVariable();
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+min+"&maxCount=" + maxCount+"&way=left";
+            var url = "@{@Url.Action("GetDataJsonSlice")}?aliveId=@Model.AliveId&lastDateUTC="+min+"&maxCount=" + maxCount+"&way=left";
             GetDataInit(chart, url);
         });
 
         $("#btnRightFast").click(function(){
             UpdateVariable();
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+max+"&maxCount=" + maxCount+"&way=right";
+            var url = "@{@Url.Action("GetDataJsonSlice")}?aliveId=@Model.AliveId&lastDateUTC="+max+"&maxCount=" + maxCount+"&way=right";
             GetDataInit(chart, url);
         });
 
@@ -64,7 +64,7 @@
             if(_data.length > _maxCount)
                 _lastDate = _data[_maxCount-1].x;
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=left";
+            var url = "@{@Url.Action("GetDataJsonSlice")}?aliveId=@Model.AliveId&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=left";
             GetDataInit(chart, url);
         });
 
@@ -76,7 +76,7 @@
             if(_data.length > _maxCount)
                 _lastDate = _data[_data.length-_maxCount-1].x;
             InitiateChart();
-            var url = "@{@Url.Action("GetDataJsonSlice")}?resultId=@Model.Id&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=right";
+            var url = "@{@Url.Action("GetDataJsonSlice")}?aliveId=@Model.AliveId&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=right";
             GetDataInit(chart, url);
         });
 
@@ -162,12 +162,12 @@
                 ,false);
                 for(var i = 0; i<data.Indicators.length; i++){
                     chart.addSeries(
-                   data.Indicators[i]                    
+                   data.Indicators[i]
                 ,false,false);
                 }
                 for(var i = 0; i<data.ProfitList.length; i++){
                     chart.addSeries(
-                   data.ProfitList[i]                    
+                   data.ProfitList[i]
                 ,false,false);
                 }
                 chart.redraw(false);
@@ -183,7 +183,7 @@
     function AddPoint(chart) {
         return; //доделать для реалтайм
         var series = chart.series[0];
-        $.getJSON("@{@Url.Action("GetDataJsonAdd")}?resultId=@Model.Id&lastDateUTC="+lastDate+"&maxCount=" + maxCount,
+        $.getJSON("@{@Url.Action("GetDataJsonAdd")}?aliveId=@Model.AliveId&lastDateUTC="+lastDate+"&maxCount=" + maxCount,
         function (data) {
             //alert(data);
             if (data != null) {
@@ -252,3 +252,7 @@
     </button>
 </div>
 <div id="balanceChart"></div>
+
+<script src="/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+<script src="/signalr/hubs"></script>
