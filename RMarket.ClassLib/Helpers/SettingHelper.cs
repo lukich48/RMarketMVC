@@ -17,21 +17,21 @@ namespace RMarket.ClassLib.Helpers
         public static ISettingRepository settingRepository = CurrentRepository.SettingRepository;
 
         /// <summary>
-        /// Возвращает объект по типу настройки и идентификатору. Генерирует исключение, если неверно задан typeSetting
+        /// Возвращает объект по типу настройки и идентификатору. Генерирует исключение, если неверно задан settingType
         /// </summary>
-        /// <param name="typeSetting"></param>
+        /// <param name="settingType"></param>
         /// <param name="entityInfoId"></param>
         /// <returns></returns>
-        public static IEntityInfo GetEntityInfo (SettingType typeSetting, int entityInfoId)
+        public static IEntityInfo GetEntityInfo (SettingType settingType, int entityInfoId)
         {
             IEntityInfo entityInfo = null;
-            switch (typeSetting)
+            switch (settingType)
             {
                 case SettingType.ConnectorInfo:
                     entityInfo = connectorInfoRepository.Find(entityInfoId);
                     break;
                 default:
-                    throw new CustomException(String.Format("Не найден тип настройки!", typeSetting));                    
+                    throw new CustomException(String.Format("Не найден тип настройки!", settingType));                    
             }
 
             return entityInfo;

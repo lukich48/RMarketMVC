@@ -290,7 +290,7 @@
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
-    <Compile Include="Hubs\CandleCreateNotificationHub.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Infrastructure\Binders\TickerBinder.cs" />
     <Compile Include="Controllers\Admin\StrategyInfoesController.cs" />
     <Compile Include="Controllers\Admin\TickersController.cs" />

@@ -1,27 +1,27 @@
-﻿@using RMarket.ClassLib.Entities;
-@using RMarket.WebUI.Models
+﻿@using RMarket.ClassLib.EntityModels;
+@using RMarket.ClassLib.Models;
 
-@model IEnumerable<TestResult>
+@model IEnumerable<AliveResult>
 
 @{
     ViewBag.Title = "Index";
 }
 
-@Html.ActionLink("Новый тест", "BeginTest", null, new { @class = "btn btn-default" })
+@Html.ActionLink("Добавить", "BeginTest", null, new { @class = "btn btn-default" })
 
-@foreach (TestResult testResult in @Model)
+@foreach (AliveResult aliveResult in @Model)
 {
-    Instance instance = testResult.Instance;
+    InstanceModel instance = aliveResult.Instance;
 
     <div class="well">
-        @if (testResult.Manager.IsStarted)
+        @if (aliveResult.Manager.IsStarted)
         {
-            @Html.ActionLink("Прервать", "TerminateTest", new { resultId = testResult.Id }, new { @class = "btn btn-danger pull-right" })
+            @Html.ActionLink("Прервать", "TerminateTest", new { aliveId = aliveResult.AliveId }, new { @class = "btn btn-danger pull-right" })
         }
-        @Html.ActionLink("Результат", "DisplayResult", new { resultId = testResult.Id }, new { @class = "btn btn-success pull-right" })
+        @Html.ActionLink("Результат", "DisplayResult", new { aliveId = aliveResult.AliveId }, new { @class = "btn btn-success pull-right" })
         <strong class="h3">@instance.Name</strong>
         <strong>@instance.Id</strong>
-        <span> @testResult.StartDate</span>
+        <span> @aliveResult.StartDate</span>
         <p>@instance.Description</p>
     </div>
 }

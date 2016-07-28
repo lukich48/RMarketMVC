@@ -3,6 +3,11 @@
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <script src="~/Scripts/highstock/highstock.js"></script>
 
+<script src="/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+<script src="/signalr/hubs"></script>
+
+
 <style>
     #chart{
         height:700px;
@@ -79,6 +84,19 @@
             var url = "@{@Url.Action("GetDataJsonSlice")}?aliveId=@Model.AliveId&lastDateUTC="+_lastDate+"&maxCount=" + maxCount+"&way=right";
             GetDataInit(chart, url);
         });
+
+        //***SignalR
+        var hub = $.connection.notificationHub;
+        // Открываем соединение
+        $.connection.hub.start().done(function () {           
+            hub.server.connect(@Model.AliveId);
+        });
+
+        hub.client.candleCreated = function(param){
+            //свеча сформирована
+            $("#btnRightSkip").click();
+        }
+        //**
 
     });
 
@@ -218,8 +236,6 @@
         $("#btnLeft").css("display",_displayLeft);
     }
 
-
-
 </script>
 
 
@@ -252,7 +268,3 @@
     </button>
 </div>
 <div id="balanceChart"></div>
-
-<script src="/Scripts/jquery.signalR-2.2.0.min.js"></script>
-<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
-<script src="/signalr/hubs"></script>

@@ -5,8 +5,8 @@
 <script>
     $(function () {
         $("#EntityInfoId").change(function () {
-            var typeSetting = $("#TypeSetting").val();
-            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?typeSetting=" + typeSetting +"&entityInfoId=" + this.value)
+            var settingType = $("#SettingType").val();
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?settingType=" + settingType +"&entityInfoId=" + this.value)
         });
 
     });
@@ -47,10 +47,10 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.TypeSetting)
+                        @Html.LabelFor(m => m.SettingType)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => Model.TypeSetting, new { @class = "form-control", @readonly = "readonly"})
+                        @Html.TextBoxFor(m => Model.SettingType, new { @class = "form-control", @readonly = "readonly"})
                     </td>
                 </tr>
                 <tr>

@@ -42,7 +42,7 @@ namespace RMarket.ClassLib.EFRepository
             setting.CopyObject(dto, d => new { d.StrategyInfo});
             IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(dto.StrParams);
 
-            IEntityInfo entityInfo = SettingHelper.GetEntityInfo(setting.TypeSetting, setting.EntityInfoId);
+            IEntityInfo entityInfo = SettingHelper.GetEntityInfo(setting.SettingType, setting.EntityInfoId);
             setting.EntityParams = StrategyHelper.GetEntityParams<ParamEntity>(entityInfo, savedParams).ToList();
 
             return setting;

@@ -110,7 +110,7 @@ namespace RMarket.WebUI.Controllers
                 manager.StartStrategy();
 
                 //***Положить в сессию
-                AliveResult testResult = new AliveResult
+                AliveResult aliveResult = new AliveResult
                 {
                     AliveId = aliveStrategy.Id,
                     StartDate = DateTime.Now,
@@ -120,12 +120,12 @@ namespace RMarket.WebUI.Controllers
                 };
 
                 //Извлечь индикаторы из  объекта стратегии
-                testResult.IndicatorsDict = StrategyHelper.ExtractIndicatorsInStrategy(strategy);
+                aliveResult.IndicatorsDict = StrategyHelper.ExtractIndicatorsInStrategy(strategy);
 
-                strategyResultCollection.Add(testResult);
+                strategyResultCollection.Add(aliveResult);
                 //**
 
-                TempData["message"] = string.Format("Эмуляция успешно запущена. Id={0}", testResult.AliveId);
+                TempData["message"] = string.Format("Эмуляция успешно запущена. Id={0}", aliveResult.AliveId);
 
                 return RedirectToAction("Index");
             }
@@ -138,34 +138,34 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ActionResult DisplayResult(int aliveId)
         {
-            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
-            if (testResult == null)
+            AliveResult aliveResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
+            if (aliveResult == null)
             {
                 TempData["error"] = string.Format("Не найдена эмуляция Id:{0}", aliveId);
                 return RedirectToAction("Index");
             }
 
-            //if (testResult.Strategy.Instr.Candles.Count == 0)
+            //if (aliveResult.Strategy.Instr.Candles.Count == 0)
             //{
             //    TempData["error"] = string.Format("Нет сформированных свечей за выбранный период Id:{0}", aliveId);
             //    return RedirectToAction("Index");
             //}
 
-            return View(testResult);
+            return View(aliveResult);
 
         }
 
         [HttpGet]
         public RedirectToRouteResult TerminateTest(int aliveId)
         {
-            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
-            if (testResult != null && testResult.Manager.IsStarted)
+            AliveResult aliveResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
+            if (aliveResult != null && aliveResult.Manager.IsStarted)
             {
-                testResult.Manager.StopStrategy();
-                TempData["warning"] = string.Format("Эмуляция Id={0} была прервана!", testResult.AliveId);
+                aliveResult.Manager.StopStrategy();
+                TempData["warning"] = string.Format("Эмуляция Id={0} была прервана!", aliveResult.AliveId);
             }
 
-            return RedirectToAction("DisplayResult", new { aliveId = testResult.AliveId });
+            return RedirectToAction("DisplayResult", new { aliveId = aliveResult.AliveId });
         }
 
 
@@ -178,9 +178,9 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ActionResult GetDataJsonInit(int aliveId, int maxCount, string way = "right")
         {
-            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
+            AliveResult aliveResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
 
-            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            AliveResultHelperUI helper = new AliveResultHelperUI(aliveResult);
             var res = helper.GetDataJsonInit(maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
@@ -199,14 +199,14 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
-            if (testResult == null)
+            AliveResult aliveResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
+            if (aliveResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
+                TempData["error"] = string.Format("Не найден тест Id={0}", aliveResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            AliveResultHelperUI helper = new AliveResultHelperUI(aliveResult);
             var res = helper.GetDataJsonSlice(lastDate, maxCount, way);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);
@@ -224,14 +224,14 @@ namespace RMarket.WebUI.Controllers
             DateTime posixTime = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
             DateTime lastDate = posixTime.AddMilliseconds(lastDateUTC);
 
-            AliveResult testResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
-            if (testResult == null)
+            AliveResult aliveResult = strategyResultCollection.FirstOrDefault(t => t.AliveId == aliveId);
+            if (aliveResult == null)
             {
-                TempData["error"] = string.Format("Не найден тест Id={0}", testResult.AliveId);
+                TempData["error"] = string.Format("Не найден тест Id={0}", aliveResult.AliveId);
                 return RedirectToAction("Index");
             }
 
-            AliveResultHelperUI helper = new AliveResultHelperUI(testResult);
+            AliveResultHelperUI helper = new AliveResultHelperUI(aliveResult);
             var res = helper.GetDataJsonAdd(lastDate, maxCount);
 
             return new JsonNetResult(res, JsonRequestBehavior.AllowGet, jsonSerializerSettings);

@@ -26,7 +26,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public int? StrategyInfoId { get; set; }
 
-        public SettingType TypeSetting { get; set; }
+        public SettingType SettingType { get; set; }
 
         public int EntityInfoId { get; set; }
 

@@ -25,7 +25,7 @@ namespace RMarket.WebUI.Infrastructure.Helpers
         /// <summary>
         /// Загрузка крайних n свечек
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="maxCount"></param>
         /// <param name="way"></param>
         /// <returns></returns>
@@ -39,7 +39,7 @@ namespace RMarket.WebUI.Infrastructure.Helpers
         /// <summary>
         /// загрузка свечей после определенной даты вперед-назад
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="lastDate"></param>
         /// <param name="maxCount"></param>
         /// <param name="way"></param>
@@ -60,7 +60,7 @@ namespace RMarket.WebUI.Infrastructure.Helpers
         /// <summary>
         /// подгрузка оставшихся значений
         /// </summary>
-        /// <param name="resultId"></param>
+        /// <param name="aliveId"></param>
         /// <param name="lastDate"></param>
         /// <param name="maxCount"></param>
         /// <returns></returns>
