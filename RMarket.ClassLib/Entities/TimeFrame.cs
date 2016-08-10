@@ -1,12 +1,13 @@
 namespace RMarket.ClassLib.Entities
 {
+    using Abstract;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class TimeFrame
+    public partial class TimeFrame : IEntityData
     {
  
         public int Id { get; set; }

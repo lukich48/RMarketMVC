@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    public class ConnectorInfo: IEntityInfo
+    public class ConnectorInfo : IEntityData, IEntityInfo
     {
         public int Id { get; set; }
 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface ISelectionRepository: IRepositoryBase<Selection,SelectionModel>, IDisposable
+    public interface ISelectionRepository: IEntityService<Selection,SelectionModel>, IDisposable
     {
     }
 }

@@ -7,7 +7,7 @@ namespace RMarket.ClassLib.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class StrategyInfo: IEntityInfo
+    public partial class StrategyInfo : IEntityData, IEntityInfo
     {
         public int Id { get; set; }
 

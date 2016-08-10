@@ -8,7 +8,7 @@ using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IInstanceRepository:IRepositoryBase<Instance,InstanceModel>, IDisposable
+    public interface IInstanceRepository:IEntityService<Instance,InstanceModel>, IDisposable
     {
     }
 }

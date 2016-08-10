@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMarket.ClassLib.Abstract;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace RMarket.ClassLib.Entities
     }
 
     [MetadataType(typeof(Setting_metadata))]
-    public class Setting
+    public class Setting : IEntityData
     {
         public int Id { get; set; }
 

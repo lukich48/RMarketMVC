@@ -9,7 +9,7 @@ namespace RMarket.ClassLib.Entities
     using System.Data.Entity.Spatial;
 
     [MetadataType(typeof(Instance_metadata))]
-    public class Instance
+    public class Instance: IEntityData
     {
 
         public int Id { get; set; }

@@ -310,31 +310,6 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationHelper.cs" />
     <Compile Include="Infrastructure\SessionHelper.cs" />
-    <Compile Include="Migrations\201601031633232_InitialCreate.cs" />
-    <Compile Include="Migrations\201601031633232_InitialCreate.Designer.cs">
-      <DependentUpon>201601031633232_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606101707518_AddQtyOfLot.cs" />
-    <Compile Include="Migrations\201606101707518_AddQtyOfLot.Designer.cs">
-      <DependentUpon>201606101707518_AddQtyOfLot.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607061708190_AddIndex.cs" />
-    <Compile Include="Migrations\201607061708190_AddIndex.Designer.cs">
-      <DependentUpon>201607061708190_AddIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607071816218_DateClose_nullable.cs" />
-    <Compile Include="Migrations\201607071816218_DateClose_nullable.Designer.cs">
-      <DependentUpon>201607071816218_DateClose_nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607081741519_Order_ExpirationDate.cs" />
-    <Compile Include="Migrations\201607081741519_Order_ExpirationDate.Designer.cs">
-      <DependentUpon>201607081741519_Order_ExpirationDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607211829029_renameSettingType.cs" />
-    <Compile Include="Migrations\201607211829029_renameSettingType.Designer.cs">
-      <DependentUpon>201607211829029_renameSettingType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DownloadHistoryModel.cs" />
     <Compile Include="Models\MenuNavModel.cs" />
     <Compile Include="Models\TesterModel.cs" />
@@ -413,26 +388,6 @@
       <Project>{8293baa1-615f-4e86-adc0-19f0b6afe850}</Project>
       <Name>RMarket.Examples</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601031633232_InitialCreate.resx">
-      <DependentUpon>201601031633232_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606101707518_AddQtyOfLot.resx">
-      <DependentUpon>201606101707518_AddQtyOfLot.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607061708190_AddIndex.resx">
-      <DependentUpon>201607061708190_AddIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607071816218_DateClose_nullable.resx">
-      <DependentUpon>201607071816218_DateClose_nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607081741519_Order_ExpirationDate.resx">
-      <DependentUpon>201607081741519_Order_ExpirationDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607211829029_renameSettingType.resx">
-      <DependentUpon>201607211829029_renameSettingType.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

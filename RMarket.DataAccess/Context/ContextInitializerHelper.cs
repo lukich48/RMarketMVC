@@ -3,16 +3,22 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Helpers
+namespace RMarket.DataAccess.Context
 {
-    public class RMarketInitializerHelper
+    public class ContextInitializerHelper
     {
+        private readonly RMarketContext context;
+        public ContextInitializerHelper(RMarketContext context)
+        {
+            this.context = context;
+        }
 
-        public void SeedTickers(RMarketContext context)
+
+        public void SeedTickers()
         {
             List<Ticker> listTicker = new List<Ticker>
             {
@@ -25,7 +31,7 @@ namespace RMarket.ClassLib.Helpers
 
         }
 
-        public void SeedTimeFrames(RMarketContext context)
+        public void SeedTimeFrames()
         {
             List<TimeFrame> listTimeFrame = new List<TimeFrame>
             {
@@ -42,7 +48,7 @@ namespace RMarket.ClassLib.Helpers
             context.SaveChanges();
         }
 
-        public void SeedStrategyInfoes(RMarketContext context)
+        public void SeedStrategyInfoes()
         {
             List<StrategyInfo> listStrategyInfo = new List<StrategyInfo>
             {
@@ -53,7 +59,7 @@ namespace RMarket.ClassLib.Helpers
             context.SaveChanges();
         }
 
-        public void SeedConnectorInfoes(RMarketContext context)
+        public void SeedConnectorInfoes()
         {
             List<ConnectorInfo> listConnectorInfo = new List<ConnectorInfo>
             {
@@ -65,7 +71,7 @@ namespace RMarket.ClassLib.Helpers
             context.SaveChanges();
         }
 
-        public void SeedConnectorQuik(RMarketContext context)
+        public void SeedConnectorQuik()
         {
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
@@ -87,7 +93,7 @@ namespace RMarket.ClassLib.Helpers
             context.SaveChanges();
         }
 
-        public void SeedConnectorCsvFile(RMarketContext context)
+        public void SeedConnectorCsvFile()
         {
             //!!!доделать
             List<ParamEntity> entityParams = new List<ParamEntity>

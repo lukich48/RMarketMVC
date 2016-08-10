@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IEntityData.cs" />
     <Compile Include="Abstract\IRepository\IAliveStrategyRepository.cs" />
     <Compile Include="Abstract\IRepository\ICandleRepository.cs" />
     <Compile Include="Abstract\IDataProvider.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="Abstract\IRepository\IInstanceRepository.cs" />
     <Compile Include="Abstract\IManager.cs" />
     <Compile Include="Abstract\IRepository\IOrderRepository.cs" />
-    <Compile Include="Abstract\IRepository\IRepositoryBase.cs" />
+    <Compile Include="Abstract\IRepository\IEntityService.cs" />
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
     <Compile Include="Abstract\IRepository\ISettingRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickRepository.cs" />
@@ -134,18 +135,19 @@
     <Compile Include="EFRepository\EFConnectorInfoRepository.cs" />
     <Compile Include="EFRepository\EFInstanceRepository.cs" />
     <Compile Include="EFRepository\EFOrderRepository.cs" />
+    <Compile Include="EFRepository\EFRepositoryBase.cs" />
     <Compile Include="EFRepository\EFSelectionRepository.cs" />
     <Compile Include="EFRepository\EFStrategyInfoRepository.cs" />
     <Compile Include="EFRepository\EFSettingRepository.cs" />
     <Compile Include="EFRepository\EFTickerRepository.cs" />
     <Compile Include="EFRepository\EFTickRepository.cs" />
     <Compile Include="EFRepository\EFTimaFrameRepository.cs" />
+    <Compile Include="Abstract\IRepository\IRepositoryBase.cs" />
     <Compile Include="Entities\Candle.cs" />
     <Compile Include="Entities\ConnectorInfo.cs" />
     <Compile Include="Entities\Instance.cs" />
     <Compile Include="Entities\Instance_metadata.cs" />
     <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\RMarketContext.cs" />
     <Compile Include="Entities\Selection.cs" />
     <Compile Include="Entities\Selection_metadata.cs" />
     <Compile Include="Entities\Setting_metadata.cs" />
@@ -160,7 +162,6 @@
     <Compile Include="Helpers\OptimizationHelper.cs" />
     <Compile Include="Helpers\OrderSender.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
-    <Compile Include="Helpers\RMarketInitializerHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EntityServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

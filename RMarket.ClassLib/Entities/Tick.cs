@@ -1,4 +1,5 @@
-﻿using RMarket.ClassLib.Models;
+﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    public class Tick
+    public class Tick : IEntityData
     {
         public class KeyValue
         {

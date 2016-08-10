@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.ClassLib", "RMarket.ClassLib\RMarket.ClassLib.csproj", "{81D41883-898D-484E-BFE5-793DD82221BE}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.WebUI", "RMarket.WebUI\RMarket.WebUI.csproj", "{ACCC98D6-B703-4AD7-9608-D423C8AC2A4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Examples", "RMarket.Examples\RMarket.Examples.csproj", "{8293BAA1-615F-4E86-ADC0-19F0B6AFE850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.DataAccess", "RMarket.DataAccess\RMarket.DataAccess.csproj", "{24E90E86-96B8-4A0F-92BF-FADBF8920516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.CompositionRoot", "RMarket.CompositionRoot\RMarket.CompositionRoot.csproj", "{20BF8017-20FA-4CBD-AAA5-4248C4339DCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{8293BAA1-615F-4E86-ADC0-19F0B6AFE850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8293BAA1-615F-4E86-ADC0-19F0B6AFE850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8293BAA1-615F-4E86-ADC0-19F0B6AFE850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E90E86-96B8-4A0F-92BF-FADBF8920516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E90E86-96B8-4A0F-92BF-FADBF8920516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E90E86-96B8-4A0F-92BF-FADBF8920516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E90E86-96B8-4A0F-92BF-FADBF8920516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20BF8017-20FA-4CBD-AAA5-4248C4339DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20BF8017-20FA-4CBD-AAA5-4248C4339DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20BF8017-20FA-4CBD-AAA5-4248C4339DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20BF8017-20FA-4CBD-AAA5-4248C4339DCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

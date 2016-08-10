@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMarket.ClassLib.Abstract;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    public class AliveStrategy
+    public class AliveStrategy : IEntityData
     {
         public int Id { get; set; }
 

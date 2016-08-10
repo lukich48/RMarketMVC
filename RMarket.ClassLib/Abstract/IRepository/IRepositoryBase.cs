@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Entities;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IRepositoryBase<TEntity,TModel>
+    public interface IRepositoryBase<TEntity>
     {
-        IEnumerable<TModel> Get();
-        IEnumerable<TModel> Get(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression);
-        IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<TEntity>, IQueryable<TResult>>> expression);
-        TModel GetById(int id, bool includeAll = false);
-        TModel GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties);
-        int Save(TModel instance);
+        RMarketContext Context { get; set; }
+
+        IEnumerable<TEntity> Get1();
+        IEnumerable<TEntity> Get1(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression);
+        IEnumerable<TResult> Get1<TResult>(Expression<Func<IQueryable<TEntity>, IQueryable<TResult>>> expression);
+        TEntity GetById1(int id, params Expression<Func<TEntity, object>>[] includeProperties);
+        TEntity GetById1(int id, bool includeAll);
+        void Save(TEntity data);
     }
 }

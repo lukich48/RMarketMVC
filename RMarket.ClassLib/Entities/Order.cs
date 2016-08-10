@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMarket.ClassLib.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace RMarket.ClassLib.Entities
         Sell=2
     }
 
-    public class Order
+    public class Order : IEntityData
     {
         public int Id { get; set; }
         public string TickerCode { get; set; }
