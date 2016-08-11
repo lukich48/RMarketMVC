@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
@@ -16,11 +17,16 @@ namespace RMarket.ClassLib.Optimization
 {
     public class GASimple
     {
-        ISelectionRepository selectionRepository = CurrentRepository.SelectionRepository;
+        private readonly ISelectionService selectionService;
+
+        public GASimple(ISelectionService selectionService)
+        {
+            this.selectionService = selectionService;
+        }
 
         public List<InstanceModel> Start(int selectionId, DateTime dateFrom, DateTime dateTo)
         {
-            SelectionModel selection = selectionRepository.GetById(selectionId, s=>s.StrategyInfo);
+            SelectionModel selection = selectionService.GetById(selectionId, s=>s.StrategyInfo);
 
             List<InstanceModel> res = new List<InstanceModel>();
 

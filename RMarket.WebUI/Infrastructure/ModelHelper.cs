@@ -5,6 +5,8 @@ using System.Web;
 using RMarket.ClassLib.Abstract;
 using System.Web.Mvc;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Abstract.IService;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.WebUI.Infrastructure
 {
@@ -25,9 +27,9 @@ namespace RMarket.WebUI.Infrastructure
             return new SelectList(strategyInfoRepository.StrategyInfoes, "Id", "Name");
         }
 
-        public static SelectList GetInstanceList(IInstanceRepository instanceRepository)
+        public static SelectList GetInstanceList(ClassLib.Abstract.IService.IInstanceService instanceService)
         {
-            return new SelectList(instanceRepository.Get(), "Id", "Name");
+            return new SelectList(instanceService.Get(), "Id", "Name");
         }
 
         public static SelectList GetConnectorInfoList(IConnectorInfoRepository connectorInfoRepository)

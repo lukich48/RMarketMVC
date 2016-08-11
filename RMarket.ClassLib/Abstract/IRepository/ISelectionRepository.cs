@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RMarket.ClassLib.Abstract
+namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface ISelectionRepository: IEntityService<Selection,SelectionModel>, IDisposable
+    public interface ISelectionRepository: IEntityRepository<Selection>
     {
     }
 }

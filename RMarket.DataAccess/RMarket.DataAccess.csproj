@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RMarket.DataAccess</RootNamespace>
     <AssemblyName>RMarket.DataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,9 @@
     <Compile Include="Context\RMarketContext.cs" />
     <Compile Include="Context\ContextInitializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\EFInstanceRepository.cs" />
+    <Compile Include="Repositories\EFRepositoryBase.cs" />
+    <Compile Include="Repositories\EFSelectionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">

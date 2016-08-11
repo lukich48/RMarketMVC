@@ -12,6 +12,7 @@ using RMarket.ClassLib.EFRepository;
 using RMarket.ClassLib.Entities;
 using System.Threading;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.ClassLib.Connectors
 {

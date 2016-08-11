@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Infrastructure;
 using System;

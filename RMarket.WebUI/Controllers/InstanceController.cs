@@ -11,19 +11,21 @@ using RMarket.WebUI.Infrastructure;
 using RMarket.ClassLib.Helpers;
 using RMarket.WebUI.Models;
 using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Abstract.IService;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.WebUI.Controllers
 {
     public class InstanceController : Controller
     {
-        private IInstanceRepository instanceRepository;
+        private ClassLib.Abstract.IService.IInstanceService instanceService;
         private ITickerRepository tickerRepository;
         private ITimeFrameRepository timeFrameRepository;
         private IStrategyInfoRepository strategyInfoRepository;
 
-        public InstanceController(IInstanceRepository instanceRepository, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
+        public InstanceController(ClassLib.Abstract.IService.IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
         {
-            this.instanceRepository = instanceRepository;
+            this.instanceService = instanceService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
             this.strategyInfoRepository = strategyInfoRepository;
@@ -35,7 +37,7 @@ namespace RMarket.WebUI.Controllers
         /// <returns></returns>
         public ViewResult Index(int strategyInfoId = 0)
         {
-            IEnumerable<InstanceModel> res = instanceRepository.Get(T => T
+            IEnumerable<InstanceModel> res = instanceService.Get(T => T
                 .Where(i => i.StrategyInfoId == strategyInfoId || strategyInfoId == 0)
                 .GroupBy(s => s.GroupID)
                 .SelectMany(g => g.Select(s => s)
@@ -61,7 +63,7 @@ namespace RMarket.WebUI.Controllers
 
             if (instanceId != 0)
             {
-                model = instanceRepository.GetById(instanceId, true);
+                model = instanceService.GetById(instanceId, true);
                 if (model == null)
                 {
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
@@ -82,7 +84,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                instanceRepository.Save(instance);
+                instanceService.Save(instance);
 
                 TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", instance.Name);
                 return RedirectToAction("Index");
@@ -106,7 +108,7 @@ namespace RMarket.WebUI.Controllers
                 if (instanceId != 0)
                 {
                     //Сохраненный вариант
-                    InstanceModel instance = instanceRepository.GetById(instanceId, i=>i.StrategyInfo);
+                    InstanceModel instance = instanceService.GetById(instanceId, i=>i.StrategyInfo);
                     strategyParams = instance.StrategyParams;
                 }
                 else if (strategyInfoId != 0)
@@ -123,7 +125,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ActionResult Copy(int instanceId)
         {
-            InstanceModel instance = instanceRepository.GetById(instanceId, true);
+            InstanceModel instance = instanceService.GetById(instanceId, true);
             if (instance == null)
             {
                 TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
@@ -138,7 +140,7 @@ namespace RMarket.WebUI.Controllers
         public PartialViewResult MenuNav(int strategyInfoId = 0)
         {
 
-            IEnumerable<MenuNavModel> models = instanceRepository.Get(t => t
+            IEnumerable<MenuNavModel> models = instanceService.Get(t => t
             .GroupBy(i => i.StrategyInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel{ StrategyInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
             );
 
@@ -150,7 +152,7 @@ namespace RMarket.WebUI.Controllers
             InstanceModel model = new InstanceModel();
             if (instanceId != 0)
             {
-                model = instanceRepository.GetById(instanceId, true);
+                model = instanceService.GetById(instanceId, true);
                 if (model == null)
                 {
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
@@ -165,7 +167,7 @@ namespace RMarket.WebUI.Controllers
         {
             if (disposing)
             {
-                instanceRepository.Dispose();
+                //instanceService.Dispose();
                 strategyInfoRepository.Dispose();
                 tickerRepository.Dispose();
                 timeFrameRepository.Dispose();
@@ -176,8 +178,8 @@ namespace RMarket.WebUI.Controllers
         #region ////////////////////////////AJAX
         public PartialViewResult InstanceRecCollection(int instanceId)
         {
-            InstanceModel instance = instanceRepository.GetById(instanceId);
-            IEnumerable<InstanceModel> oldInstances = instanceRepository.Get(T=>T
+            InstanceModel instance = instanceService.GetById(instanceId);
+            IEnumerable<InstanceModel> oldInstances = instanceService.Get(T=>T
                 .Where(i => i.GroupID == instance.GroupID && i.Id != instanceId)
                 .OrderByDescending(i => i.Id)
             );
@@ -187,7 +189,7 @@ namespace RMarket.WebUI.Controllers
 
         public PartialViewResult InstanceRecTooltip(int instanceId)
         {
-            InstanceModel instance = instanceRepository.GetById(instanceId);
+            InstanceModel instance = instanceService.GetById(instanceId);
 
             return PartialView(instance);
         }

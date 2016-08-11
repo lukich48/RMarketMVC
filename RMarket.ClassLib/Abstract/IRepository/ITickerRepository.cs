@@ -3,7 +3,7 @@ using RMarket.ClassLib.Entities;
 using System;
 using System.Linq;
 
-namespace RMarket.ClassLib.Abstract
+namespace RMarket.ClassLib.Abstract.IRepository
 {
     public interface ITickerRepository:IDisposable
     {

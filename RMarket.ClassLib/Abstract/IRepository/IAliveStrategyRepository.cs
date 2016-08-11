@@ -4,7 +4,7 @@ using RMarket.ClassLib.Models;
 using System;
 using System.Linq;
 
-namespace RMarket.ClassLib.Abstract
+namespace RMarket.ClassLib.Abstract.IRepository
 {
     public interface IAliveStrategyRepository:IDisposable
     {

@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.Models;
@@ -22,7 +23,6 @@ namespace RMarket.ClassLib.EntityModels
         public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
         public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
         public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;
-        public IInstanceRepository instanceRepository = CurrentRepository.InstanceRepository;
 
 
         public int Id { get; set; }

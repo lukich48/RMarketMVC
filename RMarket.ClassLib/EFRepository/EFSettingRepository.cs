@@ -11,6 +11,7 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.ClassLib.EFRepository
 {

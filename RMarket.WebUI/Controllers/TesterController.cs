@@ -14,19 +14,20 @@ using Newtonsoft.Json;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.EntityModels;
 using RMarket.WebUI.Infrastructure.Helpers;
+using RMarket.ClassLib.Abstract.IService;
 
 namespace RMarket.WebUI.Controllers
 {
     public class TesterController : Controller
     {
-        private IInstanceRepository instanceRepository;
+        private IInstanceService instanceService;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.SessionHelper.Get<List<AliveResult>>("TestResults"); 
 
-        public TesterController(IInstanceRepository instanceRepository)
+        public TesterController(IInstanceService instanceService)
         {
-            this.instanceRepository = instanceRepository;
+            this.instanceService = instanceService;
 
             jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -51,7 +52,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ViewResult BeginTest()
         {
-            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
+            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;
@@ -68,7 +69,7 @@ namespace RMarket.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
+                InstanceModel instance = instanceService.GetById(model.InstanceId, true);
 
                 //получаем стратегию 
                 IStrategy strategy = StrategyHelper.CreateStrategy(instance);
@@ -112,7 +113,7 @@ namespace RMarket.WebUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
+            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
 
             return View(model);
         }

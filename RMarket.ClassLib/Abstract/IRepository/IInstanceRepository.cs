@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using RMarket.ClassLib.EntityModels;
 
-namespace RMarket.ClassLib.Abstract
+namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IInstanceRepository:IEntityService<Instance,InstanceModel>, IDisposable
+    public interface IInstanceRepository:IEntityRepository<Instance>
     {
     }
 }

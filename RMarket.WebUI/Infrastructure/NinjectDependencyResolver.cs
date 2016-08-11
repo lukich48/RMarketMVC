@@ -31,17 +31,8 @@ namespace RMarket.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IInstanceRepository>().To<EFInstanceRepository>();
-            kernel.Bind<ITickerRepository>().To<EFTickerRepository>();
-            kernel.Bind<ITimeFrameRepository>().To<EFTimeFrameRepository>();
-            kernel.Bind<IStrategyInfoRepository>().To<EFStrategyInfoRepository>();
-            kernel.Bind<ICandleRepository>().To<EFCandleRepository>();
-            kernel.Bind<ISelectionRepository>().To<EFSelectionRepository>();
-            kernel.Bind<IConnectorInfoRepository>().To<EFConnectorInfoRepository>();
-            kernel.Bind<ISettingRepository>().To<EFSettingRepository>();
-            kernel.Bind<IAliveStrategyRepository>().To<EFAliveStrategyRepository>();
-            kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
-
+            //Только то что относится к WebUI
+            
         }
     }
 }

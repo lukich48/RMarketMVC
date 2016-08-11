@@ -7,6 +7,7 @@ using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using System.Data.Entity;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.ClassLib.EFRepository
 {

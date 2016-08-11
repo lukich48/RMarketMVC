@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.EFRepository;
 using RMarket.ClassLib.Entities;
 using System;
@@ -78,22 +79,22 @@ namespace RMarket.ClassLib.Infrastructure
             }
         }
 
-        private static IInstanceRepository _instanceRepository;
-        public static IInstanceRepository InstanceRepository
-        {
-            get
-            {
-                if (_instanceRepository == null)
-                {
-                    _instanceRepository = new EFInstanceRepository();
-                }
-                return _instanceRepository;
-            }
-            set
-            {
-                _instanceRepository = value;
-            }
-        }
+        //private static IInstanceRepository _instanceRepository;
+        //public static IInstanceRepository InstanceRepository
+        //{
+        //    get
+        //    {
+        //        if (_instanceRepository == null)
+        //        {
+        //            _instanceRepository = new EFInstanceRepository();
+        //        }
+        //        return _instanceRepository;
+        //    }
+        //    set
+        //    {
+        //        _instanceRepository = value;
+        //    }
+        //}
 
         private static IOrderRepository _orderRepository;
         public static IOrderRepository OrderRepository
@@ -113,22 +114,22 @@ namespace RMarket.ClassLib.Infrastructure
         }
 
 
-        private static ISelectionRepository _selectionRepository;
-        public static ISelectionRepository SelectionRepository
-        {
-            get
-            {
-                if (_selectionRepository == null)
-                {
-                    _selectionRepository = new EFSelectionRepository();
-                }
-                return _selectionRepository;
-            }
-            set
-            {
-                _selectionRepository = value;
-            }
-        }
+        //private static ISelectionRepository _selectionRepository;
+        //public static ISelectionRepository SelectionRepository
+        //{
+        //    get
+        //    {
+        //        if (_selectionRepository == null)
+        //        {
+        //            _selectionRepository = new SelectionService();
+        //        }
+        //        return _selectionRepository;
+        //    }
+        //    set
+        //    {
+        //        _selectionRepository = value;
+        //    }
+        //}
 
         private static ISettingRepository _settingRepository;
         public static ISettingRepository SettingRepository

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.WebUI.Controllers.Admin
 {

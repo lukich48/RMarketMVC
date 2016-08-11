@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Abstract
+namespace RMarket.ClassLib.Abstract.IRepository
 {
     public interface ISettingRepository
     {

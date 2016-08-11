@@ -12,11 +12,17 @@ using RMarket.ClassLib.Helpers.Extentions;
 using System.Linq.Expressions;
 using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.EntityModels;
+using RMarket.DataAccess.Context;
+using RMarket.ClassLib.Abstract.IRepository;
 
-namespace RMarket.ClassLib.EFRepository
+namespace RMarket.DataAccess.Repositories
 {
-    public class EFInstanceRepository : EFRepositoryBase<Instance>
+    public class EFInstanceRepository : EFRepositoryBase<Instance>, IInstanceRepository
     {
+        public EFInstanceRepository(Context.RMarketContext context)
+            :base(context)
+        { }
+
         public override void Save(Instance instance)
         {
             instance.CreateDate = DateTime.Now;
@@ -28,8 +34,8 @@ namespace RMarket.ClassLib.EFRepository
             else //Update
             { }
 
-            Context.Instances.Add(instance);
-            Context.SaveChanges();
+            context.Instances.Add(instance);
+            context.SaveChanges();
         }
 
     }

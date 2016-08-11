@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Connectors;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
@@ -19,16 +21,16 @@ namespace RMarket.WebUI.Controllers
 {
     public class EmulController : Controller
     {
-        private IInstanceRepository instanceRepository;
+        private ClassLib.Abstract.IService.IInstanceService instanceService;
         private ISettingRepository settingRepository;
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceRepository instanceRepository, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
+        public EmulController(ClassLib.Abstract.IService.IInstanceService instanceService, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
         {
-            this.instanceRepository = instanceRepository;
+            this.instanceService = instanceService;
             this.settingRepository = settingRepository;
             this.aliveStrategyRepository = aliveStrategyRepository;
 
@@ -56,7 +58,7 @@ namespace RMarket.WebUI.Controllers
         [HttpGet]
         public ViewResult BeginTest()
         {
-            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
+            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
             ViewBag.SettingList = ModelHelper.GetSettingList(settingRepository, SettingType.ConnectorInfo);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
@@ -74,7 +76,7 @@ namespace RMarket.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                InstanceModel instance = instanceRepository.GetById(model.InstanceId, true);
+                InstanceModel instance = instanceService.GetById(model.InstanceId, true);
                 Setting setting = settingRepository.Find(model.SettingId);
 
                 //добавляем живую стратегию
@@ -130,7 +132,7 @@ namespace RMarket.WebUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceRepository);
+            ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
 
             return View(model);
         }

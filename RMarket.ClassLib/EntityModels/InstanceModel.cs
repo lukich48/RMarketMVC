@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.Models;
@@ -17,7 +18,7 @@ namespace RMarket.ClassLib.EntityModels
         public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
         public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
         public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;
-        public ISelectionRepository selectionRepository = CurrentRepository.SelectionRepository;
+        //public ISelectionRepository selectionRepository = CurrentRepository.SelectionRepository;
 
 
         public int Id { get; set; }
@@ -70,8 +71,8 @@ namespace RMarket.ClassLib.EntityModels
             if (TimeFrame == null && TimeFrameId != 0)
                 TimeFrame = timeFrameRepository.Find(TimeFrameId);
 
-            if (Selection == null && SelectionId != 0 && SelectionId != null)
-                Selection = selectionRepository.GetById((int)SelectionId);
+            //if (Selection == null && SelectionId != 0 && SelectionId != null)
+            //    Selection = selectionRepository.GetById((int)SelectionId);
             
         }
     }
