@@ -18,12 +18,12 @@ namespace RMarket.WebUI.Controllers
 {
     public class InstanceController : Controller
     {
-        private ClassLib.Abstract.IService.IInstanceService instanceService;
+        private IInstanceService instanceService;
         private ITickerRepository tickerRepository;
         private ITimeFrameRepository timeFrameRepository;
         private IStrategyInfoRepository strategyInfoRepository;
 
-        public InstanceController(ClassLib.Abstract.IService.IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
+        public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
         {
             this.instanceService = instanceService;
             this.tickerRepository = tickerRepository;
@@ -114,7 +114,7 @@ namespace RMarket.WebUI.Controllers
                 else if (strategyInfoId != 0)
                 {
                     //Новый вариант
-                    StrategyInfo strategyInfo = strategyInfoRepository.Find(strategyInfoId);
+                    StrategyInfo strategyInfo = strategyInfoRepository.GetById(strategyInfoId);
                     strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(strategyInfo);
                 }
             }
@@ -163,18 +163,6 @@ namespace RMarket.WebUI.Controllers
             return View(model);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //instanceService.Dispose();
-                strategyInfoRepository.Dispose();
-                tickerRepository.Dispose();
-                timeFrameRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region ////////////////////////////AJAX
         public PartialViewResult InstanceRecCollection(int instanceId)
         {
@@ -206,7 +194,7 @@ namespace RMarket.WebUI.Controllers
         {
             InitializeLists();
 
-            model.LoadNavigationProperties();
+            LoadNavigationProperties(model);
             model.StrategyParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.StrategyParams).ToList();
 
             return View("Edit", model);
@@ -220,6 +208,23 @@ namespace RMarket.WebUI.Controllers
             ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
 
         }
+
+        private void LoadNavigationProperties(InstanceModel model)
+        {
+            if (model.StrategyInfo == null && model.StrategyInfoId != 0)
+                model.StrategyInfo = strategyInfoRepository.GetById(model.StrategyInfoId);
+
+            if (model.Ticker == null && model.TickerId != 0)
+                model.Ticker = tickerRepository.GetById(model.TickerId);
+
+            if (model.TimeFrame == null && model.TimeFrameId != 0)
+                model.TimeFrame = timeFrameRepository.GetById(model.TimeFrameId);
+
+            //if (model.Selection == null && model.SelectionId.HasValue)
+            //    model.Selection = selectionService.GetById(model.SelectionId.Value);
+
+        }
+
         #endregion
 
     }

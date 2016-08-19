@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
+using RMarket.DataAccess.Helpers;
 
 namespace RMarket.DataAccess.Context
 {
@@ -135,7 +136,7 @@ namespace RMarket.DataAccess.Context
         }
     }
 
-    public class RMarketInitializer : System.Data.Entity.CreateDatabaseIfNotExists<RMarketContext>
+    public class RMarketInitializer : CreateDatabaseIfNotExists<RMarketContext>
     {
         protected override void Seed(RMarketContext context)
         {

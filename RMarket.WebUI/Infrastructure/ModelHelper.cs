@@ -14,17 +14,17 @@ namespace RMarket.WebUI.Infrastructure
     {
         public static SelectList GetTickerList(ITickerRepository tickerRepository)
         {
-            return new SelectList(tickerRepository.Tickers, "Id", "Name");
+            return new SelectList(tickerRepository.Get(), "Id", "Name");
         }
 
         public static SelectList GetTimeFrameList(ITimeFrameRepository timeFrameRepository)
         {
-            return new SelectList(timeFrameRepository.TimeFrames, "Id", "Name");
+            return new SelectList(timeFrameRepository.Get(), "Id", "Name");
         }
 
         public static SelectList GetStrategyInfoList(IStrategyInfoRepository strategyInfoRepository)
         {
-            return new SelectList(strategyInfoRepository.StrategyInfoes, "Id", "Name");
+            return new SelectList(strategyInfoRepository.Get(), "Id", "Name");
         }
 
         public static SelectList GetInstanceList(ClassLib.Abstract.IService.IInstanceService instanceService)
@@ -34,12 +34,12 @@ namespace RMarket.WebUI.Infrastructure
 
         public static SelectList GetConnectorInfoList(IConnectorInfoRepository connectorInfoRepository)
         {
-            return new SelectList(connectorInfoRepository.ConnectorInfoes, "Id", "Name");
+            return new SelectList(connectorInfoRepository.Get(), "Id", "Name");
         }
 
-        public static SelectList GetSettingList(ISettingRepository settingRepository, SettingType settingType)
+        public static SelectList GetSettingList(ISettingService settingService, SettingType settingType)
         {
-            return new SelectList(settingRepository.Settings.Where(s=>s.SettingType == settingType), "Id", "Name");
+            return new SelectList(settingService.Get(T=>T.Where(s=>s.SettingType == settingType)), "Id", "Name");
         }
 
     }

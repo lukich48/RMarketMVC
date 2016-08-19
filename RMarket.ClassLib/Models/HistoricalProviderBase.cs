@@ -13,7 +13,7 @@ namespace RMarket.ClassLib.Models
 {
     public abstract class HistoricalProviderBase:IHistoricalProvider
     {
-        public ICandleRepository candleRepository = CurrentRepository.CandleRepository;
+        public ICandleRepository candleRepository;//!!! = CurrentRepository.CandleRepository;
 
         public virtual int DownloadAndSave(DateTime dateFrom, DateTime dateTo, Ticker ticker, TimeFrame timeFrame)
         {
@@ -24,7 +24,7 @@ namespace RMarket.ClassLib.Models
             if (newCandles != null && newCandles.Count()>0)
             {
                 //Удалить из базы данные
-                IEnumerable<Candle> oldCandles = from c in candleRepository.Candles
+                IEnumerable<Candle> oldCandles = from c in candleRepository.Get()
                                           where c.TickerId == ticker.Id && c.TimeFrameId == timeFrame.Id && c.DateOpen >= dateFrom.Date && c.DateOpen < dateTo
                                           select c;
                 candleRepository.RemoveRange(oldCandles);

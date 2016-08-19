@@ -7,8 +7,9 @@ using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using Ninject;
 using Ninject.Web.Common;
+using RMarket.ClassLib.Entities;
 
-namespace RMarket.ClassLib.Entities
+namespace RMarket.ClassLib.Entities_old
 {
     public partial class RMarketContext : DbContext
     {

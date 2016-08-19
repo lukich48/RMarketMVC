@@ -18,10 +18,10 @@ namespace RMarket.WebUI.Controllers
 {
     public class SelectionController : Controller
     {
-        private ISelectionService selectionService;
-        private ITickerRepository tickerRepository;
-        private ITimeFrameRepository timeFrameRepository;
-        private IStrategyInfoRepository strategyInfoRepository;
+        private readonly ISelectionService selectionService;
+        private readonly ITickerRepository tickerRepository;
+        private readonly ITimeFrameRepository timeFrameRepository;
+        private readonly IStrategyInfoRepository strategyInfoRepository;
 
         public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
         {
@@ -110,7 +110,7 @@ namespace RMarket.WebUI.Controllers
                 else if (strategyInfoId != 0)
                 {
                     //Новый вариант
-                    StrategyInfo strategyInfo = strategyInfoRepository.Find(strategyInfoId);
+                    StrategyInfo strategyInfo = strategyInfoRepository.GetById(strategyInfoId);
                     strategyParams = StrategyHelper.GetEntityParams<ParamSelection>(strategyInfo);
                 }
             }      
@@ -167,19 +167,6 @@ namespace RMarket.WebUI.Controllers
             return View(model);
         }
 
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //selectionService.Dispose();
-                strategyInfoRepository.Dispose();
-                tickerRepository.Dispose();
-                timeFrameRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region AJAX
         public PartialViewResult InstanceRecCollection(int instanceId)
         {
@@ -211,7 +198,7 @@ namespace RMarket.WebUI.Controllers
         {
             InitializeLists();
 
-            model.LoadNavigationProperties();
+            LoadNavigationProperties(model);
             model.SelectionParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.SelectionParams).ToList();
 
             return View("Edit", model);
@@ -225,6 +212,19 @@ namespace RMarket.WebUI.Controllers
             ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
 
         }
+
+        public void LoadNavigationProperties(SelectionModel model)
+        {
+            if (model.StrategyInfo == null && model.StrategyInfoId != 0)
+                model.StrategyInfo = strategyInfoRepository.GetById(model.StrategyInfoId);
+
+            if (model.Ticker == null && model.TickerId != 0)
+                model.Ticker = tickerRepository.GetById(model.TickerId);
+
+            if (model.TimeFrame == null && model.TimeFrameId != 0)
+                model.TimeFrame = timeFrameRepository.GetById(model.TimeFrameId);
+        }
+
         #endregion
 
     }

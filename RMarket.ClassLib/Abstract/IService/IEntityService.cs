@@ -15,5 +15,6 @@ namespace RMarket.ClassLib.Abstract.IService
         TModel GetById(int id, bool includeAll = false);
         TModel GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties);
         void Save(TModel model);
+        void Remove(int id);
     }
 }

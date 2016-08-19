@@ -5,13 +5,9 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface ICandleRepository : IDisposable
+    public interface ICandleRepository : IEntityRepository<Candle>
     {
-        IQueryable<Candle> Candles { get; }
-        Candle Find(int id);
-        int Save(Candle candle);
-        int Remove(int id);
-        void AddRange(IEnumerable<Candle> candles);
-        void RemoveRange(IEnumerable<Candle> candles);
+        //void AddRange(IEnumerable<Candle> candles);
+        //void RemoveRange(IEnumerable<Candle> candles);
     }
 }

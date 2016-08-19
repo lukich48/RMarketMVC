@@ -51,11 +51,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\RMarketContext.cs" />
-    <Compile Include="Context\ContextInitializerHelper.cs" />
+    <Compile Include="Helpers\ContextInitializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\EFAliveStrategyRepository.cs" />
+    <Compile Include="Repositories\EFOrderRepository.cs" />
     <Compile Include="Repositories\EFInstanceRepository.cs" />
     <Compile Include="Repositories\EFRepositoryBase.cs" />
     <Compile Include="Repositories\EFSelectionRepository.cs" />
+    <Compile Include="Repositories\EFCandleRepository.cs" />
+    <Compile Include="Repositories\EFSettingRepository.cs" />
+    <Compile Include="Repositories\EFConnectorInfoRepository.cs" />
+    <Compile Include="Repositories\EFTimeFrameRepository.cs" />
+    <Compile Include="Repositories\EFTickerRepository.cs" />
+    <Compile Include="Repositories\EFStrategyInfoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">

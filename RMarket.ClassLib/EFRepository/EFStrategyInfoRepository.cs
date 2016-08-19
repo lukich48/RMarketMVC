@@ -13,7 +13,7 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFStrategyInfoRepository: IStrategyInfoRepository
     {
-        private RMarketContext context = CurrentRepository.Context;
+        private Entities_old.RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<StrategyInfo> StrategyInfoes
         {

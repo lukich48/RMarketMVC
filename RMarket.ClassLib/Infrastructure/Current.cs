@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.EFRepository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

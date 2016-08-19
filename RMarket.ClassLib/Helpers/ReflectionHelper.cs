@@ -14,7 +14,7 @@ namespace RMarket.ClassLib.Helpers
     public static class ReflectionHelper
     {
         /// <summary>
-        /// Создает новый объект из строкового представления типа
+        /// Создает новый объект из строкового представления типа !!!Передлать на IoC
         /// </summary>
         /// <param name="entityInfo"></param>
         /// <returns></returns>
@@ -30,7 +30,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IEnumerable<PropertyInfo> GetEntityProps(object entity)
+        public static IEnumerable<PropertyInfo> GetEntityAttributes(object entity)
         {
             PropertyInfo[] arrayProp = entity.GetType().FindMembers(MemberTypes.Property,
                     BindingFlags.Instance | BindingFlags.Public,
@@ -50,7 +50,7 @@ namespace RMarket.ClassLib.Helpers
             return objMemberInfo.IsDefined(objSearch.GetType(), false);
         }
 
-        public static Expression<Func<TEntity, object>>[] GetNavigationProperties<TEntity>()
+        public static Expression<Func<TEntity, object>>[] GerNavigationPropertiesExpression<TEntity>()
         {
             PropertyInfo[] props = typeof(TEntity).GetProperties();
 
@@ -65,9 +65,30 @@ namespace RMarket.ClassLib.Helpers
             return res;
         }
 
+        public static IEnumerable<PropertyInfo> GetNavigationProperties<TEntity>()
+        {
+            var expressions = GerNavigationPropertiesExpression<TEntity>();
+            return expressions.Select(e => e.GetProperty());
+        }
+
         public static bool IsCustomClass(PropertyInfo prop)
         {
             return prop.PropertyType.IsClass && prop.PropertyType!=typeof(string);
+        }
+
+        public static PropertyInfo GetProperty(this LambdaExpression expression)
+        {
+            var memberExpression = expression.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                throw new ArgumentOutOfRangeException("expression", "Expected a property/field access expression, not " + expression);
+            }
+
+            PropertyInfo property = memberExpression.Member as PropertyInfo;
+            if (property == null)
+                throw new ArgumentOutOfRangeException("expression", "Expected a property access expression, not " + expression);
+
+            return property;
         }
 
         private static Expression<Func<TModel, T>> GenerateMemberExpression<TModel, T>(PropertyInfo propertyInfo)
@@ -82,5 +103,6 @@ namespace RMarket.ClassLib.Helpers
 
             return Expression.Lambda<Func<TModel, T>>(columnExpr, entityParam);
         }
+
     }
 }

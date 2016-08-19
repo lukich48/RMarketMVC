@@ -24,7 +24,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // GET: Tickers
         public ActionResult Index()
         {
-            return View(tickerRepository.Tickers.ToList());
+            return View(tickerRepository.Get().ToList());
         }
 
         // GET: Tickers/Details/5
@@ -34,7 +34,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticker ticker = tickerRepository.Find(id);
+            Ticker ticker = tickerRepository.GetById(id);
             if (ticker == null)
             {
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticker ticker = tickerRepository.Find(id);
+            Ticker ticker = tickerRepository.GetById(id);
             if (ticker == null)
             {
                 return HttpNotFound();
@@ -101,7 +101,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticker ticker = tickerRepository.Find(id);
+            Ticker ticker = tickerRepository.GetById(id);
             if (ticker == null)
             {
                 return HttpNotFound();
@@ -118,13 +118,5 @@ namespace RMarket.WebUI.Controllers.Admin
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                tickerRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

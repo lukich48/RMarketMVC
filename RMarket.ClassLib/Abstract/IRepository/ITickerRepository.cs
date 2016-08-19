@@ -5,11 +5,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface ITickerRepository:IDisposable
+    public interface ITickerRepository: IEntityRepository<Ticker>
     {
-        IQueryable<Ticker> Tickers { get; }
-        Ticker Find(int id);
-        int Save(Ticker ticker);
-        int Remove(int id);
     }
 }

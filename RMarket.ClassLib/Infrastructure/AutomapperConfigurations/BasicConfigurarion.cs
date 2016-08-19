@@ -43,6 +43,17 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 .ForMember(d => d.Ticker, opt => opt.Ignore())
                 .ForMember(d => d.TimeFrame, opt => opt.Ignore())
                 .ForMember(d => d.Instances, opt => opt.Ignore());
+
+                //Setting
+                cfg.CreateMap<Setting, SettingModel>()
+                .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
+                       GetEntityParamsVaried(d)
+                      ));
+
+                cfg.CreateMap<SettingModel, Setting>()
+                .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
+                       Serializer.Serialize(m.EntityParams)))
+                .ForMember(d => d.StrategyInfo, opt => opt.Ignore());
             });
         }
 
@@ -58,17 +69,25 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             return res;
         }
 
-        private static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection instance)
+        private static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection selection)
         {
             IEnumerable<ParamSelection> res = null;
 
-            if (instance.StrategyInfo != null)
-                res = StrategyHelper.GetStrategyParams(instance);
+            if (selection.StrategyInfo != null)
+                res = StrategyHelper.GetStrategyParams(selection);
             else
                 res = new List<ParamSelection>();
 
             return res;
         }
+
+        private static IEnumerable<ParamEntity> GetEntityParamsVaried(Setting setting)
+        {
+            var res = SettingHelper.GetSettingParams(setting);
+
+            return res;
+        }
+
 
 
     }

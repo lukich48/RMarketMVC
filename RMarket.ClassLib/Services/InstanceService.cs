@@ -13,8 +13,11 @@ namespace RMarket.ClassLib.Services
 {
     public class InstanceService: EntityServiceBase<Instance, InstanceModel>, IInstanceService
     {
-        public InstanceService(IInstanceRepository instanceRepository)
+        public InstanceService(IInstanceRepository instanceRepository
+            )
             :base(instanceRepository)
-        { }
+        {
+        }
+
     }
 }

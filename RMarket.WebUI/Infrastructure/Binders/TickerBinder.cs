@@ -36,7 +36,7 @@ namespace RMarket.WebUI.Infrastructure.Binders
             {
                 int tickerId = (int)vpr.ConvertTo(typeof(int));
                 if (tickerId !=0)
-                    ticker = tickerRepository.Find(tickerId);
+                    ticker = tickerRepository.GetById(tickerId);
 
             }
 

@@ -24,7 +24,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // GET: StrategyInfoes
         public ActionResult Index()
         {
-            return View(strategyInfoRepository.StrategyInfoes.ToList());
+            return View(strategyInfoRepository.Get().ToList());
         }
 
         // GET: StrategyInfoes/Details/5
@@ -34,7 +34,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.Find(id);
+            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
             if (strategyInfo == null)
             {
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.Find(id);
+            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
             if (strategyInfo == null)
             {
                 return HttpNotFound();
@@ -101,7 +101,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.Find(id);
+            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
             if (strategyInfo == null)
             {
                 return HttpNotFound();
@@ -118,13 +118,5 @@ namespace RMarket.WebUI.Controllers.Admin
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                strategyInfoRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

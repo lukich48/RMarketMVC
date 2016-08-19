@@ -15,16 +15,7 @@ namespace RMarket.ClassLib.EntityModels
     [MetadataType(typeof(Selection_metadata))]
     public class SelectionModel
     {
-        private StrategyInfo _strategyInfo;
-        private Ticker _ticker;
-        private TimeFrame _timeFrame;
-        private IEnumerable<Instance> _instances;
-
-        public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
-        public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
-        public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;
-
-
+ 
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -65,20 +56,6 @@ namespace RMarket.ClassLib.EntityModels
         {
             SelectionParams = new List<ParamSelection>();
         }
-
-        public void LoadNavigationProperties()
-        {
-            if (StrategyInfo == null && StrategyInfoId != 0)
-                StrategyInfo = strategyInfoRepository.Find(StrategyInfoId);
-
-            if (Ticker == null && TickerId != 0)
-                Ticker = tickerRepository.Find(TickerId);
-
-            if (TimeFrame == null && TimeFrameId != 0)
-                TimeFrame = timeFrameRepository.Find(TimeFrameId);
-
-        }
-
 
     }
 }

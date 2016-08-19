@@ -21,8 +21,6 @@ namespace RMarket.ClassLib.Models
         //начало дня
         private TimeSpan startTime = new TimeSpan(10, 0, 0);
 
-        public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
-
         public Ticker Ticker { get; set; }
         public TimeFrame TimeFrame { get; set; }
 

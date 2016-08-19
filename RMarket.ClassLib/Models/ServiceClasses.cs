@@ -1,9 +1,5 @@
-﻿using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.EFRepository;
-using RMarket.ClassLib.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RMarket.ClassLib.Models
 {

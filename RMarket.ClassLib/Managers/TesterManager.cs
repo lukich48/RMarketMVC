@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.Managers
 {
     public class TesterManager: IManager
     {
-        public ICandleRepository candleRepository = CurrentRepository.CandleRepository;
+        public ICandleRepository candleRepository;//!!! = CurrentRepository.CandleRepository;
         private CancellationTokenSource cts;
 
         public TesterManager(IStrategy strategy, Instrument instr, Portfolio portf)
@@ -61,7 +61,7 @@ namespace RMarket.ClassLib.Managers
         {
             IsStarted = true;
 
-            IEnumerable<Candle> candles = from c in candleRepository.Candles
+            IEnumerable<Candle> candles = from c in candleRepository.Get()
                                       where c.TickerId == Instr.Ticker.Id && c.TimeFrameId == Instr.TimeFrame.Id && c.DateOpen >= DateFrom && c.DateOpen < DateTo
                                       orderby c.DateOpen
                                       select c;

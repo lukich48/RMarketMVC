@@ -129,8 +129,6 @@ namespace RMarket.ClassLib.Helpers.Extentions
 
         public static IQueryable<TEntity>IncludeProperties<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> res = query;
-
             if (includeProperties!=null)
                 query = (includeProperties.Aggregate(query, (current, include) => current.Include(include)));
 
@@ -141,7 +139,7 @@ namespace RMarket.ClassLib.Helpers.Extentions
         {
             IQueryable<TEntity> res = query;
 
-            Expression<Func<TEntity, object>>[] includeProperties = ReflectionHelper.GetNavigationProperties<TEntity>();
+            Expression<Func<TEntity, object>>[] includeProperties = ReflectionHelper.GerNavigationPropertiesExpression<TEntity>();
   
             return query.IncludeProperties(includeProperties);
         }

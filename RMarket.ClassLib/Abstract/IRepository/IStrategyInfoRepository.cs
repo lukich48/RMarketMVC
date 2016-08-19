@@ -5,11 +5,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IStrategyInfoRepository: IDisposable
+    public interface IStrategyInfoRepository: IEntityRepository<StrategyInfo>
     {
-        IQueryable<StrategyInfo> StrategyInfoes { get; }
-        StrategyInfo Find(int id);
-        int Save(StrategyInfo strategyInfo);
-        int Remove(int id);
     }
 }

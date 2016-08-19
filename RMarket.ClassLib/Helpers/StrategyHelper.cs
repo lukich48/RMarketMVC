@@ -59,7 +59,7 @@ namespace RMarket.ClassLib.Helpers
             IStrategy strategy = (IStrategy)ReflectionHelper.CreateEntity(instance.StrategyInfo);
 
             //Применяем сохраненные параметры
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityProps(strategy);
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(strategy);
             foreach (PropertyInfo prop in arrayProp)
             {
                 ParamEntity savedParam = instance.StrategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
@@ -92,7 +92,7 @@ namespace RMarket.ClassLib.Helpers
 
             object entity = ReflectionHelper.CreateEntity(entityInfo);
 
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityProps(entity);
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
 
             foreach (PropertyInfo prop in arrayProp)
             {

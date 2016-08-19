@@ -15,12 +15,6 @@ namespace RMarket.ClassLib.EntityModels
     [MetadataType(typeof(Instance_metadata))]
     public class InstanceModel
     {
-        public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
-        public ITickerRepository tickerRepository = CurrentRepository.TickerRepository;
-        public ITimeFrameRepository timeFrameRepository = CurrentRepository.TimeFrameRepository;
-        //public ISelectionRepository selectionRepository = CurrentRepository.SelectionRepository;
-
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -60,20 +54,5 @@ namespace RMarket.ClassLib.EntityModels
             StrategyParams = new List<ParamEntity>();
         }
 
-        public void LoadNavigationProperties()
-        {
-            if(StrategyInfo == null && StrategyInfoId != 0)
-                StrategyInfo = strategyInfoRepository.Find(StrategyInfoId);
-
-            if (Ticker == null && TickerId!=0)
-                Ticker = tickerRepository.Find(TickerId);
-
-            if (TimeFrame == null && TimeFrameId != 0)
-                TimeFrame = timeFrameRepository.Find(TimeFrameId);
-
-            //if (Selection == null && SelectionId != 0 && SelectionId != null)
-            //    Selection = selectionRepository.GetById((int)SelectionId);
-            
-        }
     }
 }

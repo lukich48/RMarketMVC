@@ -5,11 +5,8 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface ITimeFrameRepository:IDisposable
+    public interface ITimeFrameRepository: IEntityRepository<TimeFrame>
     {
-        IQueryable<TimeFrame> TimeFrames { get; }
-        TimeFrame Find(int id);
-        int Save(TimeFrame timeFrame);
-        int Remove(int id);
+
     }
 }

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Web.Mvc;
 using Ninject;
-using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.EFRepository;
-using RMarket.ClassLib.Entities;
 
 namespace RMarket.WebUI.Infrastructure
 {

@@ -1,24 +1,13 @@
-﻿using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.Entities;
-using RMarket.ClassLib.Helpers;
-using RMarket.ClassLib.Models;
+﻿using RMarket.ClassLib.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using RMarket.ClassLib.Helpers.Extentions;
-using RMarket.ClassLib.Infrastructure;
-using System.Linq.Expressions;
-using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.DataAccess.Context;
 
 namespace RMarket.DataAccess.Repositories
 {
     public class EFSelectionRepository: EFRepositoryBase<Selection>, ISelectionRepository
     {
-        public EFSelectionRepository(Context.RMarketContext context)
+        public EFSelectionRepository(RMarketContext context)
             :base(context)
         { }
 

@@ -12,7 +12,7 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFTickRepository:ITickRepository
     {
-        private RMarketContext context = CurrentRepository.Context;
+        private Entities_old.RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<Tick> Ticks
         {

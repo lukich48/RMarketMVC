@@ -24,7 +24,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // GET: TimeFrames
         public ActionResult Index()
         {
-            return View(timeFrameRepository.TimeFrames.ToList());
+            return View(timeFrameRepository.Get().ToList());
         }
 
         // GET: TimeFrames/Details/5
@@ -34,7 +34,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeFrame timeFrame = timeFrameRepository.Find(id);
+            TimeFrame timeFrame = timeFrameRepository.GetById(id);
             if (timeFrame == null)
             {
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeFrame timeFrame = timeFrameRepository.Find(id);
+            TimeFrame timeFrame = timeFrameRepository.GetById(id);
             if (timeFrame == null)
             {
                 return HttpNotFound();
@@ -101,7 +101,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeFrame timeFrame = timeFrameRepository.Find(id);
+            TimeFrame timeFrame = timeFrameRepository.GetById(id);
             if (timeFrame == null)
             {
                 return HttpNotFound();
@@ -118,13 +118,5 @@ namespace RMarket.WebUI.Controllers.Admin
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                timeFrameRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

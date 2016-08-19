@@ -22,16 +22,16 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private ClassLib.Abstract.IService.IInstanceService instanceService;
-        private ISettingRepository settingRepository;
+        private ISettingService settingService;
         private IAliveStrategyRepository aliveStrategyRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(ClassLib.Abstract.IService.IInstanceService instanceService, ISettingRepository settingRepository, IAliveStrategyRepository aliveStrategyRepository)
+        public EmulController(IInstanceService instanceService, ISettingService settingService, IAliveStrategyRepository aliveStrategyRepository)
         {
             this.instanceService = instanceService;
-            this.settingRepository = settingRepository;
+            this.settingService = settingService;
             this.aliveStrategyRepository = aliveStrategyRepository;
 
             jsonSerializerSettings = new JsonSerializerSettings();
@@ -59,7 +59,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
-            ViewBag.SettingList = ModelHelper.GetSettingList(settingRepository, SettingType.ConnectorInfo);
+            ViewBag.SettingList = ModelHelper.GetSettingList(settingService, SettingType.ConnectorInfo);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;
@@ -77,7 +77,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceService.GetById(model.InstanceId, true);
-                Setting setting = settingRepository.Find(model.SettingId);
+                SettingModel setting = settingService.GetById(model.SettingId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy

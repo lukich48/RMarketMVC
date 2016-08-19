@@ -285,7 +285,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\Admin\ConnectorInfoesController.cs" />
-    <Compile Include="Controllers\Admin\ServicePageController.cs" />
     <Compile Include="Controllers\Admin\TestPageController.cs" />
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
@@ -401,7 +400,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
-    <Folder Include="Views\ServicePage\" />
     <Folder Include="Views\TestPage\" />
   </ItemGroup>
   <ItemGroup>

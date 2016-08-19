@@ -36,7 +36,7 @@ namespace RMarket.WebUI.Infrastructure.Binders
             {
                 int timeFrameId = (int)vpr.ConvertTo(typeof(int));
                 if(timeFrameId!=0)
-                    timeFrame = timeFrameRepository.Find(timeFrameId);
+                    timeFrame = timeFrameRepository.GetById(timeFrameId);
 
             }
 

@@ -1,14 +1,8 @@
-﻿using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.Abstract.IRepository;
-using RMarket.ClassLib.Entities;
-using RMarket.ClassLib.Infrastructure;
+﻿using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.EntityModels
 {
@@ -16,11 +10,6 @@ namespace RMarket.ClassLib.EntityModels
     [MetadataType(typeof(Setting_metadata))]
     public class SettingModel
     {
-        private StrategyInfo _strategyInfo;
-
-        public IStrategyInfoRepository strategyInfoRepository = CurrentRepository.StrategyInfoRepository;
-
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -39,20 +28,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public List<ParamEntity> EntityParams { get; set; }
 
-        public StrategyInfo StrategyInfo
-        {
-            get
-            {
-                if (_strategyInfo == null && StrategyInfoId != 0 && StrategyInfoId != null)
-                    _strategyInfo = strategyInfoRepository.Find((int)StrategyInfoId);
-                return _strategyInfo;
-            }
-            set
-            {
-                _strategyInfo = value;
-            }
-        }
-
+        public StrategyInfo StrategyInfo { get; set; }
 
         public SettingModel()
         {

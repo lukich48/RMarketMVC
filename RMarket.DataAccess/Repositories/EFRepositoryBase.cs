@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.Infrastructure;
 using RMarket.DataAccess.Context;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,7 +81,24 @@ namespace RMarket.DataAccess.Repositories
             context.SaveChanges();
         }
 
+        public virtual void Remove(int id)
+        {
+            TEntity data = context.Set<TEntity>().Find(id);
+            context.Set<TEntity>().Remove(data);
+            context.SaveChanges();
+        }
 
+        public void AddRange(IEnumerable<TEntity> data)
+        {
+            context.Set<TEntity>().AddRange(data);
+            context.SaveChanges();
+        }
+
+        public void RemoveRange(IEnumerable<TEntity> data)
+        {
+            context.Set<TEntity>().RemoveRange(data);
+            context.SaveChanges();
+        }
 
     }
 }

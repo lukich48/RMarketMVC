@@ -6,10 +6,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IOrderRepository :IDisposable
+    public interface IOrderRepository : IEntityRepository<Order>
     {
-        IQueryable<Order> Orders { get; }
-        Order Find(int id);
-        int Save(Order order);
     }
 }

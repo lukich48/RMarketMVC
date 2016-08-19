@@ -120,27 +120,17 @@
     <Compile Include="Abstract\IRepository\IOrderRepository.cs" />
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
     <Compile Include="Abstract\IRepository\ISettingRepository.cs" />
-    <Compile Include="Abstract\IRepository\ITickRepository.cs" />
     <Compile Include="Abstract\ISelectionModule.cs" />
     <Compile Include="Abstract\IService\IEntityService.cs" />
+    <Compile Include="Abstract\IService\ISettingService.cs" />
     <Compile Include="Abstract\IService\IInstanceService.cs" />
     <Compile Include="Abstract\IService\ISelectionService.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\IRepository\IStrategyInfoRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickerRepository.cs" />
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
-    <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Connectors\CsvFileConnector.cs" />
     <Compile Include="Connectors\QuikConnector.cs" />
-    <Compile Include="EFRepository\EFAliveStrategyRepository.cs" />
-    <Compile Include="EFRepository\EFCandleRepository.cs" />
-    <Compile Include="EFRepository\EFConnectorInfoRepository.cs" />
-    <Compile Include="EFRepository\EFOrderRepository.cs" />
-    <Compile Include="EFRepository\EFStrategyInfoRepository.cs" />
-    <Compile Include="EFRepository\EFSettingRepository.cs" />
-    <Compile Include="EFRepository\EFTickerRepository.cs" />
-    <Compile Include="EFRepository\EFTickRepository.cs" />
-    <Compile Include="EFRepository\EFTimaFrameRepository.cs" />
     <Compile Include="Abstract\IRepository\IEntityRepository.cs" />
     <Compile Include="Entities\Candle.cs" />
     <Compile Include="Entities\ConnectorInfo.cs" />
@@ -166,11 +156,9 @@
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
-    <Compile Include="Helpers\TickHelper.cs" />
     <Compile Include="HistoricalProviders\Finam.cs" />
     <Compile Include="Infrastructure\AutomapperConfigurations\BasicConfigurarion.cs" />
     <Compile Include="Infrastructure\Current.cs" />
-    <Compile Include="Infrastructure\CurrentRepository.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
     <Compile Include="Models\AliveResult.cs" />
@@ -189,6 +177,7 @@
     <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SettingService.cs" />
     <Compile Include="Services\SelectionService.cs" />
     <Compile Include="Services\EntityServiceBase.cs" />
     <Compile Include="Services\InstanceService.cs" />
@@ -208,7 +197,9 @@
     <Content Include="dll\Quik\NDde.dll" />
     <Content Include="dll\Quik\NDde.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="EFRepository\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

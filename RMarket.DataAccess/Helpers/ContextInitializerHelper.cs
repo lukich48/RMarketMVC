@@ -1,13 +1,14 @@
 ﻿using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Models;
+using RMarket.DataAccess.Context;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 
-namespace RMarket.DataAccess.Context
+namespace RMarket.DataAccess.Helpers
 {
     public class ContextInitializerHelper
     {

@@ -6,10 +6,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IAliveStrategyRepository:IDisposable
+    public interface IAliveStrategyRepository: IEntityRepository<AliveStrategy>
     {
-        IQueryable<AliveStrategy> AliveStrategies { get; }
-        AliveStrategy Find(int id);
-        int Save(AliveStrategy aliveStrategy);
     }
 }

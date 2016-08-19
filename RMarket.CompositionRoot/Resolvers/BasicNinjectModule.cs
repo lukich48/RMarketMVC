@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Ninject;
-using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.EFRepository;
-using Ninject.Modules;
-using Ninject.Extensions.Conventions;
+﻿using Ninject.Modules;
 using RMarket.DataAccess.Context;
 using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Services;
 using RMarket.DataAccess.Repositories;
 using RMarket.ClassLib.Abstract.IRepository;
+using Ninject.Web.Common;
 
 namespace RMarket.CompositionRoot.Resolvers
 {
@@ -17,29 +12,28 @@ namespace RMarket.CompositionRoot.Resolvers
     {
         public override void Load()
         {
-            RMarketContext context = new RMarketContext();
+            Bind<RMarketContext>().ToSelf().InRequestScope();
 
             Bind<IInstanceService>().To<InstanceService>();
             Bind<ISelectionService>().To<SelectionService>();
+            Bind<ISettingService>().To<SettingService>();
 
-            Bind<IInstanceRepository>().To<EFInstanceRepository>().WithConstructorArgument(context);
-            Bind<ISelectionRepository>().To<EFSelectionRepository>().WithConstructorArgument(context);
-
+            Bind<IInstanceRepository>().To<EFInstanceRepository>();
+            Bind<ISelectionRepository>().To<EFSelectionRepository>();
             Bind<ITickerRepository>().To<EFTickerRepository>();
             Bind<ITimeFrameRepository>().To<EFTimeFrameRepository>();
             Bind<IStrategyInfoRepository>().To<EFStrategyInfoRepository>();
-            Bind<ICandleRepository>().To<EFCandleRepository>();
-            //Bind<ISelectionRepository>().To<EFSelectionRepository>();
-            Bind<IConnectorInfoRepository>().To<EFConnectorInfoRepository>();
             Bind<ISettingRepository>().To<EFSettingRepository>();
+            Bind<IConnectorInfoRepository>().To<EFConnectorInfoRepository>();
+            Bind<ICandleRepository>().To<EFCandleRepository>();
             Bind<IAliveStrategyRepository>().To<EFAliveStrategyRepository>();
             Bind<IOrderRepository>().To<EFOrderRepository>();
 
             //this.Kernel.Bind(x => x
             //.From("RMarket.DataAccess", "RMarket.ClassLib")
-            //.SelectAllClasses().InNamespaceOf<EFCandleRepository>()
+            //.SelectAllClasses().InNamespaceOf<EFInstanceRepository>()
             //.BindDefaultInterface()
-            //.Configure(b => b.InTransientScope())); //!!! сделать один на запрос
+            //.Configure(b => b.InTransientScope())); 
         }
     }
 }

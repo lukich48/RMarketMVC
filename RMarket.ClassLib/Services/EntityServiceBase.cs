@@ -38,9 +38,9 @@ namespace RMarket.ClassLib.Services
         public virtual TModel GetById(int id, bool includeAll)
         {
             TEntity data = repository.GetById(id, includeAll);
-            TModel instance = Current.Mapper.Map<TEntity, TModel>(data);
+            TModel model = Current.Mapper.Map<TEntity, TModel>(data);
 
-            return instance;
+            return model;
         }
 
         public virtual TModel GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties)
@@ -55,6 +55,11 @@ namespace RMarket.ClassLib.Services
         {
             TEntity data = Current.Mapper.Map<TModel, TEntity>(model);
             repository.Save(data);
+        }
+
+        public virtual void Remove(int id)
+        {
+            repository.Remove(id);
         }
 
     }

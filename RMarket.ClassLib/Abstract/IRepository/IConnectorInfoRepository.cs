@@ -5,11 +5,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IConnectorInfoRepository : IDisposable
+    public interface IConnectorInfoRepository : IEntityRepository<ConnectorInfo>
     {
-        IQueryable<ConnectorInfo> ConnectorInfoes { get; }
-        ConnectorInfo Find(int id);
-        int Save(ConnectorInfo connectorInfo);
-        int Remove(int id);
     }
 }

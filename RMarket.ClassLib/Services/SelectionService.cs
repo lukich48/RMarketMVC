@@ -21,6 +21,8 @@ namespace RMarket.ClassLib.Services
     {
         public SelectionService(ISelectionRepository selectionRepository)
             :base(selectionRepository)
-        { }
+        {
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
@@ -16,13 +17,13 @@ namespace RMarket.WebUI.Controllers
 {
     public class SettingController : Controller
     {
-        private ISettingRepository settingRepository;
+        private ISettingService settingService;
         private IStrategyInfoRepository strategyInfoRepository;
         private IConnectorInfoRepository connectorInfoRepository;
 
-        public SettingController(ISettingRepository settingRepository, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
+        public SettingController(ISettingService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
         {
-            this.settingRepository = settingRepository;
+            this.settingService = settingService;
             this.strategyInfoRepository = strategyInfoRepository;
             this.connectorInfoRepository = connectorInfoRepository;
         }
@@ -30,7 +31,7 @@ namespace RMarket.WebUI.Controllers
         // GET: StrategySettings
         public ActionResult Index()
         {
-            var res = settingRepository.Settings.ToList();
+            var res = settingService.Get().ToList();
             return View(res);
         }
 
@@ -46,7 +47,7 @@ namespace RMarket.WebUI.Controllers
             }
             else if (settingId != 0)
             {
-                model = settingRepository.FindModel(settingId);
+                model = settingService.GetById(settingId);
                 if (model == null)
                 {
                     TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
@@ -76,7 +77,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                settingRepository.Save(model);
+                settingService.Save(model);
 
                 TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", model.Name);
                 return RedirectToAction("Index");
@@ -99,7 +100,7 @@ namespace RMarket.WebUI.Controllers
                 if (settingId != 0)
                 {
                     //Сохраненный вариант
-                    SettingModel setting = settingRepository.FindModel(settingId);
+                    SettingModel setting = settingService.GetById(settingId);
                     entityParams = setting.EntityParams;
                 }
             }
@@ -118,7 +119,7 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int settingId)
         {
-            SettingModel setting = settingRepository.FindModel(settingId);
+            SettingModel setting = settingService.GetById(settingId);
             if (setting == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);

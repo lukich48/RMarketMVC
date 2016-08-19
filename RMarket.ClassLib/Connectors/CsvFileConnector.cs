@@ -3,15 +3,12 @@ using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using RMarket.ClassLib.Helpers;
 using System.Globalization;
-using RMarket.ClassLib.EFRepository;
 using RMarket.ClassLib.Entities;
 using System.Threading;
-using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.ClassLib.Connectors
@@ -63,11 +60,6 @@ namespace RMarket.ClassLib.Connectors
         #endregion
 
         public event EventHandler<TickEventArgs> TickPoked;
-
-        public CsvFileConnector()
-            :this(CurrentRepository.TickerRepository)
-        {
-        }
 
         public CsvFileConnector(ITickerRepository tickerRepository)
         {
@@ -133,7 +125,7 @@ namespace RMarket.ClassLib.Connectors
                             if (tick.Quantity == 0)
                             {
                                 if(!tickersCache.ContainsKey(tick.TickerCode))
-                                    tickersCache[tick.TickerCode] = tickerRepository.Tickers.FirstOrDefault(t => t.Code == tick.TickerCode);
+                                    tickersCache[tick.TickerCode] = tickerRepository.Get(T=>T.Where(t=>t.Code == tick.TickerCode)).FirstOrDefault();
 
                                 Ticker ticker = tickersCache[tick.TickerCode];
                                 if (ticker != null && ticker.QtyInLot.HasValue)

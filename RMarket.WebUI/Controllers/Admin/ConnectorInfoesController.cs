@@ -24,7 +24,7 @@ namespace RMarket.WebUI.Controllers.Admin
         // GET: ConnectorInfoes
         public ActionResult Index()
         {
-            return View(connectorInfoRepository.ConnectorInfoes.ToList());
+            return View(connectorInfoRepository.Get().ToList());
         }
 
         // GET: ConnectorInfoes/Details/5
@@ -34,7 +34,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo connectorInfo = connectorInfoRepository.Find(id);
+            ConnectorInfo connectorInfo = connectorInfoRepository.GetById(id);
             if (connectorInfo == null)
             {
                 return HttpNotFound();
@@ -71,7 +71,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo ConnectorInfo = connectorInfoRepository.Find(id);
+            ConnectorInfo ConnectorInfo = connectorInfoRepository.GetById(id);
             if (ConnectorInfo == null)
             {
                 return HttpNotFound();
@@ -101,7 +101,7 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo ConnectorInfo = connectorInfoRepository.Find(id);
+            ConnectorInfo ConnectorInfo = connectorInfoRepository.GetById(id);
             if (ConnectorInfo == null)
             {
                 return HttpNotFound();
@@ -117,15 +117,5 @@ namespace RMarket.WebUI.Controllers.Admin
             connectorInfoRepository.Remove(id);
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                connectorInfoRepository.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
     }
 }

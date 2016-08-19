@@ -17,7 +17,7 @@ namespace RMarket.ClassLib.EFRepository
 {
     public class EFSettingRepository : ISettingRepository
     {
-        private RMarketContext context = CurrentRepository.Context;
+        private Entities_old.RMarketContext context = CurrentRepository.Context;
 
         public IQueryable<Setting> Settings
         {

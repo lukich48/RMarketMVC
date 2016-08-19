@@ -15,5 +15,9 @@ namespace RMarket.ClassLib.Abstract.IRepository
         TEntity GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties);
         TEntity GetById(int id, bool includeAll);
         void Save(TEntity data);
+        void Remove(int id);
+        void AddRange(IEnumerable<TEntity> data);
+        void RemoveRange(IEnumerable<TEntity> data);
+
     }
 }

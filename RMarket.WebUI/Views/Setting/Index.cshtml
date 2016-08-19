@@ -1,12 +1,12 @@
-﻿@using RMarket.ClassLib.Entities;
+﻿@using RMarket.ClassLib.EntityModels;
 
-@model IEnumerable<RMarket.ClassLib.Entities.Setting>
+@model IEnumerable<SettingModel>
 
 @{
     ViewBag.Title = "Настройки стратегий";
 }
 @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
-@foreach (Setting m in @Model)
+@foreach (SettingModel m in @Model)
 {
     string strategyName = m.StrategyInfo == null ? "ALL" : m.StrategyInfo.Name;
 
