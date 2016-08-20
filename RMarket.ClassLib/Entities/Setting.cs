@@ -35,6 +35,8 @@ namespace RMarket.ClassLib.Entities
 
         public string StrParams { get; set; }
 
-        public virtual StrategyInfo StrategyInfo { get; set; }
+        public StrategyInfo StrategyInfo { get; set; }
+
+        public IEntityInfo EntityInfo { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RMarket.ClassLib.Entities;
+﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace RMarket.ClassLib.EntityModels
         public List<ParamEntity> EntityParams { get; set; }
 
         public StrategyInfo StrategyInfo { get; set; }
+
+        public IEntityInfo EntityInfo { get; set; }
 
         public SettingModel()
         {

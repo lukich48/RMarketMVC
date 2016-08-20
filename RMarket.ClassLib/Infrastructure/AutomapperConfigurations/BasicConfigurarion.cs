@@ -83,7 +83,12 @@ namespace RMarket.ClassLib.AutomapperConfigurations
 
         private static IEnumerable<ParamEntity> GetEntityParamsVaried(Setting setting)
         {
-            var res = SettingHelper.GetSettingParams(setting);
+            IEnumerable<ParamEntity> res = null;
+
+            if(setting.EntityInfo != null)
+                res = new SettingHelper().GetSettingParams(setting);
+            else
+                res = new List<ParamEntity>();
 
             return res;
         }

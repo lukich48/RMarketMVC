@@ -137,7 +137,6 @@
     <Compile Include="Entities\Instance.cs" />
     <Compile Include="Entities\Instance_metadata.cs" />
     <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\RMarketContext.cs" />
     <Compile Include="Entities\Selection.cs" />
     <Compile Include="Entities\Selection_metadata.cs" />
     <Compile Include="Entities\Setting_metadata.cs" />
@@ -152,7 +151,6 @@
     <Compile Include="Helpers\OptimizationHelper.cs" />
     <Compile Include="Helpers\OrderSender.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
-    <Compile Include="Helpers\RMarketInitializerHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
@@ -197,9 +195,7 @@
     <Content Include="dll\Quik\NDde.dll" />
     <Content Include="dll\Quik\NDde.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EFRepository\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

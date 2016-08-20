@@ -13,44 +13,24 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Helpers
 {
-    public static class SettingHelper
+    public class SettingHelper
     {
-        public static IConnectorInfoRepository connectorInfoRepository;//!!! = CurrentRepository.ConnectorInfoRepository;
 
         /// <summary>
         /// Создает параметры из объекта Селекция и сохраненных данных 
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public static IEnumerable<ParamEntity> GetSettingParams(Setting setting)
+        public IEnumerable<ParamEntity> GetSettingParams(Setting setting)
         {
-            IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
-            IEntityInfo entityInfo = GetEntityInfo(setting.SettingType, setting.EntityInfoId);
+            if (setting.EntityInfo == null)
+                throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(entityInfo, savedParams).ToList();
+            IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
+
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
 
             return res;
-        }
-
-        /// <summary>
-        /// Возвращает объект по типу настройки и идентификатору. Генерирует исключение, если неверно задан settingType
-        /// </summary>
-        /// <param name="settingType"></param>
-        /// <param name="entityInfoId"></param>
-        /// <returns></returns>
-        public static IEntityInfo GetEntityInfo (SettingType settingType, int entityInfoId)
-        {
-            IEntityInfo entityInfo = null;
-            switch (settingType)
-            {
-                case SettingType.ConnectorInfo:
-                    entityInfo = connectorInfoRepository.GetById(entityInfoId);
-                    break;
-                default:
-                    throw new CustomException(String.Format("Не найден тип настройки!", settingType));                    
-            }
-
-            return entityInfo;
         }
 
         ///// <summary>
@@ -71,43 +51,17 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="connectorInfo"></param>
         /// <returns></returns>
-        public static IDataProvider CreateDataProvider(Setting setting)
+        public IDataProvider CreateDataProvider(SettingModel setting)
         {
-            ConnectorInfo connectorInfo = connectorInfoRepository.GetById(setting.EntityInfoId);
+            if(setting.SettingType != SettingType.ConnectorInfo)
+                throw new CustomException($"settingId={setting.Id}. Is not DateProvider setiing");
 
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
+            if (setting.EntityInfo == null)
+                throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IEnumerable<ParamEntity> savedParams = Serializer.Deserialize<IEnumerable<ParamEntity>>(setting.StrParams);
+            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
 
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(connectorInfo, savedParams);
-
-            //Применяем сохраненные параметры
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
-            foreach (PropertyInfo prop in arrayProp)
-            {
-                ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
-
-                if (savedParam != null)
-                {
-                    prop.SetValue(dataProvider, savedParam.FieldValue);
-                }
-            }
-
-            return dataProvider;
-        }
-
-        /// <summary>
-        /// Находит провайдер по умолчанию для стратегии
-        /// </summary>
-        /// <param name="connectorInfo"></param>
-        /// <returns></returns>
-        public static IDataProvider CreateDataProvider(SettingModel setting)
-        {
-            ConnectorInfo connectorInfo = connectorInfoRepository.GetById(setting.EntityInfoId);
-
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(connectorInfo);
-
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(connectorInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
@@ -132,7 +86,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        private static IEnumerable<ParamEntity> GetSavedStrategyParams(Setting setting)
+        private IEnumerable<ParamEntity> GetSavedStrategyParams(Setting setting)
         {
             IEnumerable<ParamEntity> strategyParams;
 

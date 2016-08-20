@@ -5,5 +5,6 @@ namespace RMarket.ClassLib.Abstract.IService
 {
     public interface ISettingService : IEntityService<Setting,SettingModel>
     {
+        IEntityInfo GetEntityInfo(SettingType settingType, int entityInfoId);
     }
 }

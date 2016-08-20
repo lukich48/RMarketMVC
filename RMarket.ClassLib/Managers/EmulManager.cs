@@ -17,10 +17,13 @@ namespace RMarket.ClassLib.Managers
     {
         private AliveStrategy aliveStrategy;
 
-        public IOrderRepository orderRepository;//!!! = CurrentRepository.OrderRepository;
+        private readonly IOrderRepository orderRepository;
 
-        public EmulManager(IStrategy strategy, Instrument instr, Portfolio portf, IDataProvider connector, AliveStrategy aliveStrategy)
+        public EmulManager(IOrderRepository orderRepository,
+            IStrategy strategy, Instrument instr, Portfolio portf, IDataProvider connector, AliveStrategy aliveStrategy)
         {
+            this.orderRepository = orderRepository;
+
             this.Strategy = strategy;
             this.Instr = instr;
             this.Portf = portf;

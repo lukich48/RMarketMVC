@@ -21,18 +21,20 @@ namespace RMarket.WebUI.Controllers
 {
     public class EmulController : Controller
     {
-        private ClassLib.Abstract.IService.IInstanceService instanceService;
-        private ISettingService settingService;
-        private IAliveStrategyRepository aliveStrategyRepository;
+        private readonly IInstanceService instanceService;
+        private readonly ISettingService settingService;
+        private readonly IAliveStrategyRepository aliveStrategyRepository;
+        private readonly IOrderRepository orderRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceService instanceService, ISettingService settingService, IAliveStrategyRepository aliveStrategyRepository)
+        public EmulController(IInstanceService instanceService, ISettingService settingService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
         {
             this.instanceService = instanceService;
             this.settingService = settingService;
             this.aliveStrategyRepository = aliveStrategyRepository;
+            this.orderRepository = orderRepository;
 
             jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -100,10 +102,10 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IDataProvider connector = SettingHelper.CreateDataProvider(setting);
+                IDataProvider connector = new SettingHelper().CreateDataProvider(setting);
                 //IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(setting);
 
-                IManager manager = new EmulManager(strategy, instr, portf, connector, aliveStrategy);
+                IManager manager = new EmulManager(orderRepository, strategy, instr, portf, connector, aliveStrategy);
 
                 //manager.DateFrom = model.DateFrom;
                 //manager.DateTo = model.DateTo;

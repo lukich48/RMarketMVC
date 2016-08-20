@@ -136,8 +136,6 @@ namespace RMarket.ClassLib.Connectors
                     var tickPoked = TickPoked;
                     tickPoked?.Invoke(this, tick);
 
-                    //Запишем тик в историю
-                    //!!!TickHelper.InsertNewTick(tick);
                 }
                 catch(Exception)
                 {
