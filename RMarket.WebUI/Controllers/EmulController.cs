@@ -61,7 +61,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
-            ViewBag.SettingList = ModelHelper.GetSettingList(settingService, SettingType.ConnectorInfo);
+            ViewBag.SettingList = ModelHelper.GetSettingList(settingService);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;

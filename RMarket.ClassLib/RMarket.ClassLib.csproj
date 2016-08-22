@@ -141,8 +141,7 @@
     <Compile Include="Entities\Selection_metadata.cs" />
     <Compile Include="Entities\Setting_metadata.cs" />
     <Compile Include="Entities\StrategyInfo.cs" />
-    <Compile Include="Entities\Setting.cs" />
-    <Compile Include="Entities\Tick.cs" />
+    <Compile Include="Entities\DataProvider.cs" />
     <Compile Include="Entities\Ticker.cs" />
     <Compile Include="Entities\TimeFrame.cs" />
     <Compile Include="Entities\AliveStrategy.cs" />

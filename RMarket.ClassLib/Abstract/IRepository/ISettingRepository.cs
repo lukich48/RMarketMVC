@@ -2,8 +2,7 @@
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface ISettingRepository: IEntityRepository<Setting>
+    public interface ISettingRepository: IEntityRepository<DataProvider>
     {
-        IEntityInfo GetEntityInfo(SettingType settingType, int entityInfoId);
     }
 }

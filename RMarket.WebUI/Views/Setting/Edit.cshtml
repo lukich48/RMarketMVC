@@ -5,8 +5,7 @@
 <script>
     $(function () {
         $("#EntityInfoId").change(function () {
-            var settingType = $("#SettingType").val();
-            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?settingType=" + settingType +"&entityInfoId=" + this.value)
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?connectorInfoId=" + this.value)
         });
 
     });
@@ -39,26 +38,10 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.StrategyInfoId)
+                        @Html.LabelFor(m => m.ConnectorInfoId)
                     </td>
                     <td>
-                        @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>,"ALL", new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.SettingType)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => Model.SettingType, new { @class = "form-control", @readonly = "readonly"})
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.EntityInfoId)
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(m => m.EntityInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.ConnectorInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>

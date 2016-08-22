@@ -6,21 +6,11 @@ using RMarket.ClassLib.Abstract;
 
 namespace RMarket.ClassLib.Services
 {
-    public class SettingService : EntityServiceBase<Setting, SettingModel>, ISettingService
+    public class SettingService : EntityServiceBase<DataProvider, SettingModel>, ISettingService
     {
-        private readonly ISettingRepository settingRepository;
-
         public SettingService(ISettingRepository settingRepository)
             :base(settingRepository)
         {
-            this.settingRepository = settingRepository;
-        }
-
-        public IEntityInfo GetEntityInfo(SettingType settingType, int entityInfoId)
-        {
-
-
-            return settingRepository.GetEntityInfo(settingType, entityInfoId);
         }
 
     }

@@ -21,14 +21,14 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public IEnumerable<ParamEntity> GetSettingParams(Setting setting)
+        public IEnumerable<ParamEntity> GetSettingParams(DataProvider setting)
         {
-            if (setting.EntityInfo == null)
+            if (setting.ConnectorInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.ConnectorInfo, savedParams).ToList();
 
             return res;
         }
@@ -53,15 +53,12 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public IDataProvider CreateDataProvider(SettingModel setting)
         {
-            if(setting.SettingType != SettingType.ConnectorInfo)
-                throw new CustomException($"settingId={setting.Id}. Is not DateProvider setiing");
-
-            if (setting.EntityInfo == null)
+            if (setting.ConnectorInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
+            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.ConnectorInfo);
 
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.ConnectorInfo, setting.EntityParams);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
@@ -86,7 +83,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        private IEnumerable<ParamEntity> GetSavedStrategyParams(Setting setting)
+        private IEnumerable<ParamEntity> GetSavedStrategyParams(DataProvider setting)
         {
             IEnumerable<ParamEntity> strategyParams;
 

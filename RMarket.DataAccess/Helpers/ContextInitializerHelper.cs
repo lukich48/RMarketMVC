@@ -84,10 +84,10 @@ namespace RMarket.DataAccess.Helpers
                 new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
                 new ParamEntity {FieldName="col_Period",FieldValue="Период" }
             };
-            List<Setting> settings = new List<Setting>
+            List<DataProvider> settings = new List<DataProvider>
             {
-                new Setting {Name="Quik default", StrategyInfoId=null, SettingType = SettingType.ConnectorInfo,
-                    EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+                new DataProvider {Name="Quik default", 
+                    ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
             context.Settings.AddRange(settings);
@@ -107,10 +107,10 @@ namespace RMarket.DataAccess.Helpers
                 new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
                 new ParamEntity {FieldName="col_Period",FieldValue="Период" }
             };
-            List<Setting> settings = new List<Setting>
+            List<DataProvider> settings = new List<DataProvider>
             {
-                new Setting {Name="Quik default", StrategyInfoId=null, SettingType = SettingType.ConnectorInfo,
-                    EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+                new DataProvider {Name="Quik default",
+                    ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
             context.Settings.AddRange(settings);

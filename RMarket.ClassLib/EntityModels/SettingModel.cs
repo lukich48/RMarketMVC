@@ -15,23 +15,15 @@ namespace RMarket.ClassLib.EntityModels
 
         public string Name { get; set; }
 
-        public int? StrategyInfoId { get; set; }
-
-        public SettingType SettingType { get; set; }
-
-        public int EntityInfoId { get; set; }
+        public int ConnectorInfoId { get; set; }
 
         public string Description { get; set; }
-
-        public int Priority { get; set; }
 
         public DateTime CreateDate { get; set; }
 
         public List<ParamEntity> EntityParams { get; set; }
 
-        public StrategyInfo StrategyInfo { get; set; }
-
-        public IEntityInfo EntityInfo { get; set; }
+        public IEntityInfo ConnectorInfo { get; set; }
 
         public SettingModel()
         {

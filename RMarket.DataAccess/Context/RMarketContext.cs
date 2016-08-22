@@ -23,9 +23,7 @@ namespace RMarket.DataAccess.Context
         public virtual DbSet<Candle> Candles { get; set; }
         public virtual DbSet<Selection> Selections { get; set; }
         public virtual DbSet<ConnectorInfo> ConnectorInfoes { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
-        public virtual DbSet<Tick> Ticks { get; set; }
-        //public virtual DbSet<Tick.TickKeyValue> TickKeyValues { get; set; }
+        public virtual DbSet<DataProvider> Settings { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
@@ -79,12 +77,9 @@ namespace RMarket.DataAccess.Context
                 .Property(e => e.Rent)
                 .HasPrecision(6, 4);
 
-            modelBuilder.Entity<Setting>()
+            modelBuilder.Entity<DataProvider>()
                 .Property(e => e.CreateDate).HasColumnType("datetime2")
                 .HasPrecision(3);
-
-            modelBuilder.Entity<Tick.KeyValue>()
-                .ToTable("TickKeyValue");
 
             modelBuilder.Entity<AliveStrategy>()
                 .Property(e => e.CreateDate).HasColumnType("datetime2")

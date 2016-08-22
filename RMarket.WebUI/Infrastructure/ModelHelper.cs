@@ -37,9 +37,9 @@ namespace RMarket.WebUI.Infrastructure
             return new SelectList(connectorInfoRepository.Get(), "Id", "Name");
         }
 
-        public static SelectList GetSettingList(ISettingService settingService, SettingType settingType)
+        public static SelectList GetSettingList(ISettingService settingService)
         {
-            return new SelectList(settingService.Get(T=>T.Where(s=>s.SettingType == settingType)), "Id", "Name");
+            return new SelectList(settingService.Get(), "Id", "Name");
         }
 
     }

@@ -14,18 +14,9 @@ namespace RMarket.ClassLib.Entities
         [StringLength(150)]
         public string Name { get; set; }
 
-        [Display(Name = "Стратегия")]
-        public int? StrategyInfoId { get; set; }
-
-        [Display(Name = "Тип настройки")]
-        public SettingType SettingType { get; set; }
-
-        /// <summary>
-        /// ид сущности, к которой относятся настройки
-        /// </summary>
         [Display(Name = "Объект настроек")]
         [Required(ErrorMessage = "Укажите объект для настроек")]
-        public int EntityInfoId { get; set; }
+        public int ConnectorInfoId { get; set; }
 
         [Display(Name = "Описание")]
         [DataType(DataType.MultilineText)]

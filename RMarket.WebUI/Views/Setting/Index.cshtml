@@ -8,15 +8,12 @@
 @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
 @foreach (SettingModel m in @Model)
 {
-    string strategyName = m.StrategyInfo == null ? "ALL" : m.StrategyInfo.Name;
-
     <div class="well">
         <div class="pull-right">
             @Html.ActionLink("Изменить", "Edit", new { settingId = m.Id }, new { @class = "btn btn-default" })
             @Html.ActionLink("Копировать", "Copy", new { settingId = m.Id }, new { @class = "btn btn-default" })
         </div>
         <strong class="h3">@m.Name</strong>
-        <strong>@strategyName</strong>
     </div>
 }
 

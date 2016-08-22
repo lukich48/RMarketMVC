@@ -45,15 +45,15 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 .ForMember(d => d.Instances, opt => opt.Ignore());
 
                 //Setting
-                cfg.CreateMap<Setting, SettingModel>()
+                cfg.CreateMap<DataProvider, SettingModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)
                       ));
 
-                cfg.CreateMap<SettingModel, Setting>()
+                cfg.CreateMap<SettingModel, DataProvider>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
-                .ForMember(d => d.StrategyInfo, opt => opt.Ignore());
+                .ForMember(d => d.ConnectorInfo, opt => opt.Ignore());
             });
         }
 
@@ -81,11 +81,11 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             return res;
         }
 
-        private static IEnumerable<ParamEntity> GetEntityParamsVaried(Setting setting)
+        private static IEnumerable<ParamEntity> GetEntityParamsVaried(DataProvider setting)
         {
             IEnumerable<ParamEntity> res = null;
 
-            if(setting.EntityInfo != null)
+            if(setting.ConnectorInfo != null)
                 res = new SettingHelper().GetSettingParams(setting);
             else
                 res = new List<ParamEntity>();
