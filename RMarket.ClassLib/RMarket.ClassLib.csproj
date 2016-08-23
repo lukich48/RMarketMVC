@@ -139,7 +139,7 @@
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Selection.cs" />
     <Compile Include="Entities\Selection_metadata.cs" />
-    <Compile Include="Entities\Setting_metadata.cs" />
+    <Compile Include="Entities\DataProvider_metadata.cs" />
     <Compile Include="Entities\StrategyInfo.cs" />
     <Compile Include="Entities\DataProvider.cs" />
     <Compile Include="Entities\Ticker.cs" />
@@ -154,6 +154,7 @@
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
     <Compile Include="HistoricalProviders\Finam.cs" />
+    <Compile Include="Infrastructure\AmbientContext\Resolver.cs" />
     <Compile Include="Infrastructure\AutomapperConfigurations\BasicConfigurarion.cs" />
     <Compile Include="Infrastructure\Current.cs" />
     <Compile Include="Managers\EmulManager.cs" />

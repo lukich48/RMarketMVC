@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace RMarket.ClassLib.Entities
 {
 
-    [MetadataType(typeof(Setting_metadata))]
+    [MetadataType(typeof(DataProvider_metadata))]
     public class DataProvider : IEntityData
     {
         public int Id { get; set; }

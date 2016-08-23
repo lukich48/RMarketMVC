@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RMarket.ClassLib.Entities
 {
     [System.Web.Mvc.Bind(Exclude = "StrategyInfo")]
-    public class Setting_metadata
+    public class DataProvider_metadata
     {
         [Display(Name = "Имя настройки")]
         [StringLength(150)]

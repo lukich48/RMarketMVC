@@ -27,8 +27,9 @@ namespace RMarket.WebUI.Infrastructure
 
         private void AddBindings()
         {
+            new CompositionRoot.Resolvers.BasicNinjectModule().Load(kernel);
             //Только то что относится к WebUI
-            
+
         }
     }
 }

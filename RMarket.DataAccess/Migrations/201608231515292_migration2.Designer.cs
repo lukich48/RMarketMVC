@@ -7,13 +7,13 @@ namespace RMarket.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class migration2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(migration2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608222006506_InitialCreate"; }
+            get { return "201608231515292_migration2"; }
         }
         
         string IMigrationMetadata.Source

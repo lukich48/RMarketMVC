@@ -45,12 +45,12 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 .ForMember(d => d.Instances, opt => opt.Ignore());
 
                 //Setting
-                cfg.CreateMap<DataProvider, SettingModel>()
+                cfg.CreateMap<DataProvider, DataProviderModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)
                       ));
 
-                cfg.CreateMap<SettingModel, DataProvider>()
+                cfg.CreateMap<DataProviderModel, DataProvider>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
                 .ForMember(d => d.ConnectorInfo, opt => opt.Ignore());

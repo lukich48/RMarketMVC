@@ -52,9 +52,17 @@
   <ItemGroup>
     <Compile Include="Context\RMarketContext.cs" />
     <Compile Include="Helpers\ContextInitializerHelper.cs" />
-    <Compile Include="Migrations\201608222006506_InitialCreate.cs" />
-    <Compile Include="Migrations\201608222006506_InitialCreate.Designer.cs">
-      <DependentUpon>201608222006506_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201608222034010_InitialCreate.cs" />
+    <Compile Include="Migrations\201608222034010_InitialCreate.Designer.cs">
+      <DependentUpon>201608222034010_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608231236174_SettingsRename.cs" />
+    <Compile Include="Migrations\201608231236174_SettingsRename.Designer.cs">
+      <DependentUpon>201608231236174_SettingsRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608231515292_migration2.cs" />
+    <Compile Include="Migrations\201608231515292_migration2.Designer.cs">
+      <DependentUpon>201608231515292_migration2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,8 +89,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608222006506_InitialCreate.resx">
-      <DependentUpon>201608222006506_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608222034010_InitialCreate.resx">
+      <DependentUpon>201608222034010_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608231236174_SettingsRename.resx">
+      <DependentUpon>201608231236174_SettingsRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608231515292_migration2.resx">
+      <DependentUpon>201608231515292_migration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -79,7 +79,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceService.GetById(model.InstanceId, true);
-                SettingModel setting = settingService.GetById(model.SettingId);
+                DataProviderModel setting = settingService.GetById(model.SettingId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy

@@ -15,13 +15,13 @@ using System.Web.Mvc;
 
 namespace RMarket.WebUI.Controllers
 {
-    public class SettingController : Controller
+    public class DataProviderController : Controller
     {
         private ISettingService settingService;
         private IStrategyInfoRepository strategyInfoRepository;
         private IConnectorInfoRepository connectorInfoRepository;
 
-        public SettingController(ISettingService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
+        public DataProviderController(ISettingService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
         {
             this.settingService = settingService;
             this.strategyInfoRepository = strategyInfoRepository;
@@ -35,7 +35,7 @@ namespace RMarket.WebUI.Controllers
             return View(res);
         }
 
-        private ActionResult _Edit(SettingModel model = null, int settingId = 0)
+        private ActionResult _Edit(DataProviderModel model = null, int settingId = 0)
         {
             ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
             ViewBag.ConnectorInfoList = ModelHelper.GetConnectorInfoList(connectorInfoRepository);
@@ -57,7 +57,7 @@ namespace RMarket.WebUI.Controllers
 
             }
             else //Запрос без параметров
-                model = new SettingModel();
+                model = new DataProviderModel();
 
             return View("Edit", model);
         }
@@ -69,7 +69,7 @@ namespace RMarket.WebUI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(SettingModel model, IEnumerable<ParamEntity> entityParams)
+        public ActionResult Edit(DataProviderModel model, IEnumerable<ParamEntity> entityParams)
         {
             model.EntityParams = entityParams.ToList();
 
@@ -99,7 +99,7 @@ namespace RMarket.WebUI.Controllers
                 if (settingId != 0)
                 {
                     //Сохраненный вариант
-                    SettingModel setting = settingService.GetById(settingId, true);
+                    DataProviderModel setting = settingService.GetById(settingId, true);
                     entityParams = setting.EntityParams;
                 }
             }
@@ -119,7 +119,7 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int settingId)
         {
-            SettingModel setting = settingService.GetById(settingId);
+            DataProviderModel setting = settingService.GetById(settingId);
             if (setting == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);

@@ -51,7 +51,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="connectorInfo"></param>
         /// <returns></returns>
-        public IDataProvider CreateDataProvider(SettingModel setting)
+        public IDataProvider CreateDataProvider(DataProviderModel setting)
         {
             if (setting.ConnectorInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");

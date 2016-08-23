@@ -1,5 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ namespace RMarket.ClassLib.Helpers
     public static class ReflectionHelper
     {
         /// <summary>
-        /// Создает новый объект из строкового представления типа !!!Передлать на IoC
+        /// Создает новый объект из строкового представления типа
         /// </summary>
         /// <param name="entityInfo"></param>
         /// <returns></returns>
         public static object CreateEntity(IEntityInfo entityInfo)
         {
-            object entity = Activator.CreateInstance(Type.GetType(entityInfo.TypeName));
+            object entity = Resolver.Current.Resolve(Type.GetType(entityInfo.TypeName));
 
             return entity;
         }

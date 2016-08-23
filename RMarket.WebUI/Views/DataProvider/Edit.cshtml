@@ -1,6 +1,6 @@
 ﻿@using RMarket.ClassLib.EntityModels;
 
-@model SettingModel
+@model DataProviderModel
 
 <script>
     $(function () {
@@ -20,7 +20,7 @@
         <h3>Редактирование настройки: <span class="text-info">@Model.Name</span></h3>
     </div>
 
-    @using (Html.BeginForm("Edit","Setting"))
+    @using (Html.BeginForm("Edit", "DataProvider"))
     {
         @Html.ValidationSummary()
 
@@ -50,14 +50,6 @@
                     </td>
                     <td>
                         @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.Priority)
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => m.Priority, new { @class = "form-control"})
                     </td>
                 </tr>
             </table>

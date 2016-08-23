@@ -90,7 +90,7 @@ namespace RMarket.DataAccess.Helpers
                     ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
-            context.Settings.AddRange(settings);
+            context.DataProviders.AddRange(settings);
             context.SaveChanges();
         }
 
@@ -113,7 +113,7 @@ namespace RMarket.DataAccess.Helpers
                     ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
-            context.Settings.AddRange(settings);
+            context.DataProviders.AddRange(settings);
             context.SaveChanges();
         }
 

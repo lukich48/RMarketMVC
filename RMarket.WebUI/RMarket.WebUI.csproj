@@ -288,7 +288,7 @@
     <Compile Include="Controllers\Admin\TestPageController.cs" />
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
-    <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\DataProviderController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Infrastructure\Binders\TickerBinder.cs" />
     <Compile Include="Controllers\Admin\StrategyInfoesController.cs" />
@@ -350,9 +350,9 @@
     <Content Include="Views\ConnectorInfoes\Details.cshtml" />
     <Content Include="Views\ConnectorInfoes\Edit.cshtml" />
     <Content Include="Views\ConnectorInfoes\Index.cshtml" />
-    <Content Include="Views\Setting\Index.cshtml" />
+    <Content Include="Views\DataProvider\Index.cshtml" />
     <Content Include="Views\Shared\EditParams.cshtml" />
-    <Content Include="Views\Setting\Edit.cshtml" />
+    <Content Include="Views\DataProvider\Edit.cshtml" />
     <Content Include="Views\Emul\Index.cshtml" />
     <Content Include="Views\Emul\BeginTest.cshtml" />
     <Content Include="Views\Instance\InstanceRec.cshtml" />

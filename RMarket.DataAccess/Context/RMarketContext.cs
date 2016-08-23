@@ -23,7 +23,7 @@ namespace RMarket.DataAccess.Context
         public virtual DbSet<Candle> Candles { get; set; }
         public virtual DbSet<Selection> Selections { get; set; }
         public virtual DbSet<ConnectorInfo> ConnectorInfoes { get; set; }
-        public virtual DbSet<DataProvider> Settings { get; set; }
+        public virtual DbSet<DataProvider> DataProviders { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
