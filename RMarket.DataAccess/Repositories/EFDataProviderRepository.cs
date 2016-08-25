@@ -7,9 +7,9 @@ using RMarket.ClassLib.Models;
 
 namespace RMarket.DataAccess.Repositories
 {
-    public class EFSettingRepository: EFRepositoryBase<DataProvider>, ISettingRepository
+    public class EFDataProviderRepository: EFRepositoryBase<DataProvider>, IDataProviderRepository
     {
-        public EFSettingRepository(RMarketContext context)
+        public EFDataProviderRepository(RMarketContext context)
             :base(context)
         { }
 

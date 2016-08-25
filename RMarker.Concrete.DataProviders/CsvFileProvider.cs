@@ -11,7 +11,7 @@ using RMarket.ClassLib.Entities;
 using System.Threading;
 using RMarket.ClassLib.Abstract.IRepository;
 
-namespace RMarket.ClassLib.Connectors
+namespace RMarket.Concrete.DataProviders
 {
     public class CsvFileProvider : IDataProvider
     {

@@ -17,11 +17,11 @@ namespace RMarket.WebUI.Controllers
 {
     public class DataProviderController : Controller
     {
-        private ISettingService settingService;
+        private IDataProviderService settingService;
         private IStrategyInfoRepository strategyInfoRepository;
         private IConnectorInfoRepository connectorInfoRepository;
 
-        public DataProviderController(ISettingService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
+        public DataProviderController(IDataProviderService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
         {
             this.settingService = settingService;
             this.strategyInfoRepository = strategyInfoRepository;

@@ -3,7 +3,7 @@ using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.ClassLib.Abstract.IService
 {
-    public interface ISettingService : IEntityService<DataProvider,DataProviderModel>
+    public interface IDataProviderService : IEntityService<DataProvider,DataProviderModel>
     {
     }
 }

@@ -8,6 +8,9 @@ namespace RMarket.WebUI
     {
         protected void Application_Start()
         {
+            //Инициализация статических зависимостей
+            new CompositionRoot.Inicializer().ApplicationStart();
+
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

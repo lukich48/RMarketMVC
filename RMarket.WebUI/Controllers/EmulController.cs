@@ -2,7 +2,6 @@
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Abstract.IService;
-using RMarket.ClassLib.Connectors;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
@@ -14,7 +13,6 @@ using RMarket.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace RMarket.WebUI.Controllers
@@ -22,14 +20,14 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private readonly IInstanceService instanceService;
-        private readonly ISettingService settingService;
+        private readonly IDataProviderService settingService;
         private readonly IAliveStrategyRepository aliveStrategyRepository;
         private readonly IOrderRepository orderRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceService instanceService, ISettingService settingService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
+        public EmulController(IInstanceService instanceService, IDataProviderService settingService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
         {
             this.instanceService = instanceService;
             this.settingService = settingService;

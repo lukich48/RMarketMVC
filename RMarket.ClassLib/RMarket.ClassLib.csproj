@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ContextInitializer.cs" />
     <Compile Include="Abstract\IEntityData.cs" />
     <Compile Include="Abstract\IRepository\IAliveStrategyRepository.cs" />
     <Compile Include="Abstract\IRepository\ICandleRepository.cs" />
@@ -119,18 +120,16 @@
     <Compile Include="Abstract\IRepository\IInstanceRepository.cs" />
     <Compile Include="Abstract\IRepository\IOrderRepository.cs" />
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
-    <Compile Include="Abstract\IRepository\ISettingRepository.cs" />
+    <Compile Include="Abstract\IRepository\IDataProviderRepository.cs" />
     <Compile Include="Abstract\ISelectionModule.cs" />
     <Compile Include="Abstract\IService\IEntityService.cs" />
-    <Compile Include="Abstract\IService\ISettingService.cs" />
+    <Compile Include="Abstract\IService\IDataProviderService.cs" />
     <Compile Include="Abstract\IService\IInstanceService.cs" />
     <Compile Include="Abstract\IService\ISelectionService.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\IRepository\IStrategyInfoRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickerRepository.cs" />
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
-    <Compile Include="Connectors\CsvFileConnector.cs" />
-    <Compile Include="Connectors\QuikConnector.cs" />
     <Compile Include="Abstract\IRepository\IEntityRepository.cs" />
     <Compile Include="Entities\Candle.cs" />
     <Compile Include="Entities\ConnectorInfo.cs" />
@@ -175,7 +174,8 @@
     <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\SettingService.cs" />
+    <Compile Include="QuikProvider.cs" />
+    <Compile Include="Services\DataProviderService.cs" />
     <Compile Include="Services\SelectionService.cs" />
     <Compile Include="Services\EntityServiceBase.cs" />
     <Compile Include="Services\InstanceService.cs" />

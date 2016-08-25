@@ -72,27 +72,27 @@ namespace RMarket.DataAccess.Helpers
             context.SaveChanges();
         }
 
-        public void SeedConnectorQuik()
-        {
-            List<ParamEntity> entityParams = new List<ParamEntity>
-            {
-                new ParamEntity {FieldName="serverName",FieldValue="RMarket" },
-                new ParamEntity {FieldName="col_Date",FieldValue="Дата" },
-                new ParamEntity {FieldName="col_Time",FieldValue="Время" },
-                new ParamEntity {FieldName="col_TickerCode",FieldValue="Код бумаги" },
-                new ParamEntity {FieldName="col_Price",FieldValue="Цена" },
-                new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
-                new ParamEntity {FieldName="col_Period",FieldValue="Период" }
-            };
-            List<DataProvider> settings = new List<DataProvider>
-            {
-                new DataProvider {Name="Quik default", 
-                    ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
-                StrParams = Serializer.Serialize(entityParams)}
-            };
-            context.DataProviders.AddRange(settings);
-            context.SaveChanges();
-        }
+        //public void SeedConnectorQuik()
+        //{
+        //    List<ParamEntity> entityParams = new List<ParamEntity>
+        //    {
+        //        new ParamEntity {FieldName="serverName",FieldValue="RMarket" },
+        //        new ParamEntity {FieldName="col_Date",FieldValue="Дата" },
+        //        new ParamEntity {FieldName="col_Time",FieldValue="Время" },
+        //        new ParamEntity {FieldName="col_TickerCode",FieldValue="Код бумаги" },
+        //        new ParamEntity {FieldName="col_Price",FieldValue="Цена" },
+        //        new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
+        //        new ParamEntity {FieldName="col_Period",FieldValue="Период" }
+        //    };
+        //    List<DataProvider> settings = new List<DataProvider>
+        //    {
+        //        new DataProvider {Name="Quik default", 
+        //            ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+        //        StrParams = Serializer.Serialize(entityParams)}
+        //    };
+        //    context.DataProviders.AddRange(settings);
+        //    context.SaveChanges();
+        //}
 
         public void SeedConnectorCsvFile()
         {

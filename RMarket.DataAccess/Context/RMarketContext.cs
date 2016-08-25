@@ -7,6 +7,7 @@ using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using RMarket.DataAccess.Helpers;
+using RMarket.ClassLib.Abstract;
 
 namespace RMarket.DataAccess.Context
 {
@@ -131,21 +132,23 @@ namespace RMarket.DataAccess.Context
         }
     }
 
-    public class RMarketInitializer : CreateDatabaseIfNotExists<RMarketContext>
+    public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
     {
+        public static IContextInitializer<DataProvider> DataProviderInitializer { get; set; }
+
         protected override void Seed(RMarketContext context)
         {
             ContextInitializerHelper helper = new ContextInitializerHelper(context);
 
             helper.SeedTickers();
-
             helper.SeedTimeFrames();
 
-            helper.SeedStrategyInfoes();
+            context.DataProviders.AddRange(DataProviderInitializer.Get());
+            context.SaveChanges();
 
-            helper.SeedConnectorInfoes();
+            //helper.SeedStrategyInfoes();
 
-            helper.SeedConnectorQuik();
+            //helper.SeedConnectorInfoes();
 
         }
     }

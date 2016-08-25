@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Connectors
+namespace RMarket.Concrete.DataProviders
 {
     public class QuikProvider: IDataProvider
     {
