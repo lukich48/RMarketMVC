@@ -44,7 +44,7 @@ namespace RMarket.WebUI.Controllers
             {
                 //IEntityInfo entityInfo = SettingHelper.GetEntityInfo(model.SettingType, model.EntityInfoId);
                 //!!!Восстановить model.EntityInfo
-                model.EntityParams = StrategyHelper.GetEntityParams(model.ConnectorInfo, model.EntityParams).ToList();
+                model.EntityParams = StrategyHelper.GetEntityParams(model.DataProviderInfo, model.EntityParams).ToList();
             }
             else if (settingId != 0)
             {
@@ -107,11 +107,11 @@ namespace RMarket.WebUI.Controllers
         }
 
         //Новый экземпляр
-        public PartialViewResult EditParamsNew(int connectorInfoId)
+        public PartialViewResult EditParamsNew(int dataProviderInfoId)
         {
-            ConnectorInfo connectorInfo = connectorInfoRepository.GetById(connectorInfoId);
+            DataProviderInfo dataProviderInfo = connectorInfoRepository.GetById(dataProviderInfoId);
 
-            IEnumerable<ParamEntity> entityParams = StrategyHelper.GetEntityParams<ParamEntity>(connectorInfo);
+            IEnumerable<ParamEntity> entityParams = StrategyHelper.GetEntityParams<ParamEntity>(dataProviderInfo);
 
             return PartialView("EditParams",entityParams);
         }

@@ -53,7 +53,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 cfg.CreateMap<DataProviderModel, DataProvider>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
-                .ForMember(d => d.ConnectorInfo, opt => opt.Ignore());
+                .ForMember(d => d.DataProviderInfo, opt => opt.Ignore());
             });
         }
 
@@ -85,7 +85,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
         {
             IEnumerable<ParamEntity> res = null;
 
-            if(setting.ConnectorInfo != null)
+            if(setting.DataProviderInfo != null)
                 res = new SettingHelper().GetSettingParams(setting);
             else
                 res = new List<ParamEntity>();

@@ -16,7 +16,7 @@ namespace RMarket.ClassLib.Entities
 
         public string Name { get; set; }
 
-        public int ConnectorInfoId { get; set; }
+        public int DataProviderInfoId { get; set; }
 
         public string Description { get; set; }
 
@@ -24,6 +24,6 @@ namespace RMarket.ClassLib.Entities
 
         public string StrParams { get; set; }
 
-        public ConnectorInfo ConnectorInfo { get; set; }
+        public DataProviderInfo DataProviderInfo { get; set; }
     }
 }

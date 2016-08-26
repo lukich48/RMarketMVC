@@ -34,7 +34,7 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
                     Name ="Quik default",
                     CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                     StrParams = Serializer.Serialize(entityParams),
-                    ConnectorInfo = new ConnectorInfo
+                    DataProviderInfo = new DataProviderInfo
                     {
                         Name = "QuikProvider",
                         TypeName = typeof(QuikProvider).AssemblyQualifiedName
@@ -65,9 +65,9 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
                 new DataProvider
                 {
                     Name ="csv Finam",
-                    ConnectorInfoId = 2, CreateDate= DateTime.Now, Description="Настройка для .csv от Финама",
+                    DataProviderInfoId = 2, CreateDate= DateTime.Now, Description="Настройка для .csv от Финама",
                     StrParams = Serializer.Serialize(entityParams),
-                    ConnectorInfo = new ConnectorInfo
+                    DataProviderInfo = new DataProviderInfo
                     {
                         Name = "CsvFileProvider",
                         TypeName = typeof(CsvFileProvider).AssemblyQualifiedName

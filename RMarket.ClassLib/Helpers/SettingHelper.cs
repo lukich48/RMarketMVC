@@ -23,12 +23,12 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public IEnumerable<ParamEntity> GetSettingParams(DataProvider setting)
         {
-            if (setting.ConnectorInfo == null)
+            if (setting.DataProviderInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.ConnectorInfo, savedParams).ToList();
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.DataProviderInfo, savedParams).ToList();
 
             return res;
         }
@@ -41,7 +41,7 @@ namespace RMarket.ClassLib.Helpers
         //public static IDataProvider CreateDataProvider(StrategyInfo strategyInfo)
         //{
         //    //Найдем актуальную настройку для стратегии
-        //    Setting setting = settingRepository.Get(T=>T.Where(s => s.SettingType == SettingType.ConnectorInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority)).FirstOrDefault();
+        //    Setting setting = settingRepository.Get(T=>T.Where(s => s.SettingType == SettingType.DataProviderInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority)).FirstOrDefault();
 
         //    return CreateDataProvider(setting);
         //}
@@ -49,16 +49,16 @@ namespace RMarket.ClassLib.Helpers
         /// <summary>
         /// Находит провайдер по умолчанию для стратегии
         /// </summary>
-        /// <param name="connectorInfo"></param>
+        /// <param name="dataProviderInfo"></param>
         /// <returns></returns>
         public IDataProvider CreateDataProvider(DataProviderModel setting)
         {
-            if (setting.ConnectorInfo == null)
+            if (setting.DataProviderInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.ConnectorInfo);
+            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.DataProviderInfo);
 
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.ConnectorInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.DataProviderInfo, setting.EntityParams);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);

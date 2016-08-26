@@ -34,12 +34,12 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo connectorInfo = connectorInfoRepository.GetById(id);
-            if (connectorInfo == null)
+            DataProviderInfo dataProviderInfo = connectorInfoRepository.GetById(id);
+            if (dataProviderInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(connectorInfo);
+            return View(dataProviderInfo);
         }
 
         // GET: ConnectorInfoes/Create
@@ -53,15 +53,15 @@ namespace RMarket.WebUI.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TypeName,Name")] ConnectorInfo connectorInfo)
+        public ActionResult Create([Bind(Include = "Id,TypeName,Name")] DataProviderInfo dataProviderInfo)
         {
             if (ModelState.IsValid)
             {
-                connectorInfoRepository.Save(connectorInfo);
+                connectorInfoRepository.Save(dataProviderInfo);
                 return RedirectToAction("Index");
             }
 
-            return View(connectorInfo);
+            return View(dataProviderInfo);
         }
 
         // GET: ConnectorInfoes/Edit/5
@@ -71,12 +71,12 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo ConnectorInfo = connectorInfoRepository.GetById(id);
-            if (ConnectorInfo == null)
+            DataProviderInfo DataProviderInfo = connectorInfoRepository.GetById(id);
+            if (DataProviderInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(ConnectorInfo);
+            return View(DataProviderInfo);
         }
 
         // POST: ConnectorInfoes/Edit/5
@@ -84,14 +84,14 @@ namespace RMarket.WebUI.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TypeName,Name")] ConnectorInfo connectorInfo)
+        public ActionResult Edit([Bind(Include = "Id,TypeName,Name")] DataProviderInfo dataProviderInfo)
         {
             if (ModelState.IsValid)
             {
-                connectorInfoRepository.Save(connectorInfo);
+                connectorInfoRepository.Save(dataProviderInfo);
                 return RedirectToAction("Index");
             }
-            return View(connectorInfo);
+            return View(dataProviderInfo);
         }
 
         // GET: ConnectorInfoes/Delete/5
@@ -101,12 +101,12 @@ namespace RMarket.WebUI.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ConnectorInfo ConnectorInfo = connectorInfoRepository.GetById(id);
-            if (ConnectorInfo == null)
+            DataProviderInfo DataProviderInfo = connectorInfoRepository.GetById(id);
+            if (DataProviderInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(ConnectorInfo);
+            return View(DataProviderInfo);
         }
 
         // POST: ConnectorInfoes/Delete/5

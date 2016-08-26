@@ -62,13 +62,13 @@ namespace RMarket.DataAccess.Helpers
 
         public void SeedConnectorInfoes()
         {
-            List<ConnectorInfo> listConnectorInfo = new List<ConnectorInfo>
+            List<DataProviderInfo> listConnectorInfo = new List<DataProviderInfo>
             {
-                new ConnectorInfo {TypeName="RMarket.ClassLib.Connectors.QuikConnector, RMarket.ClassLib", Name="QuikConnector" },
-                new ConnectorInfo {TypeName="RMarket.ClassLib.Connectors.CsvFileConnector, RMarket.ClassLib", Name="CsvFileConnector" },
+                new DataProviderInfo {TypeName="RMarket.ClassLib.Connectors.QuikConnector, RMarket.ClassLib", Name="QuikConnector" },
+                new DataProviderInfo {TypeName="RMarket.ClassLib.Connectors.CsvFileConnector, RMarket.ClassLib", Name="CsvFileConnector" },
 
             };
-            context.ConnectorInfoes.AddRange(listConnectorInfo);
+            context.DataProviderInfoes.AddRange(listConnectorInfo);
             context.SaveChanges();
         }
 
@@ -87,7 +87,7 @@ namespace RMarket.DataAccess.Helpers
         //    List<DataProvider> settings = new List<DataProvider>
         //    {
         //        new DataProvider {Name="Quik default", 
-        //            ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+        //            DataProviderInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
         //        StrParams = Serializer.Serialize(entityParams)}
         //    };
         //    context.DataProviders.AddRange(settings);
@@ -110,7 +110,7 @@ namespace RMarket.DataAccess.Helpers
             List<DataProvider> settings = new List<DataProvider>
             {
                 new DataProvider {Name="Quik default",
-                    ConnectorInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+                    DataProviderInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
             context.DataProviders.AddRange(settings);

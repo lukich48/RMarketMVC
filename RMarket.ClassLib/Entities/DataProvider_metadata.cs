@@ -16,7 +16,7 @@ namespace RMarket.ClassLib.Entities
 
         [Display(Name = "Объект настроек")]
         [Required(ErrorMessage = "Укажите объект для настроек")]
-        public int ConnectorInfoId { get; set; }
+        public int DataProviderInfoId { get; set; }
 
         [Display(Name = "Описание")]
         [DataType(DataType.MultilineText)]

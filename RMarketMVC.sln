@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Concrete", "Concrete", "{A9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarker.Concrete.DataProviders", "RMarker.Concrete.DataProviders\RMarker.Concrete.DataProviders.csproj", "{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.HistoricalProviders", "RMarket.Concrete.HistoricalProviders\RMarket.Concrete.HistoricalProviders.csproj", "{F05B63E0-0951-4C3D-BE78-7F4D613E3672}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,12 +55,17 @@ Global
 		{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{25ABDD46-B86C-4D31-A114-6BBF1AFA893D} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
+		{F05B63E0-0951-4C3D-BE78-7F4D613E3672} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

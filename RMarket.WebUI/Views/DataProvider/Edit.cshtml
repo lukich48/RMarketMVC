@@ -5,7 +5,7 @@
 <script>
     $(function () {
         $("#EntityInfoId").change(function () {
-            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?connectorInfoId=" + this.value)
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?dataProviderInfoId=" + this.value)
         });
 
     });
@@ -38,10 +38,10 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.ConnectorInfoId)
+                        @Html.LabelFor(m => m.DataProviderInfoId)
                     </td>
                     <td>
-                        @Html.DropDownListFor(m => m.ConnectorInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.DataProviderInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>

@@ -132,7 +132,7 @@
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
     <Compile Include="Abstract\IRepository\IEntityRepository.cs" />
     <Compile Include="Entities\Candle.cs" />
-    <Compile Include="Entities\ConnectorInfo.cs" />
+    <Compile Include="Entities\DataProviderInfo.cs" />
     <Compile Include="Entities\Instance.cs" />
     <Compile Include="Entities\Instance_metadata.cs" />
     <Compile Include="Entities\Order.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="Models\ParamSelection.cs" />
     <Compile Include="Models\ParamEntity.cs" />
     <Compile Include="Models\ParamBase.cs" />
-    <Compile Include="EntityModels\SettingModel.cs" />
+    <Compile Include="EntityModels\DataProviderModel.cs" />
     <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -23,7 +23,7 @@ namespace RMarket.DataAccess.Context
         public virtual DbSet<TimeFrame> TimeFrames { get; set; }
         public virtual DbSet<Candle> Candles { get; set; }
         public virtual DbSet<Selection> Selections { get; set; }
-        public virtual DbSet<ConnectorInfo> ConnectorInfoes { get; set; }
+        public virtual DbSet<DataProviderInfo> DataProviderInfoes { get; set; }
         public virtual DbSet<DataProvider> DataProviders { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -134,6 +134,7 @@ namespace RMarket.DataAccess.Context
 
     public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
     {
+        public static IContextInitializer<DataProviderInfo> DataProviderInfoInitializer { get; set; }
         public static IContextInitializer<DataProvider> DataProviderInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
@@ -143,8 +144,17 @@ namespace RMarket.DataAccess.Context
             helper.SeedTickers();
             helper.SeedTimeFrames();
 
-            context.DataProviders.AddRange(DataProviderInitializer.Get());
-            context.SaveChanges();
+            if(DataProviderInfoInitializer!=null)
+            {
+                context.DataProviderInfoes.AddRange(DataProviderInfoInitializer.Get());
+                context.SaveChanges();
+            }
+
+            if (DataProviderInfoInitializer != null)
+            {
+                context.DataProviders.AddRange(DataProviderInitializer.Get());
+                context.SaveChanges();
+            }
 
             //helper.SeedStrategyInfoes();
 
