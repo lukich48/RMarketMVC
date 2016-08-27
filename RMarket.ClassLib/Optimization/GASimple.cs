@@ -26,7 +26,7 @@ namespace RMarket.ClassLib.Optimization
 
         public List<InstanceModel> Start(int selectionId, DateTime dateFrom, DateTime dateTo)
         {
-            SelectionModel selection = selectionService.GetById(selectionId, s=>s.StrategyInfo);
+            SelectionModel selection = selectionService.GetById(selectionId, s=>s.EntityInfo);
 
             List<InstanceModel> res = new List<InstanceModel>();
 

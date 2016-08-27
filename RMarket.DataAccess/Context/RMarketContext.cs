@@ -18,12 +18,11 @@ namespace RMarket.DataAccess.Context
         { }
 
         public virtual DbSet<Instance> Instances { get; set; }
-        public virtual DbSet<StrategyInfo> StrategyInfoes { get; set; }
+        public virtual DbSet<EntityInfo> EntityInfoes { get; set; }
         public virtual DbSet<Ticker> Tickers { get; set; }
         public virtual DbSet<TimeFrame> TimeFrames { get; set; }
         public virtual DbSet<Candle> Candles { get; set; }
         public virtual DbSet<Selection> Selections { get; set; }
-        public virtual DbSet<DataProviderInfo> DataProviderInfoes { get; set; }
         public virtual DbSet<DataProvider> DataProviders { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -134,7 +133,7 @@ namespace RMarket.DataAccess.Context
 
     public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
     {
-        public static IContextInitializer<DataProviderInfo> DataProviderInfoInitializer { get; set; }
+        public static IContextInitializer<EntityInfo> DataProviderInfoInitializer { get; set; }
         public static IContextInitializer<DataProvider> DataProviderInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
@@ -143,20 +142,19 @@ namespace RMarket.DataAccess.Context
 
             helper.SeedTickers();
             helper.SeedTimeFrames();
+            helper.SeedStrategyInfoes();
 
-            if(DataProviderInfoInitializer!=null)
+            if (DataProviderInfoInitializer!=null)
             {
-                context.DataProviderInfoes.AddRange(DataProviderInfoInitializer.Get());
+                context.EntityInfoes.AddRange(DataProviderInfoInitializer.Get());
                 context.SaveChanges();
             }
 
-            if (DataProviderInfoInitializer != null)
+            if (DataProviderInitializer != null)
             {
                 context.DataProviders.AddRange(DataProviderInitializer.Get());
                 context.SaveChanges();
             }
-
-            //helper.SeedStrategyInfoes();
 
             //helper.SeedConnectorInfoes();
 

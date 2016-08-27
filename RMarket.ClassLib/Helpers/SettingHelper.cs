@@ -23,12 +23,12 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public IEnumerable<ParamEntity> GetSettingParams(DataProvider setting)
         {
-            if (setting.DataProviderInfo == null)
+            if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.DataProviderInfo, savedParams).ToList();
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
 
             return res;
         }
@@ -36,12 +36,12 @@ namespace RMarket.ClassLib.Helpers
         ///// <summary>
         ///// Находит провайдер по умолчанию для стратегии
         ///// </summary>
-        ///// <param name="strategyInfo"></param>
+        ///// <param name="entityInfo"></param>
         ///// <returns></returns>
-        //public static IDataProvider CreateDataProvider(StrategyInfo strategyInfo)
+        //public static IDataProvider CreateDataProvider(EntityInfo entityInfo)
         //{
         //    //Найдем актуальную настройку для стратегии
-        //    Setting setting = settingRepository.Get(T=>T.Where(s => s.SettingType == SettingType.DataProviderInfo && s.StrategyInfoId == strategyInfo.Id).OrderByDescending(s => s.Priority)).FirstOrDefault();
+        //    Setting setting = settingRepository.Get(T=>T.Where(s => s.SettingType == SettingType.EntityInfo && s.EntityInfoId == entityInfo.Id).OrderByDescending(s => s.Priority)).FirstOrDefault();
 
         //    return CreateDataProvider(setting);
         //}
@@ -49,16 +49,16 @@ namespace RMarket.ClassLib.Helpers
         /// <summary>
         /// Находит провайдер по умолчанию для стратегии
         /// </summary>
-        /// <param name="dataProviderInfo"></param>
+        /// <param name="entityInfo"></param>
         /// <returns></returns>
         public IDataProvider CreateDataProvider(DataProviderModel setting)
         {
-            if (setting.DataProviderInfo == null)
+            if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.DataProviderInfo);
+            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
 
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.DataProviderInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);

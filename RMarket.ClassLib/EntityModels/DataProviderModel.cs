@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public string Name { get; set; }
 
-        public int DataProviderInfoId { get; set; }
+        public int EntityInfoId { get; set; }
 
         public string Description { get; set; }
 
@@ -23,7 +23,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public List<ParamEntity> EntityParams { get; set; }
 
-        public IEntityInfo DataProviderInfo { get; set; }
+        public IEntityInfo EntityInfo { get; set; }
 
         public DataProviderModel()
         {

@@ -48,15 +48,15 @@ namespace RMarket.ClassLib.Helpers
         /// <summary>
         /// Создает новый объект стратегии и применяет сохраненные параметры.
         /// </summary>
-        /// <param name="strategyInfo"></param>
+        /// <param name="entityInfo"></param>
         /// <param name="strategyParams"></param>
         /// <returns></returns>
         public static IStrategy CreateStrategy(InstanceModel instance)
         {
-            if (instance.StrategyInfo == null)
-                throw new CustomException($"instanceId={instance.Id}. StrategyInfo is null!");
+            if (instance.EntityInfo == null)
+                throw new CustomException($"instanceId={instance.Id}. EntityInfo is null!");
 
-            IStrategy strategy = (IStrategy)ReflectionHelper.CreateEntity(instance.StrategyInfo);
+            IStrategy strategy = (IStrategy)ReflectionHelper.CreateEntity(instance.EntityInfo);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(strategy);
@@ -114,12 +114,12 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public static IEnumerable<ParamEntity> GetStrategyParams(Instance instance)
         {
-            if (instance.StrategyInfo == null)
-                throw new CustomException($"instanceId={instance.Id}. StrategyInfo is null!");
+            if (instance.EntityInfo == null)
+                throw new CustomException($"instanceId={instance.Id}. EntityInfo is null!");
 
             IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(instance);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(instance.StrategyInfo, savedParams).ToList();
+            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(instance.EntityInfo, savedParams).ToList();
 
             return res;
         }
@@ -133,7 +133,7 @@ namespace RMarket.ClassLib.Helpers
         {
             IEnumerable<ParamSelection> savedParams = GetSavedStrategyParams(selection);
 
-            IEnumerable<ParamSelection> res = StrategyHelper.GetEntityParams<ParamSelection>(selection.StrategyInfo, savedParams);
+            IEnumerable<ParamSelection> res = StrategyHelper.GetEntityParams<ParamSelection>(selection.EntityInfo, savedParams);
 
             return res;
         }

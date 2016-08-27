@@ -5,9 +5,9 @@
 
 @foreach (var elem in Model)
 {
-    string primaryClass =elem.StrategyInfo.Id == ViewBag.CurStrategyInfoId ? "btn-primary" : "";
-    <a href="@Url.Action("Index", new { strategyInfoId = elem.StrategyInfo.Id })" class="btn btn-block btn-default btn-lg @primaryClass">
-@elem.StrategyInfo.Name
+    string primaryClass =elem.EntityInfo.Id == ViewBag.CurStrategyInfoId ? "btn-primary" : "";
+    <a href="@Url.Action("Index", new { entityInfoId = elem.EntityInfo.Id })" class="btn btn-block btn-default btn-lg @primaryClass">
+@elem.EntityInfo.Name
         <span class="badge">@elem.Count</span>
     </a>
 }

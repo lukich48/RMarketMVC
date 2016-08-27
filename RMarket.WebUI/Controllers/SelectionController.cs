@@ -21,9 +21,9 @@ namespace RMarket.WebUI.Controllers
         private readonly ISelectionService selectionService;
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
-        private readonly IStrategyInfoRepository strategyInfoRepository;
+        private readonly IEntityInfoRepository strategyInfoRepository;
 
-        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IStrategyInfoRepository strategyInfoRepository)
+        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository strategyInfoRepository)
         {
             this.selectionService = selectionService;
             this.tickerRepository = tickerRepository;
@@ -32,15 +32,15 @@ namespace RMarket.WebUI.Controllers
         }
 
         // GET: Selection
-        public ViewResult Index(int strategyInfoId = 0)
+        public ViewResult Index(int entityInfoId = 0)
         {
             IEnumerable<SelectionModel> res = selectionService.Get(T => T
-                .Where(i => i.StrategyInfoId == strategyInfoId || strategyInfoId == 0)
+                .Where(i => i.EntityInfoId == entityInfoId || entityInfoId == 0)
                 .GroupBy(s => s.GroupID)
                 .SelectMany(g => g.Select(s => s)
                     .OrderByDescending(s => s.Id)
                     .Take(1)
-                ).Include(m => m.StrategyInfo)
+                ).Include(m => m.EntityInfo)
                 );
 
             return View(res);
@@ -93,7 +93,7 @@ namespace RMarket.WebUI.Controllers
 
         }
 
-        public PartialViewResult EditParams(IEnumerable<ParamSelection> strategyParams, int strategyInfoId = 0, int instanceId = 0)
+        public PartialViewResult EditParams(IEnumerable<ParamSelection> strategyParams, int entityInfoId = 0, int instanceId = 0)
         {
 
             if(strategyParams==null)
@@ -104,14 +104,14 @@ namespace RMarket.WebUI.Controllers
                 if (instanceId != 0)
                 {
                     //Сохраненный вариант
-                    SelectionModel selection = selectionService.GetById(instanceId, s=>s.StrategyInfo);
+                    SelectionModel selection = selectionService.GetById(instanceId, s=>s.EntityInfo);
                     strategyParams = selection.SelectionParams;
                 }
-                else if (strategyInfoId != 0)
+                else if (entityInfoId != 0)
                 {
                     //Новый вариант
-                    StrategyInfo strategyInfo = strategyInfoRepository.GetById(strategyInfoId);
-                    strategyParams = StrategyHelper.GetEntityParams<ParamSelection>(strategyInfo);
+                    EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
+                    strategyParams = StrategyHelper.GetEntityParams<ParamSelection>(entityInfo);
                 }
             }      
 
@@ -142,10 +142,10 @@ namespace RMarket.WebUI.Controllers
         //    return View();
         //}
 
-        public PartialViewResult MenuNav(int strategyInfoId = 0)
+        public PartialViewResult MenuNav(int entityInfoId = 0)
         {
             IEnumerable<MenuNavModel> models = selectionService.Get(t => t
-            .GroupBy(i => i.StrategyInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel { StrategyInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
+            .GroupBy(i => i.EntityInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel { EntityInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
             );
 
             return PartialView(models);
@@ -199,7 +199,7 @@ namespace RMarket.WebUI.Controllers
             InitializeLists();
 
             LoadNavigationProperties(model);
-            model.SelectionParams = StrategyHelper.GetEntityParams(model.StrategyInfo, model.SelectionParams).ToList();
+            model.SelectionParams = StrategyHelper.GetEntityParams(model.EntityInfo, model.SelectionParams).ToList();
 
             return View("Edit", model);
 
@@ -215,8 +215,8 @@ namespace RMarket.WebUI.Controllers
 
         public void LoadNavigationProperties(SelectionModel model)
         {
-            if (model.StrategyInfo == null && model.StrategyInfoId != 0)
-                model.StrategyInfo = strategyInfoRepository.GetById(model.StrategyInfoId);
+            if (model.EntityInfo == null && model.EntityInfoId != 0)
+                model.EntityInfo = strategyInfoRepository.GetById(model.EntityInfoId);
 
             if (model.Ticker == null && model.TickerId != 0)
                 model.Ticker = tickerRepository.GetById(model.TickerId);

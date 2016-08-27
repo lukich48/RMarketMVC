@@ -22,24 +22,24 @@ namespace RMarket.WebUI.Infrastructure
             return new SelectList(timeFrameRepository.Get(), "Id", "Name");
         }
 
-        public static SelectList GetStrategyInfoList(IStrategyInfoRepository strategyInfoRepository)
-        {
-            return new SelectList(strategyInfoRepository.Get(), "Id", "Name");
-        }
-
         public static SelectList GetInstanceList(ClassLib.Abstract.IService.IInstanceService instanceService)
         {
             return new SelectList(instanceService.Get(), "Id", "Name");
         }
 
-        public static SelectList GetConnectorInfoList(IConnectorInfoRepository connectorInfoRepository)
+        public static SelectList GetStrategyInfoList(IEntityInfoRepository entityInfoRepository)
         {
-            return new SelectList(connectorInfoRepository.Get(), "Id", "Name");
+            return new SelectList(entityInfoRepository.Get(T => T.Where(e => e.EntityType == EntityType.StrategyInfo)), "Id", "Name");
         }
 
-        public static SelectList GetSettingList(IDataProviderService settingService)
+        public static SelectList GetDataProviderInfoList(IEntityInfoRepository entityInfoRepository)
         {
-            return new SelectList(settingService.Get(), "Id", "Name");
+            return new SelectList(entityInfoRepository.Get(T=>T.Where(e=>e.EntityType== EntityType.DataProviderInfo)), "Id", "Name");
+        }
+
+        public static SelectList GetDataProviderList(IDataProviderService dataProviderService)
+        {
+            return new SelectList(dataProviderService.Get(), "Id", "Name");
         }
 
     }

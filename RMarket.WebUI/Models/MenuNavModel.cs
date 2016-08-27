@@ -8,7 +8,7 @@ namespace RMarket.WebUI.Models
 {
     public class MenuNavModel
     {
-        public StrategyInfo StrategyInfo { get; set; }
+        public EntityInfo EntityInfo { get; set; }
         /// <summary>
         /// количество экземпляров
         /// </summary>

@@ -12,104 +12,104 @@ using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.WebUI.Controllers.Admin
 {
-    public class StrategyInfoesController : Controller
+    public class EntityInfoesController : Controller
     {
-        private IStrategyInfoRepository strategyInfoRepository;
+        private IEntityInfoRepository strategyInfoRepository;
 
-        public StrategyInfoesController(IStrategyInfoRepository strategyInfoRepository)
+        public EntityInfoesController(IEntityInfoRepository strategyInfoRepository)
         {
             this.strategyInfoRepository = strategyInfoRepository;
         }
 
-        // GET: StrategyInfoes
+        // GET: EntityInfoes
         public ActionResult Index()
         {
             return View(strategyInfoRepository.Get().ToList());
         }
 
-        // GET: StrategyInfoes/Details/5
+        // GET: EntityInfoes/Details/5
         public ActionResult Details(int id)
         {
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
-            if (strategyInfo == null)
+            EntityInfo entityInfo = strategyInfoRepository.GetById(id);
+            if (entityInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(strategyInfo);
+            return View(entityInfo);
         }
 
-        // GET: StrategyInfoes/Create
+        // GET: EntityInfoes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: StrategyInfoes/Create
+        // POST: EntityInfoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TypeName,Name")] StrategyInfo strategyInfo)
+        public ActionResult Create([Bind(Include = "Id,TypeName,Name")] EntityInfo entityInfo)
         {
             if (ModelState.IsValid)
             {
-                strategyInfoRepository.Save(strategyInfo);
+                strategyInfoRepository.Save(entityInfo);
                 return RedirectToAction("Index");
             }
 
-            return View(strategyInfo);
+            return View(entityInfo);
         }
 
-        // GET: StrategyInfoes/Edit/5
+        // GET: EntityInfoes/Edit/5
         public ActionResult Edit(int id)
         {
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
-            if (strategyInfo == null)
+            EntityInfo entityInfo = strategyInfoRepository.GetById(id);
+            if (entityInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(strategyInfo);
+            return View(entityInfo);
         }
 
-        // POST: StrategyInfoes/Edit/5
+        // POST: EntityInfoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TypeName,Name")] StrategyInfo strategyInfo)
+        public ActionResult Edit([Bind(Include = "Id,TypeName,Name")] EntityInfo entityInfo)
         {
             if (ModelState.IsValid)
             {
-                strategyInfoRepository.Save(strategyInfo);
+                strategyInfoRepository.Save(entityInfo);
                 return RedirectToAction("Index");
             }
-            return View(strategyInfo);
+            return View(entityInfo);
         }
 
-        // GET: StrategyInfoes/Delete/5
+        // GET: EntityInfoes/Delete/5
         public ActionResult Delete(int id)
         {
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StrategyInfo strategyInfo = strategyInfoRepository.GetById(id);
-            if (strategyInfo == null)
+            EntityInfo entityInfo = strategyInfoRepository.GetById(id);
+            if (entityInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(strategyInfo);
+            return View(entityInfo);
         }
 
-        // POST: StrategyInfoes/Delete/5
+        // POST: EntityInfoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

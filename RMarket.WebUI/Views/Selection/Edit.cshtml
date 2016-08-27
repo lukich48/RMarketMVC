@@ -7,8 +7,8 @@
     $(function () {
         $(".datepicker").datepicker();
 
-        $("#StrategyInfoId").change(function () {
-            $("#ajaxStrategyParams").load("@Url.Action("EditParams")?strategyInfoId=" + this.value)
+        $("#EntityInfoId").change(function () {
+            $("#ajaxStrategyParams").load("@Url.Action("EditParams")?entityInfoId=" + this.value)
         });
 
     });
@@ -63,17 +63,17 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.StrategyInfoId)
+                        @Html.LabelFor(m => m.EntityInfoId)
                     </td>
                     <td>
                         @if (isCreate)
                         {
-                            @Html.DropDownListFor(m => m.StrategyInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr);
+                            @Html.DropDownListFor(m => m.EntityInfoId, ViewBag.StrategyInfoList as IEnumerable<SelectListItem>, "--SELECT--", attr);
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.StrategyInfo.Name, attr);
-                            @Html.HiddenFor(m => m.StrategyInfoId);
+                            @Html.TextBoxFor(m => m.EntityInfo.Name, attr);
+                            @Html.HiddenFor(m => m.EntityInfoId);
                         }
                     </td>
                 <tr>
@@ -168,7 +168,7 @@
         </div>
 
         <div id="ajaxStrategyParams">
-            @Html.Action("EditParams", new { strategyParams = Model.SelectionParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
+            @Html.Action("EditParams", new { strategyParams = Model.SelectionParams, instanceId = Model.Id, entityInfoId = Model.EntityInfoId })
         </div>
 
         <div class="panel-footer">

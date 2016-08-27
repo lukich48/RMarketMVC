@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IConnectorInfoRepository : IEntityRepository<DataProviderInfo>
+    public interface IConnectorInfoRepository : IEntityRepository<EntityInfo>
     {
     }
 }

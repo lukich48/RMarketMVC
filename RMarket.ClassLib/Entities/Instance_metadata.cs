@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RMarket.ClassLib.Entities
 {
-    [System.Web.Mvc.Bind(Exclude = "StrategyInfo,Ticker,TimeFrame")]
+    [System.Web.Mvc.Bind(Exclude = "EntityInfo,Ticker,TimeFrame")]
     public class Instance_metadata
     {
         [Display(Name = "Имя варианта")]
@@ -13,7 +13,7 @@ namespace RMarket.ClassLib.Entities
 
         [Display(Name = "Стратегия")]
         [Required(ErrorMessage = "Поле стратегия не может бть пустым")]
-        public string StrategyInfoId { get; set; }
+        public string EntityInfoId { get; set; }
 
         [Display(Name = "Инструмент")]
         [Required(ErrorMessage = "Инструмент не может быть пустым")]

@@ -20,17 +20,17 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private readonly IInstanceService instanceService;
-        private readonly IDataProviderService settingService;
+        private readonly IDataProviderService dataProviderService;
         private readonly IAliveStrategyRepository aliveStrategyRepository;
         private readonly IOrderRepository orderRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceService instanceService, IDataProviderService settingService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
+        public EmulController(IInstanceService instanceService, IDataProviderService dataProviderService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
         {
             this.instanceService = instanceService;
-            this.settingService = settingService;
+            this.dataProviderService = dataProviderService;
             this.aliveStrategyRepository = aliveStrategyRepository;
             this.orderRepository = orderRepository;
 
@@ -59,7 +59,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
-            ViewBag.SettingList = ModelHelper.GetSettingList(settingService);
+            ViewBag.SettingList = ModelHelper.GetDataProviderList(dataProviderService);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;
@@ -77,7 +77,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceService.GetById(model.InstanceId, true);
-                DataProviderModel setting = settingService.GetById(model.SettingId);
+                DataProviderModel setting = dataProviderService.GetById(model.SettingId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy

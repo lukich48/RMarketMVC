@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    public class DataProviderInfo : IEntityData, IEntityInfo
+    public class EntityInfo : IEntityData, IEntityInfo
     {
         public int Id { get; set; }
 

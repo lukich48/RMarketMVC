@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Entities
 {
-    [System.Web.Mvc.Bind(Exclude = "StrategyInfo")]
+    [System.Web.Mvc.Bind(Exclude = "EntityInfo")]
     public class DataProvider_metadata
     {
         [Display(Name = "Имя настройки")]
@@ -16,7 +16,7 @@ namespace RMarket.ClassLib.Entities
 
         [Display(Name = "Объект настроек")]
         [Required(ErrorMessage = "Укажите объект для настроек")]
-        public int DataProviderInfoId { get; set; }
+        public int EntityInfoId { get; set; }
 
         [Display(Name = "Описание")]
         [DataType(DataType.MultilineText)]

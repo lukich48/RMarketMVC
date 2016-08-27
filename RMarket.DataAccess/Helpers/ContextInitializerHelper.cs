@@ -51,26 +51,26 @@ namespace RMarket.DataAccess.Helpers
 
         public void SeedStrategyInfoes()
         {
-            List<StrategyInfo> listStrategyInfo = new List<StrategyInfo>
+            List<EntityInfo> listStrategyInfo = new List<EntityInfo>
             {
-                new StrategyInfo {TypeName="RMarket.Examples.Strategies.StrategyDonch1, RMarket.Examples", Name="StrategyDonch1" },
-                new StrategyInfo {TypeName="RMarket.Examples.Strategies.StrategyMock, RMarket.Examples", Name="Mock" },
+                new EntityInfo {TypeName="RMarket.Examples.Strategies.StrategyDonch1, RMarket.Examples", Name="StrategyDonch1", EntityType = EntityType.StrategyInfo },
+                new EntityInfo {TypeName="RMarket.Examples.Strategies.StrategyMock, RMarket.Examples", Name="Mock", EntityType = EntityType.StrategyInfo },
             };
-            context.StrategyInfoes.AddRange(listStrategyInfo);
+            context.EntityInfoes.AddRange(listStrategyInfo);
             context.SaveChanges();
         }
 
-        public void SeedConnectorInfoes()
-        {
-            List<DataProviderInfo> listConnectorInfo = new List<DataProviderInfo>
-            {
-                new DataProviderInfo {TypeName="RMarket.ClassLib.Connectors.QuikConnector, RMarket.ClassLib", Name="QuikConnector" },
-                new DataProviderInfo {TypeName="RMarket.ClassLib.Connectors.CsvFileConnector, RMarket.ClassLib", Name="CsvFileConnector" },
+        //public void SeedConnectorInfoes()
+        //{
+        //    List<EntityInfo> listConnectorInfo = new List<EntityInfo>
+        //    {
+        //        new EntityInfo {TypeName="RMarket.ClassLib.Connectors.QuikConnector, RMarket.ClassLib", Name="QuikConnector" },
+        //        new EntityInfo {TypeName="RMarket.ClassLib.Connectors.CsvFileConnector, RMarket.ClassLib", Name="CsvFileConnector" },
 
-            };
-            context.DataProviderInfoes.AddRange(listConnectorInfo);
-            context.SaveChanges();
-        }
+        //    };
+        //    context.EntityInfoes.AddRange(listConnectorInfo);
+        //    context.SaveChanges();
+        //}
 
         //public void SeedConnectorQuik()
         //{
@@ -87,7 +87,7 @@ namespace RMarket.DataAccess.Helpers
         //    List<DataProvider> settings = new List<DataProvider>
         //    {
         //        new DataProvider {Name="Quik default", 
-        //            DataProviderInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+        //            EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
         //        StrParams = Serializer.Serialize(entityParams)}
         //    };
         //    context.DataProviders.AddRange(settings);
@@ -110,7 +110,7 @@ namespace RMarket.DataAccess.Helpers
             List<DataProvider> settings = new List<DataProvider>
             {
                 new DataProvider {Name="Quik default",
-                    DataProviderInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
+                    EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
             context.DataProviders.AddRange(settings);

@@ -7,7 +7,14 @@ namespace RMarket.ClassLib.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class StrategyInfo : IEntityData, IEntityInfo
+    public enum EntityType
+    {
+        StrategyInfo = 1,
+        DataProviderInfo = 2,
+        HistoricalProviderInfo = 3,
+    }
+
+    public partial class EntityInfo : IEntityData, IEntityInfo
     {
         public int Id { get; set; }
 
@@ -19,7 +26,7 @@ namespace RMarket.ClassLib.Entities
         [StringLength(250)]
         public string TypeName { get; set; }
 
-
-        //public virtual ICollection<Instance> Instances { get; set; }
+        public EntityType EntityType { get; set; }
     }
+
 }

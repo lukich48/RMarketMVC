@@ -60,10 +60,9 @@
     <Compile Include="Repositories\EFSelectionRepository.cs" />
     <Compile Include="Repositories\EFCandleRepository.cs" />
     <Compile Include="Repositories\EFDataProviderRepository.cs" />
-    <Compile Include="Repositories\EFConnectorInfoRepository.cs" />
     <Compile Include="Repositories\EFTimeFrameRepository.cs" />
     <Compile Include="Repositories\EFTickerRepository.cs" />
-    <Compile Include="Repositories\EFStrategyInfoRepository.cs" />
+    <Compile Include="Repositories\EFEnrityInfoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">

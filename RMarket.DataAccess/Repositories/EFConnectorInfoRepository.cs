@@ -5,7 +5,7 @@ using RMarket.DataAccess.Context;
 
 namespace RMarket.DataAccess.Repositories
 {
-    public class EFConnectorInfoRepository : EFRepositoryBase<DataProviderInfo>, IConnectorInfoRepository
+    public class EFConnectorInfoRepository : EFRepositoryBase<EntityInfo>, IConnectorInfoRepository
     {
         public EFConnectorInfoRepository(RMarketContext context)
             :base(context)

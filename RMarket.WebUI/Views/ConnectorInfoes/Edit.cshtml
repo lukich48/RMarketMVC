@@ -1,4 +1,4 @@
-﻿@model RMarket.ClassLib.Entities.DataProviderInfo
+﻿@model RMarket.ClassLib.Entities.EntityInfo
 
 @{
     ViewBag.Title = "Edit";
@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>DataProviderInfo</h4>
+        <h4>EntityInfo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)

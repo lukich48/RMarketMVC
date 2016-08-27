@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.Entities
 
         public string Name { get; set; }
 
-        public int StrategyInfoId { get; set; }
+        public int EntityInfoId { get; set; }
 
         public int TickerId { get; set; }
 
@@ -41,7 +41,7 @@ namespace RMarket.ClassLib.Entities
 
         public string StrParams { get; set; }
 
-        public StrategyInfo StrategyInfo { get; set; }
+        public EntityInfo EntityInfo { get; set; }
 
         public Ticker Ticker { get; set; }
 

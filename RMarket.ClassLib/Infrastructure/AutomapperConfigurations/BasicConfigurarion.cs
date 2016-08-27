@@ -25,7 +25,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 cfg.CreateMap<InstanceModel, Instance>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.StrategyParams)))
-                 .ForMember(d => d.StrategyInfo, opt => opt.Ignore())
+                 .ForMember(d => d.EntityInfo, opt => opt.Ignore())
                  .ForMember(d => d.Ticker, opt => opt.Ignore())
                  .ForMember(d => d.TimeFrame, opt => opt.Ignore())
                  .ForMember(d => d.Selection, opt => opt.Ignore());
@@ -39,7 +39,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 cfg.CreateMap<SelectionModel, Selection>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                         Serializer.Serialize(m.SelectionParams)))
-                .ForMember(d => d.StrategyInfo, opt => opt.Ignore())
+                .ForMember(d => d.EntityInfo, opt => opt.Ignore())
                 .ForMember(d => d.Ticker, opt => opt.Ignore())
                 .ForMember(d => d.TimeFrame, opt => opt.Ignore())
                 .ForMember(d => d.Instances, opt => opt.Ignore());
@@ -53,7 +53,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 cfg.CreateMap<DataProviderModel, DataProvider>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
-                .ForMember(d => d.DataProviderInfo, opt => opt.Ignore());
+                .ForMember(d => d.EntityInfo, opt => opt.Ignore());
             });
         }
 
@@ -61,7 +61,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
         {
             IEnumerable<ParamEntity> res = null;
 
-            if (instance.StrategyInfo != null)
+            if (instance.EntityInfo != null)
                 res = StrategyHelper.GetStrategyParams(instance);
             else
                 res = new List<ParamEntity>();
@@ -73,7 +73,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
         {
             IEnumerable<ParamSelection> res = null;
 
-            if (selection.StrategyInfo != null)
+            if (selection.EntityInfo != null)
                 res = StrategyHelper.GetStrategyParams(selection);
             else
                 res = new List<ParamSelection>();
@@ -85,7 +85,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
         {
             IEnumerable<ParamEntity> res = null;
 
-            if(setting.DataProviderInfo != null)
+            if(setting.EntityInfo != null)
                 res = new SettingHelper().GetSettingParams(setting);
             else
                 res = new List<ParamEntity>();

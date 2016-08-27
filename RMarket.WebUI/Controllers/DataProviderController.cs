@@ -18,14 +18,12 @@ namespace RMarket.WebUI.Controllers
     public class DataProviderController : Controller
     {
         private IDataProviderService settingService;
-        private IStrategyInfoRepository strategyInfoRepository;
-        private IConnectorInfoRepository connectorInfoRepository;
+        private IEntityInfoRepository entityInfoRepository;
 
-        public DataProviderController(IDataProviderService settingService, IStrategyInfoRepository strategyInfoRepository, IConnectorInfoRepository connectorInfoRepository)
+        public DataProviderController(IDataProviderService settingService, IEntityInfoRepository entityInfoRepository)
         {
             this.settingService = settingService;
-            this.strategyInfoRepository = strategyInfoRepository;
-            this.connectorInfoRepository = connectorInfoRepository;
+            this.entityInfoRepository = entityInfoRepository;
         }
 
         // GET: StrategySettings
@@ -37,14 +35,13 @@ namespace RMarket.WebUI.Controllers
 
         private ActionResult _Edit(DataProviderModel model = null, int settingId = 0)
         {
-            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
-            ViewBag.ConnectorInfoList = ModelHelper.GetConnectorInfoList(connectorInfoRepository);
+            ViewBag.ConnectorInfoList = ModelHelper.GetDataProviderInfoList(entityInfoRepository);
 
             if (model != null) //повторно пришло
             {
                 //IEntityInfo entityInfo = SettingHelper.GetEntityInfo(model.SettingType, model.EntityInfoId);
                 //!!!Восстановить model.EntityInfo
-                model.EntityParams = StrategyHelper.GetEntityParams(model.DataProviderInfo, model.EntityParams).ToList();
+                model.EntityParams = StrategyHelper.GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
             }
             else if (settingId != 0)
             {
@@ -107,11 +104,11 @@ namespace RMarket.WebUI.Controllers
         }
 
         //Новый экземпляр
-        public PartialViewResult EditParamsNew(int dataProviderInfoId)
+        public PartialViewResult EditParamsNew(int entityInfoId)
         {
-            DataProviderInfo dataProviderInfo = connectorInfoRepository.GetById(dataProviderInfoId);
+            EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
 
-            IEnumerable<ParamEntity> entityParams = StrategyHelper.GetEntityParams<ParamEntity>(dataProviderInfo);
+            IEnumerable<ParamEntity> entityParams = StrategyHelper.GetEntityParams<ParamEntity>(entityInfo);
 
             return PartialView("EditParams",entityParams);
         }

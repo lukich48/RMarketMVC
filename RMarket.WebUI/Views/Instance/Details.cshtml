@@ -24,10 +24,10 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.StrategyInfoId)
+                        @Html.LabelFor(m => m.EntityInfoId)
                     </td>
                     <td>
-                         @Html.DisplayFor(m => m.StrategyInfo.Name)
+                         @Html.DisplayFor(m => m.EntityInfo.Name)
                     </td>
                 <tr>
                     <td>
@@ -80,7 +80,7 @@
             </table>
         </div>
 
-        @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = Model.Id, strategyInfoId = Model.StrategyInfoId })
+        @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = Model.Id, entityInfoId = Model.EntityInfoId })
 
         <div class="panel-footer">
             @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-default" })

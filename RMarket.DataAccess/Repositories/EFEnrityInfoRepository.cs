@@ -5,9 +5,9 @@ using RMarket.DataAccess.Context;
 
 namespace RMarket.DataAccess.Repositories
 {
-    public class EFStrategyInfoRepository: EFRepositoryBase<StrategyInfo>, IStrategyInfoRepository
+    public class EFEnrityInfoRepository: EFRepositoryBase<EntityInfo>, IEntityInfoRepository
     {
-        public EFStrategyInfoRepository(RMarketContext context)
+        public EFEnrityInfoRepository(RMarketContext context)
             :base(context)
         { }
 
