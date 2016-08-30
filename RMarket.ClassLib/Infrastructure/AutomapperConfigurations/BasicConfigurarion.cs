@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
@@ -20,7 +21,7 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 //Instance
                 cfg.CreateMap<Instance, InstanceModel>()
                 .ForMember(m => m.StrategyParams, opt => opt.MapFrom(d =>
-                       GetStrategyParamsVaried(d)));
+                       GetEntityParamsVaried(d)));
 
                 cfg.CreateMap<InstanceModel, Instance>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
@@ -44,29 +45,29 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 .ForMember(d => d.TimeFrame, opt => opt.Ignore())
                 .ForMember(d => d.Instances, opt => opt.Ignore());
 
-                //Setting
-                cfg.CreateMap<DataProvider, DataProviderModel>()
+                //DataProvider
+                cfg.CreateMap<DataProviderSetting, DataProviderSettingModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)
                       ));
 
-                cfg.CreateMap<DataProviderModel, DataProvider>()
+                cfg.CreateMap<DataProviderSettingModel, DataProviderSetting>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
                 .ForMember(d => d.EntityInfo, opt => opt.Ignore());
+
+                //HistoricalProvider
+                cfg.CreateMap<HistoricalProviderSetting, HistoricalProviderSettingModel>()
+                .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
+                       GetEntityParamsVaried(d)
+                      ));
+
+                cfg.CreateMap<HistoricalProviderSettingModel, HistoricalProviderSetting>()
+                .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
+                       Serializer.Serialize(m.EntityParams)))
+                .ForMember(d => d.EntityInfo, opt => opt.Ignore());
+            
             });
-        }
-
-        private static IEnumerable<ParamEntity> GetStrategyParamsVaried(Instance instance)
-        {
-            IEnumerable<ParamEntity> res = null;
-
-            if (instance.EntityInfo != null)
-                res = StrategyHelper.GetStrategyParams(instance);
-            else
-                res = new List<ParamEntity>();
-
-            return res;
         }
 
         private static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection selection)
@@ -74,14 +75,14 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             IEnumerable<ParamSelection> res = null;
 
             if (selection.EntityInfo != null)
-                res = StrategyHelper.GetStrategyParams(selection);
+                res = StrategyHelper.GetSelectionParams(selection);
             else
                 res = new List<ParamSelection>();
 
             return res;
         }
 
-        private static IEnumerable<ParamEntity> GetEntityParamsVaried(DataProvider setting)
+        private static IEnumerable<ParamEntity> GetEntityParamsVaried(IEntitySetting setting)
         {
             IEnumerable<ParamEntity> res = null;
 

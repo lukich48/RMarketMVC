@@ -23,7 +23,8 @@ namespace RMarket.DataAccess.Context
         public virtual DbSet<TimeFrame> TimeFrames { get; set; }
         public virtual DbSet<Candle> Candles { get; set; }
         public virtual DbSet<Selection> Selections { get; set; }
-        public virtual DbSet<DataProvider> DataProviders { get; set; }
+        public virtual DbSet<DataProviderSetting> DataProviderSettings { get; set; }
+        public virtual DbSet<HistoricalProviderSetting> HistoricalProviderSettings { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
@@ -77,7 +78,11 @@ namespace RMarket.DataAccess.Context
                 .Property(e => e.Rent)
                 .HasPrecision(6, 4);
 
-            modelBuilder.Entity<DataProvider>()
+            modelBuilder.Entity<DataProviderSetting>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
+            modelBuilder.Entity<HistoricalProviderSetting>()
                 .Property(e => e.CreateDate).HasColumnType("datetime2")
                 .HasPrecision(3);
 
@@ -134,7 +139,7 @@ namespace RMarket.DataAccess.Context
     public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
     {
         public static IContextInitializer<EntityInfo> DataProviderInfoInitializer { get; set; }
-        public static IContextInitializer<DataProvider> DataProviderInitializer { get; set; }
+        public static IContextInitializer<DataProviderSetting> DataProviderInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
         {
@@ -152,7 +157,7 @@ namespace RMarket.DataAccess.Context
 
             if (DataProviderInitializer != null)
             {
-                context.DataProviders.AddRange(DataProviderInitializer.Get());
+                context.DataProviderSettings.AddRange(DataProviderInitializer.Get());
                 context.SaveChanges();
             }
 

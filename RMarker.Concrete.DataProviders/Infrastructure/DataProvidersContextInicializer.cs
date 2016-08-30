@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace RMarker.Concrete.DataProviders.Infrastructure
 {
-    public class DataProvidersContextInicializer: IContextInitializer<DataProvider>
+    public class DataProvidersContextInicializer: IContextInitializer<DataProviderSetting>
     {
-        public IEnumerable<DataProvider> Get()
+        public IEnumerable<DataProviderSetting> Get()
         {
-            List<DataProvider> dataProviders = new List<DataProvider>();
+            List<DataProviderSetting> dataProviders = new List<DataProviderSetting>();
 
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
@@ -29,7 +29,7 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
             };
 
             dataProviders.Add(
-                new DataProvider
+                new DataProviderSetting
                 {
                     Name ="Quik default",
                     CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
@@ -63,7 +63,7 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
                 new ParamEntity {FieldName="Delay",FieldValue="600" }
             };
             dataProviders.Add(
-                new DataProvider
+                new DataProviderSetting
                 {
                     Name ="csv Finam",
                     EntityInfoId = 2, CreateDate= DateTime.Now, Description="Настройка для .csv от Финама",

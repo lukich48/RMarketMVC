@@ -15,12 +15,12 @@ using System.Web.Mvc;
 
 namespace RMarket.WebUI.Controllers
 {
-    public class DataProviderController : Controller
+    public class HistoricalProviderSettingsController : Controller
     {
-        private IDataProviderService settingService;
+        private IHistoricalProviderSettingService settingService;
         private IEntityInfoRepository entityInfoRepository;
 
-        public DataProviderController(IDataProviderService settingService, IEntityInfoRepository entityInfoRepository)
+        public HistoricalProviderSettingsController(IHistoricalProviderSettingService settingService, IEntityInfoRepository entityInfoRepository)
         {
             this.settingService = settingService;
             this.entityInfoRepository = entityInfoRepository;
@@ -33,32 +33,6 @@ namespace RMarket.WebUI.Controllers
             return View(res);
         }
 
-        private ActionResult _Edit(DataProviderModel model = null, int settingId = 0)
-        {
-            ViewBag.ConnectorInfoList = ModelHelper.GetDataProviderInfoList(entityInfoRepository);
-
-            if (model != null) //повторно пришло
-            {
-                //IEntityInfo entityInfo = SettingHelper.GetEntityInfo(model.SettingType, model.EntityInfoId);
-                //!!!Восстановить model.EntityInfo
-                model.EntityParams = StrategyHelper.GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
-            }
-            else if (settingId != 0)
-            {
-                model = settingService.GetById(settingId);
-                if (model == null)
-                {
-                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
-                    return RedirectToAction("Index");
-                }
-
-            }
-            else //Запрос без параметров
-                model = new DataProviderModel();
-
-            return View("Edit", model);
-        }
-
         public ActionResult Edit( int settingId = 0)
         {
             return _Edit(settingId: settingId);
@@ -66,7 +40,7 @@ namespace RMarket.WebUI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(DataProviderModel model, IEnumerable<ParamEntity> entityParams)
+        public ActionResult Edit(HistoricalProviderSettingModel model, IEnumerable<ParamEntity> entityParams)
         {
             model.EntityParams = entityParams.ToList();
 
@@ -96,7 +70,7 @@ namespace RMarket.WebUI.Controllers
                 if (settingId != 0)
                 {
                     //Сохраненный вариант
-                    DataProviderModel setting = settingService.GetById(settingId, true);
+                    HistoricalProviderSettingModel setting = settingService.GetById(settingId, true);
                     entityParams = setting.EntityParams;
                 }
             }
@@ -108,7 +82,7 @@ namespace RMarket.WebUI.Controllers
         {
             EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
 
-            IEnumerable<ParamEntity> entityParams = StrategyHelper.GetEntityParams<ParamEntity>(entityInfo);
+            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
 
             return PartialView("EditParams",entityParams);
         }
@@ -116,7 +90,7 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int settingId)
         {
-            DataProviderModel setting = settingService.GetById(settingId);
+            HistoricalProviderSettingModel setting = settingService.GetById(settingId);
             if (setting == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
@@ -128,6 +102,45 @@ namespace RMarket.WebUI.Controllers
             return _Edit(model: setting);
         }
 
+        #region////////////////////////////Private metods
+
+        private ActionResult _Edit(HistoricalProviderSettingModel model = null, int settingId = 0)
+        {
+
+            if (model != null) //повторно пришло
+            {
+                LoadNavigationProperties(model);
+                model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
+            }
+            else if (settingId != 0)
+            {
+                model = settingService.GetById(settingId);
+                if (model == null)
+                {
+                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
+                    return RedirectToAction("Index");
+                }
+
+            }
+            else //Запрос без параметров
+                model = new HistoricalProviderSettingModel();
+
+            return View("Edit", model);
+        }
+
+        private void InitializeLists()
+        {
+            ViewBag.EntityInfoList = ModelHelper.GetHistoricalProviderInfoList(entityInfoRepository);
+        }
+
+        private void LoadNavigationProperties(HistoricalProviderSettingModel model)
+        {
+            if (model.EntityInfo == null && model.EntityInfoId != 0)
+                model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
+
+        }
+
+        #endregion
 
 
     }

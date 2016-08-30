@@ -41,7 +41,7 @@
                         @Html.LabelFor(m => m.EntityInfoId)
                     </td>
                     <td>
-                        @Html.DropDownListFor(m => m.EntityInfoId, ViewBag.ConnectorInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.EntityInfoId, ViewBag.EntityInfoList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>

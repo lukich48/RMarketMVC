@@ -107,8 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ContextInitializer.cs" />
+    <Compile Include="Abstract\IContextInitializer.cs" />
     <Compile Include="Abstract\IEntityData.cs" />
+    <Compile Include="Abstract\IEntitySetting.cs" />
     <Compile Include="Abstract\IRepository\IAliveStrategyRepository.cs" />
     <Compile Include="Abstract\IRepository\ICandleRepository.cs" />
     <Compile Include="Abstract\IDataProvider.cs" />
@@ -116,13 +117,15 @@
     <Compile Include="Abstract\IHistoricalProvider.cs" />
     <Compile Include="Abstract\IIndicator.cs" />
     <Compile Include="Abstract\IManager.cs" />
+    <Compile Include="Abstract\IRepository\IHistoricalProviderSettingRepository.cs" />
     <Compile Include="Abstract\IRepository\IInstanceRepository.cs" />
     <Compile Include="Abstract\IRepository\IOrderRepository.cs" />
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
-    <Compile Include="Abstract\IRepository\IDataProviderRepository.cs" />
+    <Compile Include="Abstract\IRepository\IDataProviderSettingRepository.cs" />
     <Compile Include="Abstract\ISelectionModule.cs" />
+    <Compile Include="Abstract\IService\IHistoricalProviderSettingService.cs" />
     <Compile Include="Abstract\IService\IEntityService.cs" />
-    <Compile Include="Abstract\IService\IDataProviderService.cs" />
+    <Compile Include="Abstract\IService\IDataProviderSettingService.cs" />
     <Compile Include="Abstract\IService\IInstanceService.cs" />
     <Compile Include="Abstract\IService\ISelectionService.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
@@ -131,17 +134,20 @@
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
     <Compile Include="Abstract\IRepository\IEntityRepository.cs" />
     <Compile Include="Entities\Candle.cs" />
+    <Compile Include="Entities\HistoricalProviderSetting_metadata.cs" />
+    <Compile Include="Entities\HistoricalProviderSetting.cs" />
     <Compile Include="Entities\Instance.cs" />
     <Compile Include="Entities\Instance_metadata.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Selection.cs" />
     <Compile Include="Entities\Selection_metadata.cs" />
-    <Compile Include="Entities\DataProvider_metadata.cs" />
+    <Compile Include="Entities\DataProviderSetting_metadata.cs" />
     <Compile Include="Entities\EntityInfo.cs" />
-    <Compile Include="Entities\DataProvider.cs" />
+    <Compile Include="Entities\DataProviderSetting.cs" />
     <Compile Include="Entities\Ticker.cs" />
     <Compile Include="Entities\TimeFrame.cs" />
     <Compile Include="Entities\AliveStrategy.cs" />
+    <Compile Include="EntityModels\HistoricalProviderSettingModel.cs" />
     <Compile Include="Helpers\ConnectorHelper.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
     <Compile Include="Helpers\OptimizationHelper.cs" />
@@ -168,7 +174,7 @@
     <Compile Include="Models\ParamSelection.cs" />
     <Compile Include="Models\ParamEntity.cs" />
     <Compile Include="Models\ParamBase.cs" />
-    <Compile Include="EntityModels\DataProviderModel.cs" />
+    <Compile Include="EntityModels\DataProviderSettingModel.cs" />
     <Compile Include="Models\StrategyResult.cs" />
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -184,14 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="dll\Quik\DDEInfo.dll" />
-    <Content Include="dll\Quik\DDEInfo.xml" />
-    <Content Include="dll\Quik\FTFHelper.dll" />
-    <Content Include="dll\Quik\FTFHelper.xml" />
-    <Content Include="dll\Quik\NDde.dll" />
-    <Content Include="dll\Quik\NDde.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

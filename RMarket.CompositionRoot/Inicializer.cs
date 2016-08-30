@@ -15,7 +15,7 @@ namespace RMarket.CompositionRoot
         public void ApplicationStart()
         {
             //Заполнение БД
-            IContextInitializer<DataProvider> dataProviderInitializer = new DataProvidersContextInicializer();
+            IContextInitializer<DataProviderSetting> dataProviderInitializer = new DataProvidersContextInicializer();
 
             RMarketInitializer.DataProviderInitializer = dataProviderInitializer;
         } 

@@ -6,9 +6,9 @@ using RMarket.ClassLib.Abstract;
 
 namespace RMarket.ClassLib.Services
 {
-    public class DataProviderService : EntityServiceBase<DataProvider, DataProviderModel>, IDataProviderService
+    public class DataProviderService : EntityServiceBase<DataProviderSetting, DataProviderSettingModel>, IDataProviderSettingService
     {
-        public DataProviderService(IDataProviderRepository settingRepository)
+        public DataProviderService(IDataProviderSettingRepository settingRepository)
             :base(settingRepository)
         {
         }

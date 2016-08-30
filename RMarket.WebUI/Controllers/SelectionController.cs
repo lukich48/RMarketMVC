@@ -111,7 +111,7 @@ namespace RMarket.WebUI.Controllers
                 {
                     //Новый вариант
                     EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
-                    strategyParams = StrategyHelper.GetEntityParams<ParamSelection>(entityInfo);
+                    strategyParams = new SettingHelper().GetEntityParams<ParamSelection>(entityInfo);
                 }
             }      
 
@@ -199,7 +199,7 @@ namespace RMarket.WebUI.Controllers
             InitializeLists();
 
             LoadNavigationProperties(model);
-            model.SelectionParams = StrategyHelper.GetEntityParams(model.EntityInfo, model.SelectionParams).ToList();
+            model.SelectionParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.SelectionParams).ToList();
 
             return View("Edit", model);
 

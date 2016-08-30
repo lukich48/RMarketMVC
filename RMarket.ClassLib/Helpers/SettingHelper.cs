@@ -21,44 +21,31 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public IEnumerable<ParamEntity> GetSettingParams(DataProvider setting)
+        public IEnumerable<ParamEntity> GetSettingParams(IEntitySetting setting)
         {
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IEnumerable<ParamEntity> savedParams = GetSavedStrategyParams(setting);
+            IEnumerable<ParamEntity> savedParams = GetSavedEntityParams(setting);
 
-            List<ParamEntity> res = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
+            List<ParamEntity> res = GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
 
             return res;
         }
-
-        ///// <summary>
-        ///// Находит провайдер по умолчанию для стратегии
-        ///// </summary>
-        ///// <param name="entityInfo"></param>
-        ///// <returns></returns>
-        //public static IDataProvider CreateDataProvider(EntityInfo entityInfo)
-        //{
-        //    //Найдем актуальную настройку для стратегии
-        //    Setting setting = settingRepository.Get(T=>T.Where(s => s.SettingType == SettingType.EntityInfo && s.EntityInfoId == entityInfo.Id).OrderByDescending(s => s.Priority)).FirstOrDefault();
-
-        //    return CreateDataProvider(setting);
-        //}
 
         /// <summary>
         /// Находит провайдер по умолчанию для стратегии
         /// </summary>
         /// <param name="entityInfo"></param>
         /// <returns></returns>
-        public IDataProvider CreateDataProvider(DataProviderModel setting)
+        public IDataProvider CreateDataProvider(DataProviderSettingModel setting)
         {
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
 
-            IEnumerable<ParamEntity> strategyParams = StrategyHelper.GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> strategyParams = GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
 
             //Применяем сохраненные параметры
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
@@ -75,15 +62,12 @@ namespace RMarket.ClassLib.Helpers
             return dataProvider;
         }
 
-
-        //////////////////////////Private methods
-
         /// <summary>
         /// Получает коллекцию сохраненных параметров. Только сериализуемые поля
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        private IEnumerable<ParamEntity> GetSavedStrategyParams(DataProvider setting)
+        public IEnumerable<ParamEntity> GetSavedEntityParams(IEntitySetting setting)
         {
             IEnumerable<ParamEntity> strategyParams;
 
@@ -96,6 +80,40 @@ namespace RMarket.ClassLib.Helpers
 
             return strategyParams;
         }
+
+
+        /// <summary>
+        /// Создает параметры ParamBase на основании переданного объекта
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entityInfo"></param>
+        /// <param name="savedParams"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null)
+            where T : ParamBase, new()
+        {
+            if (savedParams == null)
+                savedParams = new List<T>();
+
+            List<T> res = new List<T>();
+
+            object entity = ReflectionHelper.CreateEntity(entityInfo);
+
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
+
+            foreach (PropertyInfo prop in arrayProp)
+            {
+                T savedParam = savedParams.FirstOrDefault(p => p.FieldName == prop.Name);
+                if (savedParam == null)
+                    savedParam = new T();
+
+                savedParam.RepairValue(prop, entity);
+                res.Add(savedParam);
+            }
+
+            return res;
+        }
+
 
 
     }

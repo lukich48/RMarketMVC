@@ -2,7 +2,7 @@
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IDataProviderRepository: IEntityRepository<DataProvider>
+    public interface IHistoricalProviderSettingRepository: IEntityRepository<HistoricalProviderSetting>
     {
     }
 }

@@ -20,14 +20,14 @@ namespace RMarket.WebUI.Controllers
     public class EmulController : Controller
     {
         private readonly IInstanceService instanceService;
-        private readonly IDataProviderService dataProviderService;
+        private readonly IDataProviderSettingService dataProviderService;
         private readonly IAliveStrategyRepository aliveStrategyRepository;
         private readonly IOrderRepository orderRepository;
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceService instanceService, IDataProviderService dataProviderService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
+        public EmulController(IInstanceService instanceService, IDataProviderSettingService dataProviderService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
         {
             this.instanceService = instanceService;
             this.dataProviderService = dataProviderService;
@@ -77,7 +77,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 InstanceModel instance = instanceService.GetById(model.InstanceId, true);
-                DataProviderModel setting = dataProviderService.GetById(model.SettingId);
+                DataProviderSettingModel setting = dataProviderService.GetById(model.SettingId);
 
                 //добавляем живую стратегию
                 AliveStrategy aliveStrategy = new AliveStrategy

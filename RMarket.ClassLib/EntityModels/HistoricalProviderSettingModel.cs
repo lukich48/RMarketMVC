@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 namespace RMarket.ClassLib.EntityModels
 {
 
-    [MetadataType(typeof(DataProvider_metadata))]
-    public class DataProviderModel
+    [MetadataType(typeof(HistoricalProviderSetting_metadata))]
+    public class HistoricalProviderSettingModel
     {
         public int Id { get; set; }
 
@@ -25,7 +25,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public IEntityInfo EntityInfo { get; set; }
 
-        public DataProviderModel()
+        public HistoricalProviderSettingModel()
         {
             EntityParams = new List<ParamEntity>();
         }

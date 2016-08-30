@@ -12,15 +12,20 @@ namespace RMarket.Concrete.HistoricalProviders
 {
     public class Finam : HistoricalProviderBase
     {
+        [Parameter(Description ="ключ - код инструмента, значение - код с сайта финам")]
+        public Dictionary<string,string> CodeFinams { get; set; }
+
         public override IEnumerable<Candle> DownloadCandles(DateTime dateFrom, DateTime dateTo, Ticker ticker, TimeFrame timeFrame)
         {
-            //Ввести параметры, если понадобится
+            string codeFinam;
+            if (!CodeFinams.TryGetValue(ticker.Code, out codeFinam))
+                throw new CustomException($"не найден код финама для инструмента: {ticker.Code}");
 
             List<Candle> listCandles = new List<Candle>();
 
             //Пример: http://195.128.78.52/SBER_141008_141008.txt?market=1&em=3&code=SBER&df=8&mf=9&yf=2014&from=08.10.2014&dt=8&mt=9&yt=2014&to=08.10.2014&p=7&f=SBER_141008_141008&e=.txt&cn=SBER&dtf=1&tmf=1&MSOR=1&mstime=on&mstimever=1&sep=1&sep2=1&datf=1&at=1
             StringBuilder sb = new StringBuilder("http://195.128.78.52/SBER_141008_141008.txt?market=1");
-            sb.Append("&em=" + ticker.CodeFinam); //Код тикера Финам
+            sb.Append("&em=" + codeFinam); //Код тикера Финам
             sb.Append("&code=" + ticker.Code);
             sb.Append("&df=" + dateFrom.Day);
             sb.Append("&mf=" + (dateFrom.Month - 1));

@@ -1,0 +1,19 @@
+﻿@using RMarket.ClassLib.EntityModels;
+
+@model IEnumerable<DataProviderModel>
+
+@{
+    ViewBag.Title = "Настройки стратегий";
+}
+@Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
+@foreach (DataProviderModel m in @Model)
+{
+    <div class="well">
+        <div class="pull-right">
+            @Html.ActionLink("Изменить", "Edit", new { settingId = m.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Копировать", "Copy", new { settingId = m.Id }, new { @class = "btn btn-default" })
+        </div>
+        <strong class="h3">@m.Name</strong>
+    </div>
+}
+

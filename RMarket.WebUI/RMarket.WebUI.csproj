@@ -285,9 +285,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\Admin\TestPageController.cs" />
+    <Compile Include="Controllers\HistoricalProviderSettingsController.cs" />
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
-    <Compile Include="Controllers\DataProviderController.cs" />
+    <Compile Include="Controllers\DataProviderSettingsController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Infrastructure\Binders\TickerBinder.cs" />
     <Compile Include="Controllers\Admin\EntityInfoesController.cs" />
@@ -344,9 +345,9 @@
     <Content Include="Views\Selection\Edit.cshtml" />
     <Content Include="Views\Selection\EditParams.cshtml" />
     <Content Include="Views\Selection\Index.cshtml" />
-    <Content Include="Views\DataProvider\Index.cshtml" />
+    <Content Include="Views\DataProviderSettings\Index.cshtml" />
     <Content Include="Views\Shared\EditParams.cshtml" />
-    <Content Include="Views\DataProvider\Edit.cshtml" />
+    <Content Include="Views\DataProviderSettings\Edit.cshtml" />
     <Content Include="Views\Emul\Index.cshtml" />
     <Content Include="Views\Emul\BeginTest.cshtml" />
     <Content Include="Views\Instance\InstanceRec.cshtml" />
@@ -359,6 +360,8 @@
     <Content Include="Views\Selection\InstanceRecTooltip.cshtml" />
     <Content Include="Views\Shared\MenuNav.cshtml" />
     <Content Include="Views\Shared\EditorForObject.cshtml" />
+    <Content Include="Views\HistoricalProviderSettings\Edit.cshtml" />
+    <Content Include="Views\HistoricalProviderSettings\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

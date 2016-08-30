@@ -107,13 +107,13 @@ namespace RMarket.DataAccess.Helpers
                 new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
                 new ParamEntity {FieldName="col_Period",FieldValue="Период" }
             };
-            List<DataProvider> settings = new List<DataProvider>
+            List<DataProviderSetting> settings = new List<DataProviderSetting>
             {
-                new DataProvider {Name="Quik default",
+                new DataProviderSetting {Name="Quik default",
                     EntityInfoId = 1, CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
                 StrParams = Serializer.Serialize(entityParams)}
             };
-            context.DataProviders.AddRange(settings);
+            context.DataProviderSettings.AddRange(settings);
             context.SaveChanges();
         }
 
