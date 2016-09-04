@@ -54,7 +54,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMin = CastToType(ValueMin);
+                ValueMin = CastToType(ValueMin, prop.PropertyType);
             }
             catch (Exception)
             {
@@ -66,7 +66,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMax = CastToType(ValueMax);
+                ValueMax = CastToType(ValueMax, prop.PropertyType);
             }
             catch (Exception)
             {
@@ -87,7 +87,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMin = CastToType(ValueMin);
+                ValueMin = CastToType(ValueMin, prop.PropertyType);
             }
             catch (Exception)
             {
@@ -96,7 +96,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                ValueMax = CastToType(ValueMax);
+                ValueMax = CastToType(ValueMax, prop.PropertyType);
             }
             catch (Exception)
             {

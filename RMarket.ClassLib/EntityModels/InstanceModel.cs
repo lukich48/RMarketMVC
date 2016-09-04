@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace RMarket.ClassLib.EntityModels
 {
     [MetadataType(typeof(Instance_metadata))]
-    public class InstanceModel
+    public class InstanceModel: ISettingModel
     {
         public int Id { get; set; }
 
@@ -39,9 +39,9 @@ namespace RMarket.ClassLib.EntityModels
 
         public int? SelectionId { get; set; }
 
-        public List<ParamEntity> StrategyParams { get; set; }
+        public List<ParamEntity> EntityParams { get; set; }
 
-        public EntityInfo EntityInfo { get; set; }
+        public IEntityInfo EntityInfo { get; set; }
 
         public Ticker Ticker { get; set; }
 
@@ -51,7 +51,7 @@ namespace RMarket.ClassLib.EntityModels
 
         public InstanceModel()
         {
-            StrategyParams = new List<ParamEntity>();
+            EntityParams = new List<ParamEntity>();
         }
 
     }

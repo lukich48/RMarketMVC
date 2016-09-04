@@ -43,7 +43,7 @@ namespace RMarket.ClassLib.Helpers
                         newInstance.CopyObject(selection);
                         newInstance.SelectionId = selection.Id;
                         
-                        newInstance.StrategyParams.AddRange(otherParams);
+                        newInstance.EntityParams.AddRange(otherParams);
 
                         foreach (ParamSelection paramSelection in integralParams)
                         {
@@ -60,7 +60,7 @@ namespace RMarket.ClassLib.Helpers
                                 newParam.FieldValue = Convert.ChangeType(rnd.Next(paramSelection.ValueMin.ToIntSave(), paramSelection.ValueMax.ToIntSave()), Type.GetType(paramSelection.TypeName));
                             }
 
-                            newInstance.StrategyParams.Add(newParam);
+                            newInstance.EntityParams.Add(newParam);
 
                         }
 

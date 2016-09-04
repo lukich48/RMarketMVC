@@ -20,12 +20,12 @@ namespace RMarket.ClassLib.AutomapperConfigurations
             {
                 //Instance
                 cfg.CreateMap<Instance, InstanceModel>()
-                .ForMember(m => m.StrategyParams, opt => opt.MapFrom(d =>
+                .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)));
 
                 cfg.CreateMap<InstanceModel, Instance>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
-                       Serializer.Serialize(m.StrategyParams)))
+                       Serializer.Serialize(m.EntityParams)))
                  .ForMember(d => d.EntityInfo, opt => opt.Ignore())
                  .ForMember(d => d.Ticker, opt => opt.Ignore())
                  .ForMember(d => d.TimeFrame, opt => opt.Ignore())

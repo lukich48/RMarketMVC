@@ -1,6 +1,9 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Helpers;
 using RMarket.WebUI.Infrastructure;
 using RMarket.WebUI.Models;
 using System;
@@ -13,11 +16,13 @@ namespace RMarket.WebUI.Controllers
 {
     public class DownloadHistoryController : Controller
     {
-        private ITickerRepository tickerRepository;
-        private ITimeFrameRepository timeFrameRepository;
+        private readonly ITickerRepository tickerRepository;
+        private readonly ITimeFrameRepository timeFrameRepository;
+        private readonly IHistoricalProviderSettingService historicalProviderSettingService;
 
-        public DownloadHistoryController(ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository)
+        public DownloadHistoryController(IHistoricalProviderSettingService historicalProviderSettingService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository)
         {
+            this.historicalProviderSettingService = historicalProviderSettingService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
         }
@@ -25,48 +30,60 @@ namespace RMarket.WebUI.Controllers
         // GET
         public ViewResult Index()
         {
-            return View();
-        }
-
-        [HttpGet]
-        public ViewResult Download(string providerName)
-        {
-            ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
-            ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
+            InitializeLists();
 
             DownloadHistoryModel model = new DownloadHistoryModel();
             model.DateFrom = DateTime.Now.Date.AddDays(-1);
             model.DateTo = DateTime.Now.Date;
-            model.ProviderName = providerName;
 
             return View(model);
         }
 
         [HttpPost]
-        private void Download(DownloadHistoryModel model)
+        public ViewResult Index(DownloadHistoryModel model)
         {
+
             if (ModelState.IsValid)
             {
-                int countDownload = model.DownloadAndSave();
+                LoadNavigationProperties(model);
+
+                //получаем объект провайдера
+                IHistoricalProvider provider = new SettingHelper().CreateEntityObject<IHistoricalProvider>(model.Setting);
+
+                int countDownload = provider.DownloadAndSave(model.DateFrom, model.DateFrom, model.Ticker, model.TimeFrame);
 
                 TempData["message"] = String.Format("Успешно загружено: {0} свечей", countDownload);
             }
+            else
+                InitializeLists();
 
+            return View(model);
+
+        }
+
+        #region////////////////////////////Private metods
+
+        private void InitializeLists()
+        {
             ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
             ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
-
+            ViewBag.SettingList = ModelHelper.GetHistoricalProviderSettingList(historicalProviderSettingService);
         }
 
-        [HttpPost]
-        public ActionResult Finam(DownloadHistoryModel model)
+        private void LoadNavigationProperties(DownloadHistoryModel model)
         {
-            IHistoricalProvider provider = new ClassLib.HistoricalProviders.Finam();
-            model.Provider = provider;
-            Download(model);
-            return View("Download", model);
+            if (model.Ticker == null && model.TickerId != 0)
+                model.Ticker = tickerRepository.GetById(model.TickerId);
+
+            if (model.TimeFrame == null && model.TimeFrameId != 0)
+                model.TimeFrame = timeFrameRepository.GetById(model.TimeFrameId);
+
+            if (model.Setting == null && model.SettingId != 0)
+                model.Setting = historicalProviderSettingService.GetById(model.SettingId, true);
+
         }
 
-
+        #endregion
 
     }
 }

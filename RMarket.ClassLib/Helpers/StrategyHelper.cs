@@ -62,7 +62,7 @@ namespace RMarket.ClassLib.Helpers
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(strategy);
             foreach (PropertyInfo prop in arrayProp)
             {
-                ParamEntity savedParam = instance.StrategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
+                ParamEntity savedParam = instance.EntityParams.FirstOrDefault(p => p.FieldName == prop.Name);
 
                 if (savedParam != null)
                 {

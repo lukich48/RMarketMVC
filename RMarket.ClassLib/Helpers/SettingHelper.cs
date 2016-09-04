@@ -33,17 +33,37 @@ namespace RMarket.ClassLib.Helpers
             return res;
         }
 
-        /// <summary>
-        /// Находит провайдер по умолчанию для стратегии
-        /// </summary>
-        /// <param name="entityInfo"></param>
-        /// <returns></returns>
         public IDataProvider CreateDataProvider(DataProviderSettingModel setting)
         {
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
+
+            IEnumerable<ParamEntity> strategyParams = GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
+
+            //Применяем сохраненные параметры
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
+            foreach (PropertyInfo prop in arrayProp)
+            {
+                ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
+
+                if (savedParam != null)
+                {
+                    prop.SetValue(dataProvider, savedParam.FieldValue);
+                }
+            }
+
+            return dataProvider;
+        }
+
+        public TEntity CreateEntityObject<TEntity>(ISettingModel setting)
+            where TEntity: class
+        {
+            if (setting.EntityInfo == null)
+                throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
+
+            TEntity dataProvider = (TEntity)ReflectionHelper.CreateEntity(setting.EntityInfo);
 
             IEnumerable<ParamEntity> strategyParams = GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
 

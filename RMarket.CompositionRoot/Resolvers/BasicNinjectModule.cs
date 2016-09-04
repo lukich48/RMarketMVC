@@ -19,6 +19,7 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<IInstanceService>().To<InstanceService>();
             kernel.Bind<ISelectionService>().To<SelectionService>();
             kernel.Bind<IDataProviderSettingService>().To<DataProviderService>();
+            kernel.Bind<IHistoricalProviderSettingService>().To<HistoricalProviderService>();
 
             kernel.Bind<IInstanceRepository>().To<EFInstanceRepository>();
             kernel.Bind<ISelectionRepository>().To<EFSelectionRepository>();
@@ -26,6 +27,7 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<ITimeFrameRepository>().To<EFTimeFrameRepository>();
             kernel.Bind<IEntityInfoRepository>().To<EFEnrityInfoRepository>();
             kernel.Bind<IDataProviderSettingRepository>().To<EFDataProviderRepository>();
+            kernel.Bind<IHistoricalProviderSettingRepository>().To<EFHistoricalProviderRepository>();
             kernel.Bind<ICandleRepository>().To<EFCandleRepository>();
             kernel.Bind<IAliveStrategyRepository>().To<EFAliveStrategyRepository>();
             kernel.Bind<IOrderRepository>().To<EFOrderRepository>();

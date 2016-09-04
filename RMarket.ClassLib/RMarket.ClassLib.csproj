@@ -128,6 +128,7 @@
     <Compile Include="Abstract\IService\IDataProviderSettingService.cs" />
     <Compile Include="Abstract\IService\IInstanceService.cs" />
     <Compile Include="Abstract\IService\ISelectionService.cs" />
+    <Compile Include="Abstract\ISettingModel.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\IRepository\IEntityInfoRepository.cs" />
     <Compile Include="Abstract\IRepository\ITickerRepository.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Optimization\GASimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuikProvider.cs" />
+    <Compile Include="Services\HistoricalProviderService.cs" />
     <Compile Include="Services\DataProviderService.cs" />
     <Compile Include="Services\SelectionService.cs" />
     <Compile Include="Services\EntityServiceBase.cs" />

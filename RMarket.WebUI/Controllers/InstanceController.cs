@@ -79,7 +79,7 @@ namespace RMarket.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(InstanceModel instance, IEnumerable<ParamEntity> strategyParams)
         {
-            instance.StrategyParams = strategyParams.ToList();
+            instance.EntityParams = strategyParams.ToList();
 
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace RMarket.WebUI.Controllers
                 {
                     //Сохраненный вариант
                     InstanceModel instance = instanceService.GetById(instanceId, i=>i.EntityInfo);
-                    strategyParams = instance.StrategyParams;
+                    strategyParams = instance.EntityParams;
                 }
                 else if (entityInfoId != 0)
                 {
@@ -190,12 +190,12 @@ namespace RMarket.WebUI.Controllers
         /// </summary>
         /// <param name="instanceId">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
-        private ActionResult _Edit(InstanceModel model)
+        private ViewResult _Edit(InstanceModel model)
         {
             InitializeLists();
 
             LoadNavigationProperties(model);
-            model.StrategyParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.StrategyParams).ToList();
+            model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
 
             return View("Edit", model);
 

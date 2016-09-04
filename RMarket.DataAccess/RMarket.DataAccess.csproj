@@ -54,6 +54,7 @@
     <Compile Include="Helpers\ContextInitializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EFAliveStrategyRepository.cs" />
+    <Compile Include="Repositories\EFHistoricalProviderRepository.cs" />
     <Compile Include="Repositories\EFOrderRepository.cs" />
     <Compile Include="Repositories\EFInstanceRepository.cs" />
     <Compile Include="Repositories\EFRepositoryBase.cs" />

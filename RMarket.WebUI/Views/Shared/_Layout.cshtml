@@ -27,13 +27,7 @@
         <div class="row">
             <div class="btn-toolbar" role="toolbar">
                 @Html.ActionLink("Мои стратегии","Index", "Instance",null, new { @class = "btn btn-default btn-success" })
-                <div class="btn-group ">
-                    @Html.ActionLink("загрузка истории", "Index", "DownloadHistory", null, new { @class = "btn btn-default" })
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="text-right">@Html.ActionLink("Finam", "Download", "DownloadHistory", new { providerName = "finam" }, null)</li>
-                    </ul>
-                </div>
+                @Html.ActionLink("загрузка истории", "Index", "DownloadHistory", null, new { @class = "btn btn-default" })
                 @Html.ActionLink("Тестирование", "Index", "Tester", null, new { @class = "btn btn-default" })
                 @Html.ActionLink("Эмуляция", "Index", "Emul", null, new { @class = "btn btn-default" })
                 @Html.ActionLink("Селекции", "Index", "Selection", null, new { @class = "btn btn-default" })
@@ -41,12 +35,19 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Справочники<span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li class="text-right">@Html.ActionLink("Стратегии", "Index", "EntityInfoes")</li>
+                        <li class="text-right">@Html.ActionLink("Entity info", "Index", "EntityInfoes")</li>
                         <li class="text-right">@Html.ActionLink("Инструменты", "Index", "Tickers")</li>
                         <li class="text-right">@Html.ActionLink("Интервалы", "Index", "TimeFrames")</li>
-                        <li class="text-right">@Html.ActionLink("Коннекторы", "Index", "ConnectorInfoes")</li>
                     </ul>
                 </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Настройки<span class="glyphicon glyphicon-cog"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li class="text-right">@Html.ActionLink("Data prividers", "Index", "DataProviderSettings")</li>
+                        <li class="text-right">@Html.ActionLink("Histrical providers", "Index", "HistoricalProviderSettings")</li>
+                    </ul>
+                </div>
+
                 <div class="btn-group pull-right">
                     <a href=@Url.Action("Index", "DataProvider") class="btn btn-info"><span class="glyphicon glyphicon-cog"></span><span class="cstm-text">Настройки</span></a>
                 </div>

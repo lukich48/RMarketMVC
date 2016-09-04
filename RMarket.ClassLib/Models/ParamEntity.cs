@@ -50,7 +50,7 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                FieldValue = CastToType(FieldValue);
+                FieldValue = CastToType(FieldValue, prop.PropertyType);
             }
             catch (Exception)
             {

@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,7 @@ namespace RMarket.ClassLib.Models
         public virtual string FieldName { get; set; }
         public virtual string DisplayName { get; set; }
         public virtual string Description { get; set; }
+        [Obsolete]
         public virtual string TypeName { get; set; }
 
         /// <summary>
@@ -44,16 +46,34 @@ namespace RMarket.ClassLib.Models
         /// </summary>
         /// <param name="fieldValue"></param>
         /// <returns></returns>
-        protected object CastToType(object fieldValue)
+        protected object CastToType(object fieldValue, Type typeValue)
         {
             object value = null;
 
-            if (Type.GetType(TypeName) == typeof(TimeSpan))
+            if(fieldValue.GetType() == typeValue)
+            {
+                return fieldValue;
+            }
+
+            try
+            {
+                if (fieldValue.GetType() == typeof(string))
+                {
+                    //нужна десеализация
+                    return Serializer.Deserialize(fieldValue.ToString(), typeValue);
+                }
+            }
+            catch (Exception)
+            {
+                //!!!Логировать
+            }
+
+            if (typeValue == typeof(TimeSpan))
             {
                 value = TimeSpan.Parse(fieldValue.ToString());
             }
             else 
-                value = Convert.ChangeType(fieldValue, Type.GetType(TypeName), CultureInfo.InvariantCulture);
+                value = Convert.ChangeType(fieldValue, typeValue, CultureInfo.InvariantCulture);
 
             return value;
         }

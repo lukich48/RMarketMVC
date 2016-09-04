@@ -106,6 +106,7 @@ namespace RMarket.WebUI.Controllers
 
         private ActionResult _Edit(DataProviderSettingModel model = null, int settingId = 0)
         {
+            InitializeLists();
 
             if (model != null) //повторно пришло
             {

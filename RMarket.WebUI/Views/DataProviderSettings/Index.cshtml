@@ -1,12 +1,12 @@
 ﻿@using RMarket.ClassLib.EntityModels;
 
-@model IEnumerable<DataProviderModel>
+@model IEnumerable<DataProviderSettingModel>
 
 @{
-    ViewBag.Title = "Настройки стратегий";
+    ViewBag.Title = "DataProviderSettings";
 }
 @Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
-@foreach (DataProviderModel m in @Model)
+@foreach (DataProviderSettingModel m in @Model)
 {
     <div class="well">
         <div class="pull-right">

@@ -59,7 +59,7 @@ namespace RMarket.WebUI.Controllers
         public ViewResult BeginTest()
         {
             ViewBag.InstanceList = ModelHelper.GetInstanceList(instanceService);
-            ViewBag.SettingList = ModelHelper.GetDataProviderList(dataProviderService);
+            ViewBag.SettingList = ModelHelper.GetDataProviderSettingList(dataProviderService);
 
             DateTime dateFrom = DateTime.Now.Date.AddMonths(-1);
             DateTime dateTo = DateTime.Now.Date;
@@ -100,10 +100,10 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IDataProvider connector = new SettingHelper().CreateDataProvider(setting);
+                IDataProvider dataProvider = new SettingHelper().CreateDataProvider(setting);
                 //IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(setting);
 
-                IManager manager = new EmulManager(orderRepository, strategy, instr, portf, connector, aliveStrategy);
+                IManager manager = new EmulManager(orderRepository, strategy, instr, portf, dataProvider, aliveStrategy);
 
                 //manager.DateFrom = model.DateFrom;
                 //manager.DateTo = model.DateTo;

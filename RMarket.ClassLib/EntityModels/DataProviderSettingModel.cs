@@ -9,7 +9,7 @@ namespace RMarket.ClassLib.EntityModels
 {
 
     [MetadataType(typeof(DataProviderSetting_metadata))]
-    public class DataProviderSettingModel
+    public class DataProviderSettingModel: ISettingModel
     {
         public int Id { get; set; }
 

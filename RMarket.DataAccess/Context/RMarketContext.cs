@@ -138,8 +138,8 @@ namespace RMarket.DataAccess.Context
 
     public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
     {
-        public static IContextInitializer<EntityInfo> DataProviderInfoInitializer { get; set; }
         public static IContextInitializer<DataProviderSetting> DataProviderInitializer { get; set; }
+        public static IContextInitializer<HistoricalProviderSetting> HistoricalProviderInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
         {
@@ -149,19 +149,16 @@ namespace RMarket.DataAccess.Context
             helper.SeedTimeFrames();
             helper.SeedStrategyInfoes();
 
-            if (DataProviderInfoInitializer!=null)
-            {
-                context.EntityInfoes.AddRange(DataProviderInfoInitializer.Get());
-                context.SaveChanges();
-            }
-
             if (DataProviderInitializer != null)
             {
                 context.DataProviderSettings.AddRange(DataProviderInitializer.Get());
                 context.SaveChanges();
             }
-
-            //helper.SeedConnectorInfoes();
+            if (HistoricalProviderInitializer != null)
+            {
+                context.HistoricalProviderSettings.AddRange(HistoricalProviderInitializer.Get());
+                context.SaveChanges();
+            }
 
         }
     }

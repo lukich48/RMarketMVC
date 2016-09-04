@@ -18,5 +18,12 @@ namespace RMarket.ClassLib.Helpers
         {
             return JsonConvert.DeserializeObject<T>(jsonObject);
         }
+
+        public static object Deserialize(string jsonObject, Type type)
+        {
+            return JsonConvert.DeserializeObject(jsonObject, type);
+        }
+
+
     }
 }

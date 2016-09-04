@@ -1,11 +1,68 @@
-﻿
+﻿@model RMarket.WebUI.Models.DownloadHistoryModel
+
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+
+<script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+</script>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DownloadHistory";
 }
 
-@{object attr = new { @class = "btn btn-primary" };}
-
-<div class="btn-group-vertical">
-    @Html.ActionLink("Finam", "Download", new { providerName="finam"},attr)
+<div class="panel-heading">
+    <h3>Загрузка истории</h3>
 </div>
 
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+
+<div>
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.TickerId)
+            </td>
+            <td>
+                @Html.DropDownListFor(m=>m.TickerId, ViewBag.TickerList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.TimeFrameId)
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.TimeFrameId, ViewBag.TimeFrameList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m=>m.SettingId)
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.SettingId, ViewBag.SettingList as IEnumerable<SelectListItem>, "--SELECT--", new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Дата с")
+            </td>
+            <td>
+                @Html.TextBoxFor(m=>m.DateFrom, new { @class = "form-control datepicker" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Дата по")
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control datepicker" })
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>
+}

@@ -1,6 +1,6 @@
 ﻿@using RMarket.ClassLib.EntityModels;
 
-@model DataProviderModel
+@model HistoricalProviderSettingModel
 
 <script>
     $(function () {
@@ -12,7 +12,7 @@
 </script>
 
 @{
-    ViewBag.Title = "Редактирование настройки";
+    ViewBag.Title = "HistoricalProviderSetting";
 }
 
 <div class="panel">
@@ -20,7 +20,7 @@
         <h3>Редактирование настройки: <span class="text-info">@Model.Name</span></h3>
     </div>
 
-    @using (Html.BeginForm("Edit", "DataProvider"))
+    @using (Html.BeginForm("Edit", "HistoricalProviderSettings"))
     {
         @Html.ValidationSummary()
 

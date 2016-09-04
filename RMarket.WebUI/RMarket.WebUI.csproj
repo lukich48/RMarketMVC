@@ -275,6 +275,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\DataProviderSettings\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -337,7 +338,6 @@
     <Content Include="Views\TimeFrames\Details.cshtml" />
     <Content Include="Views\TimeFrames\Edit.cshtml" />
     <Content Include="Views\TimeFrames\Index.cshtml" />
-    <Content Include="Views\DownloadHistory\Download.cshtml" />
     <Content Include="Views\DownloadHistory\Index.cshtml" />
     <Content Include="Views\Tester\BeginTest.cshtml" />
     <Content Include="Views\Tester\Index.cshtml" />
@@ -345,7 +345,6 @@
     <Content Include="Views\Selection\Edit.cshtml" />
     <Content Include="Views\Selection\EditParams.cshtml" />
     <Content Include="Views\Selection\Index.cshtml" />
-    <Content Include="Views\DataProviderSettings\Index.cshtml" />
     <Content Include="Views\Shared\EditParams.cshtml" />
     <Content Include="Views\DataProviderSettings\Edit.cshtml" />
     <Content Include="Views\Emul\Index.cshtml" />
