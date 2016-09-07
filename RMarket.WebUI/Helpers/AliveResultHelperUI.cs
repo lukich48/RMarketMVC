@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RMarket.WebUI.Infrastructure.Helpers
+namespace RMarket.WebUI.Helpers
 {
     public class AliveResultHelperUI
     {

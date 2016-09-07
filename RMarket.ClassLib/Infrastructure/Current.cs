@@ -17,24 +17,7 @@ namespace RMarket.ClassLib.Infrastructure
         /// <summary>
         /// AutoMapper
         /// </summary>
-        public static IMapper Mapper
-        {
-            get
-            {
-                if (_mapper == null)
-                {
-                    _mapper = new AutomapperConfigurations.BasicConfigurarion().CreateDefaultConfiguration().CreateMapper();
-                }
-                return _mapper;
-
-            }
-            set
-            {
-                _mapper = value;
-            }
-        }
-        private static IMapper _mapper;
-
+        public static IMapper Mapper { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,13 @@ namespace RMarket.ClassLib.Services
 
         public virtual IEnumerable<TModel> Get()
         {
-            return Current.Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(repository.Get());
+            return MyMapper.Current.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(repository.Get());
         }
 
         public virtual IEnumerable<TModel> Get(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression)
         {
             IEnumerable<TEntity> dataCollection = repository.Get(expression);
-            return Current.Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(dataCollection);
+            return MyMapper.Current.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(dataCollection);
         }
 
         public virtual IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<TEntity>, IQueryable<TResult>>> expression)
@@ -38,7 +39,7 @@ namespace RMarket.ClassLib.Services
         public virtual TModel GetById(int id, bool includeAll)
         {
             TEntity data = repository.GetById(id, includeAll);
-            TModel model = Current.Mapper.Map<TEntity, TModel>(data);
+            TModel model = MyMapper.Current.Map<TEntity, TModel>(data);
 
             return model;
         }
@@ -46,14 +47,14 @@ namespace RMarket.ClassLib.Services
         public virtual TModel GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             TEntity data = repository.GetById(id, includeProperties);
-            TModel instance = Current.Mapper.Map<TEntity, TModel>(data);
+            TModel instance = MyMapper.Current.Map<TEntity, TModel>(data);
 
             return instance;
         }
 
         public virtual void Save(TModel model)
         {
-            TEntity data = Current.Mapper.Map<TModel, TEntity>(model);
+            TEntity data = MyMapper.Current.Map<TModel, TEntity>(model);
             repository.Save(data);
         }
 

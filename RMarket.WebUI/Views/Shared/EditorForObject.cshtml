@@ -1,12 +1,15 @@
-﻿@model KeyValuePair<string,object>
+﻿@using RMarket.WebUI.Models;
+@model KeyValuePair<string, ParamEntityModel>
 
-@if (Model.Value.GetType() == typeof(bool))
+@*Частичное представление выводит значение параметра с атрибутом ParameterAttribute*@
+
+@if (Model.Value.OriginValue.GetType() == typeof(bool))
 {
-    string isChecked = (bool)Model.Value ? "checked=checked" : "";
+    string isChecked = (bool)Model.Value.OriginValue ? "checked=checked" : "";
     <input id="@Model.Key" name=@Model.Key type="checkbox" value="true" @isChecked class="form-control">
     <input name=@Model.Key type="hidden" value="false">
 }
 else
 {
-    <input type="text" id="@Model.Key" name="@Model.Key" value="@Model.Value" class="form-control"/>
+    <input type="text" id="@Model.Key" name="@Model.Key" value="@Model.Value.FieldValue" class="form-control"/>
 }

@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using AutoMapper;
+using RMarket.WebUI.Infrastructure.MapperProfiles;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -9,7 +12,9 @@ namespace RMarket.WebUI
         protected void Application_Start()
         {
             //Инициализация статических зависимостей
-            new CompositionRoot.Inicializer().ApplicationStart();
+            var inicializer = new CompositionRoot.Inicializer();
+            inicializer.InitializeDbContext();
+            inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

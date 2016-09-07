@@ -4,6 +4,7 @@ using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
 using RMarket.WebUI.Models;
@@ -33,9 +34,33 @@ namespace RMarket.WebUI.Controllers
             return View(res);
         }
 
+        [HttpGet]
         public ActionResult Edit( int settingId = 0)
         {
-            return _Edit(settingId: settingId);
+            InitializeLists();
+
+            HistoricalProviderSettingModel model = null;
+
+            if (settingId != 0)
+            {
+                model = settingService.GetById(settingId);
+                if (model == null)
+                {
+                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
+                    return RedirectToAction("Index");
+                }
+
+                //Конвертим параметры в UI модель
+                IEnumerable<ParamEntityModel> entityUIParams = MyMapper.Current.Map<IEnumerable<ParamEntity> ,IEnumerable <ParamEntityModel>>(model.EntityParams);
+
+
+
+            }
+            else //Запрос на создание
+                model = new HistoricalProviderSettingModel();
+
+            return View("Edit", model);
+
         }
 
         [HttpPost]
@@ -104,27 +129,12 @@ namespace RMarket.WebUI.Controllers
 
         #region////////////////////////////Private metods
 
-        private ActionResult _Edit(HistoricalProviderSettingModel model = null, int settingId = 0)
+        private ActionResult _Edit(HistoricalProviderSettingModel model)
         {
             InitializeLists();
 
-            if (model != null) //повторно пришло
-            {
-                LoadNavigationProperties(model);
-                model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
-            }
-            else if (settingId != 0)
-            {
-                model = settingService.GetById(settingId);
-                if (model == null)
-                {
-                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
-                    return RedirectToAction("Index");
-                }
-
-            }
-            else //Запрос без параметров
-                model = new HistoricalProviderSettingModel();
+            LoadNavigationProperties(model);
+            model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();//!!! херня
 
             return View("Edit", model);
         }

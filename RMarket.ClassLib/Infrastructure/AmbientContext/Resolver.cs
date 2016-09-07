@@ -11,18 +11,7 @@ namespace RMarket.ClassLib.Infrastructure.AmbientContext
     /// </summary>
     public abstract class Resolver
     {
-        private static Resolver _current;
-        public static Resolver Current
-        {
-            get
-            {
-                return _current;
-            }
-            set
-            {
-                _current = value;
-            }
-        }
+        public static Resolver Current { get; set; }
 
         public abstract object Resolve(Type type);
     }

@@ -49,6 +49,10 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -303,15 +307,21 @@
     </Compile>
     <Compile Include="Infrastructure\Binders\TimeFrameBinder.cs" />
     <Compile Include="Infrastructure\CurrentUI.cs" />
-    <Compile Include="Infrastructure\Helpers\AliveResultHelperUI.cs" />
+    <Compile Include="Helpers\AliveResultHelperUI.cs" />
     <Compile Include="Infrastructure\HighChartLibrary.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
+    <Compile Include="Infrastructure\MapperProfiles\AutoMapperUIProfile.cs" />
     <Compile Include="Infrastructure\ModelHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationHelper.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\AdapterToObjectConverter.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\TimeSpanConverter.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\DefaultConverter.cs" />
+    <Compile Include="Abstract\IEntityParamConverter.cs" />
     <Compile Include="Infrastructure\SessionHelper.cs" />
     <Compile Include="Models\DownloadHistoryModel.cs" />
     <Compile Include="Models\MenuNavModel.cs" />
+    <Compile Include="Models\ParamEntityModel.cs" />
     <Compile Include="Models\TesterModel.cs" />
     <Compile Include="Models\ChartResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

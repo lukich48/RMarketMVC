@@ -4,6 +4,7 @@ using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
 using RMarket.WebUI.Models;
@@ -40,7 +41,7 @@ namespace RMarket.WebUI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(DataProviderSettingModel model, IEnumerable<ParamEntity> entityParams)
+        public ActionResult Edit(DataProviderSettingModel model, IEnumerable<ParamEntityModel> entityParams)
         {
             model.EntityParams = entityParams.ToList();
 
@@ -74,6 +75,9 @@ namespace RMarket.WebUI.Controllers
                     entityParams = setting.EntityParams;
                 }
             }
+
+            MyMapper.Current.Map<IEnumerable<ParamEntity>, List<ParamEntityModel>>(entityParams);
+
             return PartialView(entityParams);
         }
 

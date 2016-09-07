@@ -10,20 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.AutomapperConfigurations
+namespace RMarket.ClassLib.MapperProfiles
 {
-    public class BasicConfigurarion
+    public class AutoMapperDomainProfile: Profile
     {
-        public MapperConfiguration CreateDefaultConfiguration()
+        public AutoMapperDomainProfile()
         {
-            return new MapperConfiguration(cfg =>
-            {
                 //Instance
-                cfg.CreateMap<Instance, InstanceModel>()
+                CreateMap<Instance, InstanceModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)));
 
-                cfg.CreateMap<InstanceModel, Instance>()
+                CreateMap<InstanceModel, Instance>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
                  .ForMember(d => d.EntityInfo, opt => opt.Ignore())
@@ -32,12 +30,12 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                  .ForMember(d => d.Selection, opt => opt.Ignore());
 
                 //Selection
-                cfg.CreateMap<Selection, SelectionModel>()
+                CreateMap<Selection, SelectionModel>()
                 .ForMember(m => m.SelectionParams, opt => opt.MapFrom(d =>
                         GetSelectionParamsVaried(d)
                     ));
 
-                cfg.CreateMap<SelectionModel, Selection>()
+                CreateMap<SelectionModel, Selection>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                         Serializer.Serialize(m.SelectionParams)))
                 .ForMember(d => d.EntityInfo, opt => opt.Ignore())
@@ -46,28 +44,27 @@ namespace RMarket.ClassLib.AutomapperConfigurations
                 .ForMember(d => d.Instances, opt => opt.Ignore());
 
                 //DataProvider
-                cfg.CreateMap<DataProviderSetting, DataProviderSettingModel>()
+                CreateMap<DataProviderSetting, DataProviderSettingModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)
                       ));
 
-                cfg.CreateMap<DataProviderSettingModel, DataProviderSetting>()
+                CreateMap<DataProviderSettingModel, DataProviderSetting>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
                 .ForMember(d => d.EntityInfo, opt => opt.Ignore());
 
                 //HistoricalProvider
-                cfg.CreateMap<HistoricalProviderSetting, HistoricalProviderSettingModel>()
+                CreateMap<HistoricalProviderSetting, HistoricalProviderSettingModel>()
                 .ForMember(m => m.EntityParams, opt => opt.MapFrom(d =>
                        GetEntityParamsVaried(d)
                       ));
 
-                cfg.CreateMap<HistoricalProviderSettingModel, HistoricalProviderSetting>()
+                CreateMap<HistoricalProviderSettingModel, HistoricalProviderSetting>()
                 .ForMember(d => d.StrParams, opt => opt.MapFrom(m =>
                        Serializer.Serialize(m.EntityParams)))
                 .ForMember(d => d.EntityInfo, opt => opt.Ignore());
             
-            });
         }
 
         private static IEnumerable<ParamSelection> GetSelectionParamsVaried(Selection selection)

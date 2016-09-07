@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DDEInfo, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
@@ -158,9 +158,9 @@
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
     <Compile Include="HistoricalProviders\Finam.cs" />
+    <Compile Include="Infrastructure\AmbientContext\MyMapper.cs" />
     <Compile Include="Infrastructure\AmbientContext\Resolver.cs" />
-    <Compile Include="Infrastructure\AutomapperConfigurations\BasicConfigurarion.cs" />
-    <Compile Include="Infrastructure\Current.cs" />
+    <Compile Include="Infrastructure\MapperProfiles\AutoMapperDomainProfile.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
     <Compile Include="Models\AliveResult.cs" />

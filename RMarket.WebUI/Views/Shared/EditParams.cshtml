@@ -1,5 +1,5 @@
-﻿@using RMarket.ClassLib.Models;
-@model List<ParamEntity>
+﻿@using RMarket.WebUI.Models;
+@model List<ParamEntityModel>
 
 <table class="table">
     <thead>
@@ -25,7 +25,7 @@
                     @Html.HiddenFor(m => m[i].DisplayName)
                 </td>
                 <td>
-                    @Html.Partial("EditorForObject", new KeyValuePair<string, object>($"[{i}].FieldValue", Model[i].FieldValue))
+                    @Html.Partial("EditorForObject", new KeyValuePair<string, ParamEntityModel>($"[{i}].FieldValue", Model[i]))
                     @*@Html.EditorFor(m=>m[i].FieldValue)*@
                 </td>
                 <td>

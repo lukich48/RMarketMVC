@@ -1,6 +1,9 @@
-﻿using RMarker.Concrete.DataProviders.Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.Configuration;
+using RMarker.Concrete.DataProviders.Infrastructure;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.CompositionRoot.Mapper;
 using RMarket.Concrete.HistoricalProviders.Infrastructure;
 using RMarket.DataAccess.Context;
 using System;
@@ -13,7 +16,10 @@ namespace RMarket.CompositionRoot
 {
     public class Inicializer
     {
-        public void ApplicationStart()
+        /// <summary>
+        /// Начальное заполнение БД (если не создана)
+        /// </summary>
+        public void InitializeDbContext()
         {
             //Заполнение БД
             IContextInitializer<DataProviderSetting> dataProviderInitializer = new DataProvidersContextInicializer();
@@ -21,7 +27,25 @@ namespace RMarket.CompositionRoot
 
             RMarketInitializer.DataProviderInitializer = dataProviderInitializer;
             RMarketInitializer.HistoricalProviderInitializer = historicalProviderInitializer;
-        } 
+
+        }
+
+        /// <summary>
+        /// Инициализация автомаппера
+        /// </summary>
+        /// <param name="profiles"></param>
+        public void SetMapperConfiguration(IEnumerable<Profile> profiles = null)
+        {
+
+            if (profiles == null)
+                profiles = new List<Profile>();
+            
+            //Собираем все профили для маппера
+            profiles.ToList().Add(new ClassLib.MapperProfiles.AutoMapperDomainProfile());
+
+            var customMapper = new CustomMapper(profiles);
+            RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper.Current = customMapper;
+        }
 
     }
 }
