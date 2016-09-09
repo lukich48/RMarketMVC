@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace RMarket.ClassLib.Models
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ParamSelection: ParamBase, IValidatableObject
+    public class ParamSelection: ParamBase
     {
         private object _valueMin;
         private object _valueMax;
@@ -81,36 +81,36 @@ namespace RMarket.ClassLib.Models
             TypeName = prop.PropertyType.FullName;
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            List<ValidationResult> errors = new List<ValidationResult>();
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    List<ValidationResult> errors = new List<ValidationResult>();
 
-            try
-            {
-                ValueMin = CastToType(ValueMin, prop.PropertyType);
-            }
-            catch (Exception)
-            {
-                errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMin" }));
-            }
+        //    try
+        //    {
+        //        ValueMin = CastToType(ValueMin, prop.PropertyType);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMin" }));
+        //    }
 
-            try
-            {
-                ValueMax = CastToType(ValueMax, prop.PropertyType);
-            }
-            catch (Exception)
-            {
-                errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMax" }));
-            }
+        //    try
+        //    {
+        //        ValueMax = CastToType(ValueMax, prop.PropertyType);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMax" }));
+        //    }
 
-            if (errors.Count == 0)
-            {
-                if (((IComparable)ValueMax).CompareTo((IComparable)ValueMin) < 0)
-                    errors.Add(new ValidationResult("Максимальный параметр не может быть меньше минимального!: " + DisplayName));
-            }
+        //    if (errors.Count == 0)
+        //    {
+        //        if (((IComparable)ValueMax).CompareTo((IComparable)ValueMin) < 0)
+        //            errors.Add(new ValidationResult("Максимальный параметр не может быть меньше минимального!: " + DisplayName));
+        //    }
 
-            return errors;
-        }
+        //    return errors;
+        //}
 
         
     }

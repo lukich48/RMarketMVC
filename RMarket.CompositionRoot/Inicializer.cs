@@ -34,14 +34,14 @@ namespace RMarket.CompositionRoot
         /// Инициализация автомаппера
         /// </summary>
         /// <param name="profiles"></param>
-        public void SetMapperConfiguration(IEnumerable<Profile> profiles = null)
+        public void SetMapperConfiguration(ICollection<Profile> profiles = null)
         {
 
             if (profiles == null)
                 profiles = new List<Profile>();
-            
+
             //Собираем все профили для маппера
-            profiles.ToList().Add(new ClassLib.MapperProfiles.AutoMapperDomainProfile());
+            profiles.Add(new ClassLib.MapperProfiles.AutoMapperDomainProfile());
 
             var customMapper = new CustomMapper(profiles);
             RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper.Current = customMapper;

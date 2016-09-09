@@ -13,7 +13,7 @@ using System.Reflection;
 namespace RMarket.ClassLib.Models
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ParamEntity :ParamBase, IValidatableObject
+    public class ParamEntity :ParamBase
     {
         private object _fieldValue;
 
@@ -62,22 +62,6 @@ namespace RMarket.ClassLib.Models
 
             DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
             Description = (attr.Description == null) ? "": attr.Description;
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            List<ValidationResult> errors = new List<ValidationResult>();
-
-            try
-            {
-                FieldValue = CastToType(FieldValue);
-            }
-            catch(Exception)
-            {
-                errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "FieldValue" }));
-            }
-
-            return errors;
         }
 
     }

@@ -294,6 +294,7 @@
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
     <Compile Include="Controllers\DataProviderSettingsController.cs" />
+    <Compile Include="Helpers\ParamEntityConverterHelper.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Infrastructure\Binders\TickerBinder.cs" />
     <Compile Include="Controllers\Admin\EntityInfoesController.cs" />
@@ -315,6 +316,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationHelper.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\AdapterToObjectConverter.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\DictionaryConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\TimeSpanConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\DefaultConverter.cs" />
     <Compile Include="Abstract\IEntityParamConverter.cs" />

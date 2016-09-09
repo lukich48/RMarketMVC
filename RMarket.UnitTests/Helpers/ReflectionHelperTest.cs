@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
+using System.Linq;
 
 namespace RMarket.UnitTests.Helpers
 {
@@ -36,17 +37,17 @@ namespace RMarket.UnitTests.Helpers
             //1
             var props= ReflectionHelper.GetNavigationProperties<TestProps1>();
 
-            Assert.AreEqual(2, props.Length);
+            Assert.AreEqual(2, props.Count());
 
             //2
             var props2 = ReflectionHelper.GetNavigationProperties< TestProps2>();
 
-            Assert.AreEqual(1, props2.Length);
+            Assert.AreEqual(1, props2.Count());
 
             //3
             var props3 = ReflectionHelper.GetNavigationProperties<TestProps3>();
 
-            Assert.AreEqual(0, props3.Length);
+            Assert.AreEqual(0, props3.Count());
         }
     }
 }

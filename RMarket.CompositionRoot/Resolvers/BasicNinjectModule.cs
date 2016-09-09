@@ -32,7 +32,7 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<IAliveStrategyRepository>().To<EFAliveStrategyRepository>();
             kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
 
-            //Наш сервис локатор ))
+            //Наш сервис-локатор ))
             Resolver.Current = new NinjectResolver(kernel);
 
             //this.Kernel.Bind(x => x

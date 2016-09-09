@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace RMarket.UnitTests
+namespace RMarket.UnitTests.Infrastructure
 {
     public class SessionStateMock : HttpSessionStateBase
     {

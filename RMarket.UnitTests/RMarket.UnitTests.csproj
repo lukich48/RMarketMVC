@@ -91,12 +91,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
-    <Compile Include="InstanceControllerTests.cs" />
-    <Compile Include="OptimizationTests.cs" />
+    <Compile Include="Infrastructure\SessionStateMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommonClassTests.cs" />
-    <Compile Include="SessionStateMock.cs" />
-    <Compile Include="TesterControllerTests.cs" />
+    <Compile Include="WebUITests\ParamEntityConvertersTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -116,6 +113,7 @@
       <Name>RMarket.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

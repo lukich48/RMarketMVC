@@ -7,6 +7,7 @@ using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers.Extentions;
+using RMarket.ClassLib.EntityModels;
 
 namespace RMarket.UnitTests
 {
