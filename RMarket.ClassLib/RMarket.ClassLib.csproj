@@ -157,7 +157,6 @@
     <Compile Include="Helpers\Serializer.cs" />
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
-    <Compile Include="HistoricalProviders\Finam.cs" />
     <Compile Include="Infrastructure\AmbientContext\MyMapper.cs" />
     <Compile Include="Infrastructure\AmbientContext\Resolver.cs" />
     <Compile Include="Infrastructure\MapperProfiles\AutoMapperDomainProfile.cs" />

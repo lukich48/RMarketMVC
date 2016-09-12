@@ -1,6 +1,6 @@
-﻿@using RMarket.ClassLib.EntityModels;
+﻿@using RMarket.WebUI.Models;
 
-@model HistoricalProviderSettingModel
+@model HistoricalProviderSettingModelUI
 
 <script>
     $(function () {
@@ -56,7 +56,7 @@
         </div>
 
         <div id="ajaxStrategyParams">
-            @Html.Action("EditParams", new { entityParams = Model.EntityParams, settingId = Model.Id })
+            @Html.Partial("EditParams",Model.EntityParams)
         </div>
 
         <div class="panel-footer">

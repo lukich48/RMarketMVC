@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using RMarket.ClassLib.Entities;
 using Newtonsoft.Json;
 using System.Reflection;
+using RMarket.ClassLib.Helpers;
 
 namespace RMarket.ClassLib.Models
 {
@@ -32,14 +33,14 @@ namespace RMarket.ClassLib.Models
 
         public ParamEntity()
         {
-            FillHelper();
+            //FillHelper();
         }
 
-        private void FillHelper(string DisplayName ="", string Description = "")
-        {
-            this.DisplayName = DisplayName;
-            this.Description = Description;
-        }
+        //private void FillHelper(string DisplayName ="", string Description = "")
+        //{
+        //    this.DisplayName = DisplayName;
+        //    this.Description = Description;
+        //}
 
         public override void RepairValue(PropertyInfo prop, object entity)
         {
@@ -50,7 +51,8 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                FieldValue = CastToType(FieldValue, prop.PropertyType);
+                //желательно сразу string
+                FieldValue = Serializer.Deserialize(FieldValue.ToString(), prop.PropertyType);
             }
             catch (Exception)
             {

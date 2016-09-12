@@ -32,7 +32,6 @@ namespace RMarket.WebUI.Infrastructure.ParamEntityConverters
                 value.Add(match.Result("$1"), match.Result("$2"));
             }
 
-
             return value;
         }
     }

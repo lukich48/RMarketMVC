@@ -28,7 +28,7 @@ namespace RMarket.ClassLib.Helpers
 
             IEnumerable<ParamEntity> savedParams = GetSavedEntityParams(setting);
 
-            List<ParamEntity> res = GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams).ToList();
+            IEnumerable<ParamEntity> res = GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams);
 
             return res;
         }
@@ -93,7 +93,7 @@ namespace RMarket.ClassLib.Helpers
 
             if (!String.IsNullOrEmpty(setting.StrParams))
             {
-                strategyParams = Serializer.Deserialize<List<ParamEntity>>(setting.StrParams);
+                strategyParams = Serializer.Deserialize<List<ParamEntity>>(setting.StrParams); 
             }
             else
                 strategyParams = new List<ParamEntity>();

@@ -47,5 +47,10 @@ namespace RMarket.CompositionRoot
             RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper.Current = customMapper;
         }
 
+        public void SetIoC(Ninject.IKernel kernel)
+        {
+            new Resolvers.BasicNinjectModule().Load(kernel);
+        }
+
     }
 }

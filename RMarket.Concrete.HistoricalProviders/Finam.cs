@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Net;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Abstract.IRepository;
 
 namespace RMarket.Concrete.HistoricalProviders
 {
@@ -14,6 +15,12 @@ namespace RMarket.Concrete.HistoricalProviders
     {
         [Parameter(Description ="ключ - код инструмента, значение - код с сайта финам")]
         public Dictionary<string,string> CodeFinams { get; set; }
+
+        public Finam(ICandleRepository candleRepository)
+            :base(candleRepository)
+        {
+            CodeFinams = new Dictionary<string, string>();
+        }
 
         public override IEnumerable<Candle> DownloadCandles(DateTime dateFrom, DateTime dateTo, Ticker ticker, TimeFrame timeFrame)
         {

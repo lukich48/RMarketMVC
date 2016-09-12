@@ -57,23 +57,20 @@ namespace RMarket.ClassLib.Models
 
             try
             {
-                if (fieldValue.GetType() == typeof(string))
-                {
-                    //нужна десеализация
-                    return Serializer.Deserialize(fieldValue.ToString(), typeValue);
-                }
+                //нужна десеализация
+                return Serializer.Deserialize(fieldValue.ToString(), typeValue);
             }
             catch (Exception)
             {
                 //!!!Логировать
             }
 
-            if (typeValue == typeof(TimeSpan))
-            {
-                value = TimeSpan.Parse(fieldValue.ToString());
-            }
-            else 
-                value = Convert.ChangeType(fieldValue, typeValue, CultureInfo.InvariantCulture);
+            //if (typeValue == typeof(TimeSpan))
+            //{
+            //    value = TimeSpan.Parse(fieldValue.ToString());
+            //}
+            //else 
+            //    value = Convert.ChangeType(fieldValue, typeValue, CultureInfo.InvariantCulture);
 
             return value;
         }

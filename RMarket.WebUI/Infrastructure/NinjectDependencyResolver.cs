@@ -27,7 +27,10 @@ namespace RMarket.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            new CompositionRoot.Resolvers.BasicNinjectModule().Load(kernel);
+            //Инициализация статических зависимостей
+            var inicializer = new CompositionRoot.Inicializer();
+            inicializer.SetIoC(kernel);
+
             //Только то что относится к WebUI
 
         }

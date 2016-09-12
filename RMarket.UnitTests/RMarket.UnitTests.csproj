@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -46,6 +50,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -91,18 +99,36 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
+    <Compile Include="Infrastructure\Repositories\HistoricalProviderRepositoryTest.cs" />
     <Compile Include="Infrastructure\SessionStateMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebUITests\ParamEntityConvertersTest.cs" />
+    <Compile Include="WebUITests\ParamEntityConvertersTests.cs" />
+    <Compile Include="WebUITests\MapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RMarker.Concrete.DataProviders\RMarker.Concrete.DataProviders.csproj">
+      <Project>{25abdd46-b86c-4d31-a114-6bbf1afa893d}</Project>
+      <Name>RMarker.Concrete.DataProviders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">
       <Project>{81d41883-898d-484e-bfe5-793dd82221be}</Project>
       <Name>RMarket.ClassLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMarket.CompositionRoot\RMarket.CompositionRoot.csproj">
+      <Project>{20bf8017-20fa-4cbd-aaa5-4248c4339dcb}</Project>
+      <Name>RMarket.CompositionRoot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMarket.Concrete.HistoricalProviders\RMarket.Concrete.HistoricalProviders.csproj">
+      <Project>{F05B63E0-0951-4C3D-BE78-7F4D613E3672}</Project>
+      <Name>RMarket.Concrete.HistoricalProviders</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMarket.DataAccess\RMarket.DataAccess.csproj">
+      <Project>{24e90e86-96b8-4a0f-92bf-fadbf8920516}</Project>
+      <Name>RMarket.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMarket.Examples\RMarket.Examples.csproj">
       <Project>{8293baa1-615f-4e86-adc0-19f0b6afe850}</Project>

@@ -34,7 +34,7 @@ namespace RMarket.ClassLib.Helpers
         public static IEnumerable<PropertyInfo> GetEntityAttributes(object entity)
         {
             PropertyInfo[] arrayProp = entity.GetType().FindMembers(MemberTypes.Property,
-                    BindingFlags.Instance | BindingFlags.Public,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     new MemberFilter(FilterAttributes), new ParameterAttribute()).Cast<PropertyInfo>().ToArray();
 
             return arrayProp;
@@ -48,7 +48,7 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public static bool FilterAttributes(MemberInfo objMemberInfo, Object objSearch)
         {
-            return objMemberInfo.IsDefined(objSearch.GetType(), false);
+            return objMemberInfo.IsDefined(objSearch.GetType(), true);
         }
 
         public static Expression<Func<TEntity, object>>[] GerNavigationPropertiesExpression<TEntity>()

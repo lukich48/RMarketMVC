@@ -12,27 +12,34 @@ namespace RMarket.WebUI.Helpers
         /// <summary>
         /// Возвращает строковое представление на форму ввода
         /// </summary>
-        /// <param name="fieldValue"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public string ConvertToViewModel(object fieldValue)
+        public string ConvertToViewModel(object value)
         {
-            IEntityParamConverter<object> converter = GetEntityParamConverter(fieldValue.GetType());
+            IEntityParamConverter<object> converter = GetEntityParamConverter(value.GetType());
 
-            return converter.ToViewModel(fieldValue);
+            return converter.ToViewModel(value);
         }
 
         /// <summary>
         /// Десериализует строковое представление в объект
         /// </summary>
-        /// <param name="fieldValue"></param>
+        /// <param name="strValue"></param>
         /// <returns></returns>
-        public object ConvertToDomainModel(string fieldValue, string typeName)
+        public object ConvertToDomainModel(string strValue, string typeName)
         {
             Type type = Type.GetType(typeName);
+
+            return ConvertToDomainModel(strValue, type);
+        }
+
+        public object ConvertToDomainModel(string strValue, Type type)
+        {
             IEntityParamConverter<object> converter = GetEntityParamConverter(type);
 
-            return converter.ToDomainModel(fieldValue);
+            return converter.ToDomainModel(strValue);
         }
+
 
         /// <summary>
         /// подбирает конвертер для отображения на форме под тип значения
@@ -41,19 +48,15 @@ namespace RMarket.WebUI.Helpers
         /// <returns></returns>
         private IEntityParamConverter<object> GetEntityParamConverter(Type type)
         {
-            //IEntityParamConverter converter = null;
 
             if (type == typeof(TimeSpan))
             {
                 return new AdapterToObjectConverter<TimeSpan>(new TimeSpanConverter());
             }
-
-            //var collectionValue = fieldValue as IEnumerable<KeyValuePair<string, string>>;
-            //if(collectionValue!=null)
-            //{
-
-            //    //return
-            //}
+            else if(type == typeof(Dictionary<string,string>))
+            {
+                return new AdapterToObjectConverter<Dictionary<string, string>>(new DictionaryConverter());
+            }
 
             return new DefaultConverter(type);
 

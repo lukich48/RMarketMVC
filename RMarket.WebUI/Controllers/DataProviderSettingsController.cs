@@ -41,12 +41,12 @@ namespace RMarket.WebUI.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(DataProviderSettingModel model, IEnumerable<ParamEntityModel> entityParams)
+        public ActionResult Edit(DataProviderSettingModel model, IEnumerable<ParamEntityUI> entityParams)
         {
             
             if (ModelState.IsValid)
             {
-                model.EntityParams = MyMapper.Current.Map<IEnumerable<ParamEntityModel>, List<ParamEntity>>(entityParams);
+                model.EntityParams = MyMapper.Current.Map<IEnumerable<ParamEntityUI>, List<ParamEntity>>(entityParams);
 
                 //Сохранение
                 settingService.Save(model);
@@ -57,7 +57,6 @@ namespace RMarket.WebUI.Controllers
 
             else
             {
-                //!!!Добавить IEnumerable<ParamEntityModel> entityParams
                 return _Edit(model: model);
             }
         }
@@ -78,7 +77,7 @@ namespace RMarket.WebUI.Controllers
                 }
             }
 
-            var entityParamsModel = MyMapper.Current.Map<IEnumerable<ParamEntity>, List<ParamEntityModel>>(entityParams);
+            var entityParamsModel = MyMapper.Current.Map<IEnumerable<ParamEntity>, List<ParamEntityUI>>(entityParams);
 
             return PartialView(entityParamsModel);
         }

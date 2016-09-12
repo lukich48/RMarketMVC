@@ -1,15 +1,24 @@
 ﻿@using RMarket.WebUI.Models;
-@model KeyValuePair<string, ParamEntityModel>
+@using System.Collections;
+
+@model KeyValuePair<string, ParamEntityUI>
 
 @*Частичное представление выводит значение параметра с атрибутом ParameterAttribute*@
+@{ 
+    Type type = Type.GetType(Model.Value.TypeName);
+}
 
-@if (Model.Value.OriginValue.GetType() == typeof(bool))
+@if (type == typeof(bool))
 {
     string isChecked = (bool)Model.Value.OriginValue ? "checked=checked" : "";
-    <input id="@Model.Key" name=@Model.Key type="checkbox" value="true" @isChecked class="form-control">
-    <input name=@Model.Key type="hidden" value="false">
+    <input id="@Model.Key" name=@Model.Key type="checkbox" value="true" @isChecked class="form-control" />
+    <input name=@Model.Key type="hidden" value="false" />
+}
+else if (typeof(IEnumerable).IsAssignableFrom(type))
+{
+    @Html.TextArea(Model.Key, Model.Value.FieldValue,  new { @class = "form-control" })
 }
 else
 {
-    <input type="text" id="@Model.Key" name="@Model.Key" value="@Model.Value.FieldValue" class="form-control"/>
+    <input type="text" id="@Model.Key" name="@Model.Key" value="@Model.Value.FieldValue" class="form-control" />
 }

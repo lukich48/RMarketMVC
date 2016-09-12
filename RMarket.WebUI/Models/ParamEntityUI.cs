@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace RMarket.WebUI.Models
 {
     [Bind(Exclude = "OriginValue")]
-    public class ParamEntityModel: IValidatableObject
+    public class ParamEntityUI: IValidatableObject
     {
         //private IEntityParamConverter<object> converter; 
         [Required]
