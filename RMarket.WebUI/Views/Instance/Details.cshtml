@@ -1,6 +1,6 @@
-﻿@using RMarket.ClassLib.EntityModels;
+﻿@using RMarket.WebUI.Models;
 
-@model InstanceModel
+@model InstanceModelUI
 
 @{
     ViewBag.Title = "Просмотр стратегии";
@@ -80,7 +80,7 @@
             </table>
         </div>
 
-        @Html.Action("EditParams", new { strategyParams = Model.StrategyParams, instanceId = Model.Id, entityInfoId = Model.EntityInfoId })
+        @Html.Partial("EditParams", Model.EntityParams)
 
         <div class="panel-footer">
             @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-default" })

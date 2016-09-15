@@ -27,36 +27,30 @@ namespace RMarket.ClassLib.Models
             }
             set
             {
-                _fieldValue = GetValue(value);
+                _fieldValue = value;//GetValue(value);
             }
         } 
-
-        public ParamEntity()
-        {
-            //FillHelper();
-        }
-
-        //private void FillHelper(string DisplayName ="", string Description = "")
-        //{
-        //    this.DisplayName = DisplayName;
-        //    this.Description = Description;
-        //}
 
         public override void RepairValue(PropertyInfo prop, object entity)
         {
             ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute(typeof(ParameterAttribute), false);
 
             FieldName = prop.Name;
-            TypeName = prop.PropertyType.FullName;
 
-            try
+            if(FieldValue !=null && 
+                FieldValue.GetType()!= prop.PropertyType && 
+                FieldValue.GetType()!=typeof(string))
             {
-                //желательно сразу string
-                FieldValue = Serializer.Deserialize(FieldValue.ToString(), prop.PropertyType);
-            }
-            catch (Exception)
-            {
-                FieldValue = null;
+                try
+                {
+                    //желательно сразу string
+                    FieldValue = Serializer.Deserialize(FieldValue.ToString(), prop.PropertyType);
+                }
+                catch (Exception)
+                {
+                    FieldValue = null;
+                }
+
             }
 
             if (FieldValue == null)

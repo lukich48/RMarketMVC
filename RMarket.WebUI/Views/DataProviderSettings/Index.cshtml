@@ -10,8 +10,8 @@
 {
     <div class="well">
         <div class="pull-right">
-            @Html.ActionLink("Изменить", "Edit", new { settingId = m.Id }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Копировать", "Copy", new { settingId = m.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Изменить", "Edit", new { Id = m.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Копировать", "Copy", new { Id = m.Id }, new { @class = "btn btn-default" })
         </div>
         <strong class="h3">@m.Name</strong>
     </div>

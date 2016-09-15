@@ -13,6 +13,7 @@ using RMarket.WebUI.Models;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Abstract.IRepository;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 
 namespace RMarket.WebUI.Controllers
 {
@@ -73,68 +74,67 @@ namespace RMarket.WebUI.Controllers
             else 
                 model = new InstanceModel();
 
-            return View("Edit", model);
+            InstanceModelUI modelUI = MyMapper.Current
+                .Map<InstanceModel, InstanceModelUI>(model);
+
+
+            return View("Edit", modelUI);
         }
 
         [HttpPost]
-        public ActionResult Edit(InstanceModel instance, IEnumerable<ParamEntity> strategyParams)
+        [ValidateInput(false)]
+        public ActionResult Edit(InstanceModelUI modelUI, IEnumerable<ParamEntityUI> strategyParams)
         {
-            instance.EntityParams = strategyParams.ToList();
+            modelUI.EntityParams = strategyParams.ToList();
 
             if (ModelState.IsValid)
             {
                 //Сохранение
-                instanceService.Save(instance);
+                InstanceModel model = MyMapper.Current
+                    .Map<InstanceModelUI, InstanceModel>(modelUI);
 
-                TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", instance.Name);
+                instanceService.Save(model);
+
+                TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", model.Name);
                 return RedirectToAction("Index");
             }
 
             else
             {
-                return _Edit(instance);
+                return _Edit(modelUI);
             }
 
         }
 
-        public PartialViewResult EditParams(IEnumerable<ParamEntity> strategyParams, int instanceId = 0, int entityInfoId = 0)
+        //Новый экземпляр
+        public PartialViewResult EditParamsNew(int entityInfoId)
         {
+            EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
+            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
 
-            if (strategyParams == null)
-                strategyParams = new List<ParamEntity>();
+            //Конвертим параметры в UI модель
+            IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current
+                .Map<IEnumerable<ParamEntity>, IEnumerable<ParamEntityUI>>(entityParams);
 
-            if (strategyParams.Count() == 0)
-            {
-                if (instanceId != 0)
-                {
-                    //Сохраненный вариант
-                    InstanceModel instance = instanceService.GetById(instanceId, i=>i.EntityInfo);
-                    strategyParams = instance.EntityParams;
-                }
-                else if (entityInfoId != 0)
-                {
-                    //Новый вариант
-                    EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
-                    strategyParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
-                }
-            }
-
-            return PartialView(strategyParams);
+            return PartialView("EditParams", entityParamsUI);
         }
 
         [HttpGet]
-        public ActionResult Copy(int instanceId)
+        public ActionResult Copy(int id)
         {
-            InstanceModel instance = instanceService.GetById(instanceId, true);
-            if (instance == null)
+            InstanceModel model = instanceService.GetById(id, true);
+            if (model == null)
             {
-                TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
+                TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
 
-            instance.Id = 0;
+            model.Id = 0;
 
-            return _Edit(instance);
+            InstanceModelUI modelUI = MyMapper.Current
+                .Map<InstanceModel, InstanceModelUI>(model);
+
+            return _Edit(modelUI);
         }
 
         public PartialViewResult MenuNav(int entityInfoId = 0)
@@ -147,20 +147,23 @@ namespace RMarket.WebUI.Controllers
             return PartialView(models);
         }
 
-        public ActionResult Details(int instanceId)
+        public ActionResult Details(int id)
         {
             InstanceModel model = new InstanceModel();
-            if (instanceId != 0)
+            if (id != 0)
             {
-                model = instanceService.GetById(instanceId, true);
+                model = instanceService.GetById(id, true);
                 if (model == null)
                 {
-                    TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
+                    TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
             }
 
-            return View(model);
+            InstanceModelUI modelUI = MyMapper.Current
+                .Map<InstanceModel, InstanceModelUI>(model);
+
+            return View(modelUI);
         }
 
         #region ////////////////////////////AJAX
@@ -190,12 +193,10 @@ namespace RMarket.WebUI.Controllers
         /// </summary>
         /// <param name="instanceId">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
-        private ViewResult _Edit(InstanceModel model)
+        private ViewResult _Edit(InstanceModelUI model)
         {
             InitializeLists();
-
             LoadNavigationProperties(model);
-            model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
 
             return View("Edit", model);
 
@@ -209,7 +210,7 @@ namespace RMarket.WebUI.Controllers
 
         }
 
-        private void LoadNavigationProperties(InstanceModel model)
+        private void LoadNavigationProperties(InstanceModelUI model)
         {
             if (model.EntityInfo == null && model.EntityInfoId != 0)
                 model.EntityInfo = strategyInfoRepository.GetById(model.EntityInfoId);

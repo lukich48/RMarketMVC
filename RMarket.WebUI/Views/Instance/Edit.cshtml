@@ -1,13 +1,13 @@
-﻿@using RMarket.ClassLib.EntityModels;
+﻿@using RMarket.WebUI.Models;
 
-@model InstanceModel
+@model InstanceModelUI
 
 @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
 
 <script>
     $(function () {
         $("#EntityInfoId").change(function () {
-            $("#ajaxStrategyParams").load("@Url.Action("EditParams")?entityInfoId=" + this.value) 
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?entityInfoId=" + this.value) 
         });
 
     });
@@ -46,7 +46,7 @@
     {
         @Html.ValidationSummary()
 
-        @Html.HiddenFor(m=> m.Id)
+        <input id="Id" name="Id" type="text" value=@Model.Id style="display:none">
         @Html.HiddenFor(m => m.GroupID)
 
         <fieldset>
@@ -125,7 +125,7 @@
         </fieldset>
 
         <div id="ajaxStrategyParams">
-            @Html.Action("EditParams", new { strategyParams = Model.EntityParams, instanceId = Model.Id, entityInfoId = Model.EntityInfoId })
+            @Html.Partial("EditParams", Model.EntityParams)
         </div>
 
         <div class="panel-footer">

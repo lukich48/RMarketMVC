@@ -27,6 +27,13 @@ namespace RMarket.WebUI.Infrastructure.MapperProfiles
             CreateMap<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>();
             CreateMap<HistoricalProviderSettingModelUI, HistoricalProviderSettingModel>();
 
+            CreateMap<DataProviderSettingModel, DataProviderSettingModelUI>();
+            CreateMap<DataProviderSettingModelUI, DataProviderSettingModel>();
+
+            CreateMap<InstanceModel, InstanceModelUI>();
+            CreateMap<InstanceModelUI, InstanceModel>();
+
+
         }
 
 

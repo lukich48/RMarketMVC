@@ -15,44 +15,55 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
     {
         public IEnumerable<DataProviderSetting> Get()
         {
-            List<DataProviderSetting> dataProviders = new List<DataProviderSetting>();
+            List<DataProviderSetting> res = new List<DataProviderSetting>();
 
+            res.Add(GetQuik());
+            res.Add(GetCsv());
+
+            return res;
+        }
+
+        private DataProviderSetting GetQuik()
+        {
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
-                new ParamEntity {FieldName="serverName",FieldValue="RMarket" },
-                new ParamEntity {FieldName="col_Date",FieldValue="Дата" },
-                new ParamEntity {FieldName="col_Time",FieldValue="Время" },
-                new ParamEntity {FieldName="col_TickerCode",FieldValue="Код бумаги" },
-                new ParamEntity {FieldName="col_Price",FieldValue="Цена" },
-                new ParamEntity {FieldName="col_Qty",FieldValue="Кол-во" },
-                new ParamEntity {FieldName="col_Period",FieldValue="Период" }
+                new ParamEntity {FieldName="ServerName",FieldValue="RMarket" },
+                new ParamEntity {FieldName="Col_Date",FieldValue="Дата" },
+                new ParamEntity {FieldName="Col_Time",FieldValue="Время" },
+                new ParamEntity {FieldName="Col_TickerCode",FieldValue="Код бумаги" },
+                new ParamEntity {FieldName="Col_Price",FieldValue="Цена" },
+                new ParamEntity {FieldName="Col_Qty",FieldValue="Кол-во" },
+                new ParamEntity {FieldName="Col_Period",FieldValue="Период" }
             };
 
-            dataProviders.Add(
-                new DataProviderSetting
-                {
-                    Name ="Quik default",
-                    CreateDate= DateTime.Now, Description="русскоязычные настройки квика",
-                    StrParams = Serializer.Serialize(entityParams),
-                    EntityInfo = new EntityInfo
-                    {
-                        Name = "QuikProvider",
-                        TypeName = typeof(QuikProvider).AssemblyQualifiedName,
-                        EntityType = EntityType.DataProviderInfo
-                    }
-                }
-            );
-
-            List<ParamEntity> entityParams2 = new List<ParamEntity>
+            return new DataProviderSetting
             {
-                new ParamEntity {FieldName="filePath",FieldValue=@"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv" },
-                new ParamEntity {FieldName="col_Date",FieldValue="<DATE>" },
+                Name = "Quik default",
+                CreateDate = DateTime.Now,
+                Description = "русскоязычные настройки квика",
+                StrParams = Serializer.Serialize(entityParams),
+                EntityInfo = new EntityInfo
+                {
+                    Name = "QuikProvider",
+                    TypeName = typeof(QuikProvider).AssemblyQualifiedName,
+                    EntityType = EntityType.DataProviderInfo
+                }
+            };
+
+        }
+
+        private DataProviderSetting GetCsv()
+        {
+            List<ParamEntity> entityParams = new List<ParamEntity>
+            {
+                new ParamEntity {FieldName="FilePath",FieldValue=@"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv" },
+                new ParamEntity {FieldName="Col_Date",FieldValue="<DATE>" },
                 new ParamEntity {FieldName="FormatDate",FieldValue="yyyyMMdd" },
-                new ParamEntity {FieldName="col_Time",FieldValue="<TIME>" },
+                new ParamEntity {FieldName="Col_Time",FieldValue="<TIME>" },
                 new ParamEntity {FieldName="FormatTime",FieldValue="HHmmss" },
-                new ParamEntity {FieldName="col_TickerCode",FieldValue="<TICKER>" },
-                new ParamEntity {FieldName="col_Price",FieldValue="<LAST>" },
-                new ParamEntity {FieldName="col_Qty",FieldValue="Qty" },
+                new ParamEntity {FieldName="Col_TickerCode",FieldValue="<TICKER>" },
+                new ParamEntity {FieldName="Col_Price",FieldValue="<LAST>" },
+                new ParamEntity {FieldName="Col_Qty",FieldValue="Qty" },
                 new ParamEntity {FieldName="Col_Volume",FieldValue="<VOL>" },
                 new ParamEntity {FieldName="Col_TradePeriod",FieldValue="Period" },
                 new ParamEntity {FieldName="Val_PeriodOpening",FieldValue="Opening" },
@@ -62,22 +73,24 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
                 new ParamEntity {FieldName="Val_SessionFinish",FieldValue="19:00:00" },
                 new ParamEntity {FieldName="Delay",FieldValue="600" }
             };
-            dataProviders.Add(
-                new DataProviderSetting
-                {
-                    Name ="csv Finam",
-                    EntityInfoId = 2, CreateDate= DateTime.Now, Description="Настройка для .csv от Финама",
-                    StrParams = Serializer.Serialize(entityParams),
-                    EntityInfo = new EntityInfo
-                    {
-                        Name = "CsvFileProvider",
-                        TypeName = typeof(CsvFileProvider).AssemblyQualifiedName,
-                        EntityType = EntityType.DataProviderInfo
-                    }
-                }
-            );
 
-            return dataProviders;
+            return new DataProviderSetting
+            {
+                Name = "csv Finam",
+                EntityInfoId = 2,
+                CreateDate = DateTime.Now,
+                Description = "Настройка для .csv от Финама",
+                StrParams = Serializer.Serialize(entityParams),
+                EntityInfo = new EntityInfo
+                {
+                    Name = "CsvFileProvider",
+                    TypeName = typeof(CsvFileProvider).AssemblyQualifiedName,
+                    EntityType = EntityType.DataProviderInfo
+                }
+            };
+            
+
         }
+
     }
 }

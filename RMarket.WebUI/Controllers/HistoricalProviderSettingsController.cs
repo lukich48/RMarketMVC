@@ -35,18 +35,18 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit( int Id = 0)
+        public ActionResult Edit( int id = 0)
         {
             InitializeLists();
 
             HistoricalProviderSettingModel model = null;
 
-            if (Id != 0)
+            if (id != 0)
             {
-                model = settingService.GetById(Id, true);
+                model = settingService.GetById(id, true);
                 if (model == null)
                 {
-                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
+                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
 
@@ -100,12 +100,12 @@ namespace RMarket.WebUI.Controllers
         }
 
 
-        public ActionResult Copy(int Id)
+        public ActionResult Copy(int id)
         {
-            HistoricalProviderSettingModel setting = settingService.GetById(Id, true);
+            HistoricalProviderSettingModel setting = settingService.GetById(id, true);
             if (setting == null)
             {
-                TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
+                TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
 

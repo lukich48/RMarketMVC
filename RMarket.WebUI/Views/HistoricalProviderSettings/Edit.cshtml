@@ -17,14 +17,21 @@
 
 <div class="panel">
     <div class="panel-heading">
-        <h3>Редактирование настройки: <span class="text-info">@Model.Name</span></h3>
+        @if (Model.Id == 0)
+        {
+            <h3>Создание настройки</h3>
+        }
+        else
+        {
+            <h3>Редактирование настройки: <span class="text-info">Model.Name</span></h3>
+        }
     </div>
 
     @using (Html.BeginForm("Edit", "HistoricalProviderSettings"))
     {
-        @Html.ValidationSummary()
+        @Html.ValidationSummary();
 
-        @Html.HiddenFor(m => m.Id)
+        <input id="Id" name="Id" type="text" value=@Model.Id style="display:none">
 
         <div class="form-group">
             <table>

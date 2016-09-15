@@ -34,52 +34,55 @@ namespace RMarket.WebUI.Controllers
             return View(res);
         }
 
-        public ActionResult Edit( int settingId = 0)
+        [HttpGet]
+        public ActionResult Edit(int Id = 0)
         {
-            return _Edit(settingId: settingId);
+            InitializeLists();
+
+            DataProviderSettingModel model = null;
+
+            if (Id != 0)
+            {
+                model = settingService.GetById(Id, true);
+                if (model == null)
+                {
+                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
+                    return RedirectToAction("Index");
+                }
+
+            }
+            else //Запрос на создание
+                model = new DataProviderSettingModel();
+
+            DataProviderSettingModelUI modelUI = MyMapper.Current
+                .Map<DataProviderSettingModel, DataProviderSettingModelUI>(model);
+
+            return View("Edit", modelUI);
+
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(DataProviderSettingModel model, IEnumerable<ParamEntityUI> entityParams)
+        public ActionResult Edit(DataProviderSettingModelUI modelUI, IEnumerable<ParamEntityUI> entityParams)
         {
-            
+            modelUI.EntityParams = entityParams.ToList();
+
             if (ModelState.IsValid)
             {
-                model.EntityParams = MyMapper.Current.Map<IEnumerable<ParamEntityUI>, List<ParamEntity>>(entityParams);
-
                 //Сохранение
+                DataProviderSettingModel model = MyMapper.Current
+                    .Map<DataProviderSettingModelUI, DataProviderSettingModel>(modelUI);
+
                 settingService.Save(model);
 
-                TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", model.Name);
+                TempData["message"] = String.Format("Сохранены изменения в экземпляре: {0}", modelUI.Name);
                 return RedirectToAction("Index");
             }
 
             else
             {
-                return _Edit(model: model);
+                return _Edit(model: modelUI);
             }
-        }
-
-        public PartialViewResult EditParams(IEnumerable<ParamEntity> entityParams, int settingId = 0)
-        {
-
-            if (entityParams == null)
-                entityParams = new List<ParamEntity>();
-
-            if (entityParams.Count() == 0)
-            {
-                if (settingId != 0)
-                {
-                    //Сохраненный вариант
-                    DataProviderSettingModel setting = settingService.GetById(settingId, true);
-                    entityParams = setting.EntityParams;
-                }
-            }
-
-            var entityParamsModel = MyMapper.Current.Map<IEnumerable<ParamEntity>, List<ParamEntityUI>>(entityParams);
-
-            return PartialView(entityParamsModel);
         }
 
         //Новый экземпляр
@@ -89,47 +92,37 @@ namespace RMarket.WebUI.Controllers
 
             IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
 
-            return PartialView("EditParams",entityParams);
+            //Конвертим параметры в UI модель
+            IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current
+                .Map<IEnumerable<ParamEntity>, IEnumerable<ParamEntityUI>>(entityParams);
+
+            return PartialView("EditParams", entityParamsUI);
         }
 
 
-        public ActionResult Copy(int settingId)
+        public ActionResult Copy(int Id)
         {
-            DataProviderSettingModel setting = settingService.GetById(settingId);
+            DataProviderSettingModel setting = settingService.GetById(Id, true);
             if (setting == null)
             {
-                TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
+                TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
                 return RedirectToAction("Index");
             }
 
             setting.Id = 0;
 
-            return _Edit(model: setting);
+            DataProviderSettingModelUI modelUI = MyMapper.Current
+                .Map<DataProviderSettingModel, DataProviderSettingModelUI>(setting);
+
+            return _Edit(model: modelUI);
         }
 
         #region////////////////////////////Private metods
 
-        private ActionResult _Edit(DataProviderSettingModel model = null, int settingId = 0)
+        private ActionResult _Edit(DataProviderSettingModelUI model)
         {
             InitializeLists();
-
-            if (model != null) //повторно пришло
-            {
-                LoadNavigationProperties(model);
-                model.EntityParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.EntityParams).ToList();
-            }
-            else if (settingId != 0)
-            {
-                model = settingService.GetById(settingId);
-                if (model == null)
-                {
-                    TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", settingId);
-                    return RedirectToAction("Index");
-                }
-
-            }
-            else //Запрос без параметров
-                model = new DataProviderSettingModel();
+            LoadNavigationProperties(model);
 
             return View("Edit", model);
         }
@@ -139,7 +132,7 @@ namespace RMarket.WebUI.Controllers
             ViewBag.EntityInfoList = ModelHelper.GetDataProviderInfoList(entityInfoRepository);
         }
 
-        private void LoadNavigationProperties(DataProviderSettingModel model)
+        private void LoadNavigationProperties(DataProviderSettingModelUI model)
         {
             if (model.EntityInfo == null && model.EntityInfoId != 0)
                 model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
