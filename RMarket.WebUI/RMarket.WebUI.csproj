@@ -290,6 +290,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\Admin\TestPageController.cs" />
+    <Compile Include="Controllers\EntityParamsController.cs" />
     <Compile Include="Controllers\HistoricalProviderSettingsController.cs" />
     <Compile Include="Controllers\EmulController.cs" />
     <Compile Include="Controllers\SelectionController.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationHelper.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\AdapterToObjectConverter.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\BooleanConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\DictionaryConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\TimeSpanConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\DefaultConverter.cs" />
@@ -327,6 +329,8 @@
     <Compile Include="Models\InstanceModelUI.cs" />
     <Compile Include="Models\MenuNavModel.cs" />
     <Compile Include="Models\ParamEntityUI.cs" />
+    <Compile Include="Models\ParamSelectionUI.cs" />
+    <Compile Include="Models\SelectionModelUI.cs" />
     <Compile Include="Models\TesterModel.cs" />
     <Compile Include="Models\ChartResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -386,6 +390,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
+    <Folder Include="Views\EntityParams\" />
     <Folder Include="Views\TestPage\" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Infrastructure;
 using RMarket.WebUI.Models;
@@ -21,14 +22,14 @@ namespace RMarket.WebUI.Controllers
         private readonly ISelectionService selectionService;
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
-        private readonly IEntityInfoRepository strategyInfoRepository;
+        private readonly IEntityInfoRepository entityInfoRepository;
 
-        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository strategyInfoRepository)
+        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository)
         {
             this.selectionService = selectionService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
-            this.strategyInfoRepository = strategyInfoRepository;
+            this.entityInfoRepository = entityInfoRepository;
         }
 
         // GET: Selection
@@ -49,98 +50,72 @@ namespace RMarket.WebUI.Controllers
         /// <summary>
         /// Редактирование стратегии
         /// </summary>
-        /// <param name="instanceId">Если 0 - создание нвого варианта</param>
+        /// <param name="id">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Edit(int instanceId = 0)
+        public ActionResult Edit(int id = 0)
         {
             InitializeLists();
             SelectionModel model = null;
 
-            if (instanceId != 0)
+            if (id != 0)
             {
-                model = selectionService.GetById(instanceId, true);
+                model = selectionService.GetById(id, true);
                 if (model == null)
                 {
-                    TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", instanceId);
+                    TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
             }
             else
                 model = new SelectionModel();
 
-            return View("Edit", model);
+            SelectionModelUI modelUI = MyMapper.Current
+                .Map<SelectionModel, SelectionModelUI>(model);
+
+            return View("Edit", modelUI);
         }
 
         [HttpPost]
-        public ActionResult Edit(SelectionModel selection, IEnumerable<ParamSelection> strategyParams)
+        public ActionResult Edit(SelectionModelUI modelUI, IEnumerable<ParamSelectionUI> selectionParams)
         {
-            selection.SelectionParams = strategyParams.ToList();
+            modelUI.SelectionParams = selectionParams.ToList();
 
             if (ModelState.IsValid)
             {
                 //Сохранение
-                selectionService.Save(selection);
+                SelectionModel model = MyMapper.Current
+                    .Map<SelectionModelUI, SelectionModel>(modelUI);
 
-                TempData["message"] = String.Format("Сохранены изменения в селекции: {0}", selection.Name);
+                selectionService.Save(model);
+
+                TempData["message"] = String.Format("Сохранены изменения в селекции: {0}", modelUI.Name);
                 return RedirectToAction("Index");
             }
 
             else
             {
-                return _Edit(selection);
+                return _Edit(modelUI);
             }
 
         }
 
-        public PartialViewResult EditParams(IEnumerable<ParamSelection> strategyParams, int entityInfoId = 0, int instanceId = 0)
+        public ActionResult Copy(int id)
         {
-
-            if(strategyParams==null)
-                strategyParams = new List<ParamSelection>();
-
-            if (strategyParams.Count() == 0)
+            SelectionModel model = selectionService.GetById(id, true);
+            if (model == null)
             {
-                if (instanceId != 0)
-                {
-                    //Сохраненный вариант
-                    SelectionModel selection = selectionService.GetById(instanceId, s=>s.EntityInfo);
-                    strategyParams = selection.SelectionParams;
-                }
-                else if (entityInfoId != 0)
-                {
-                    //Новый вариант
-                    EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
-                    strategyParams = new SettingHelper().GetEntityParams<ParamSelection>(entityInfo);
-                }
-            }      
-
-            return PartialView(strategyParams);
-        }
-
-        public ActionResult Copy(int instanceId)
-        {
-            SelectionModel selection = selectionService.GetById(instanceId, true);
-            if (selection == null)
-            {
-                TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", instanceId);
+                TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
 
-            selection.Id = 0;
+            model.Id = 0;
 
-            return _Edit(selection);
+            SelectionModelUI modelUI = MyMapper.Current
+                .Map<SelectionModel, SelectionModelUI>(model);
+
+            return _Edit(modelUI);
         }
-
-        //[HttpGet]
-        //public ActionResult Start()
-        //{
-        //    ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
-        //    ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
-        //    ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
-
-        //    return View();
-        //}
 
         public PartialViewResult MenuNav(int entityInfoId = 0)
         {
@@ -151,21 +126,38 @@ namespace RMarket.WebUI.Controllers
             return PartialView(models);
         }
 
-        public ActionResult Details(int instanceId)
+        public ActionResult Details(int id)
         {
             SelectionModel model = new SelectionModel();
-            if (instanceId != 0)
+            if (id != 0)
             {
-                model = selectionService.GetById(instanceId, true);
+                model = selectionService.GetById(id, true);
                 if (model == null)
                 {
-                    TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", instanceId);
+                    TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
             }
 
-            return View(model);
+            SelectionModelUI modelUI = MyMapper.Current
+                .Map<SelectionModel, SelectionModelUI>(model);
+
+            return View(modelUI);
         }
+
+        //Новый экземпляр
+        public PartialViewResult EditParamsNew(int entityInfoId)
+        {
+            EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
+            IEnumerable<ParamSelection> entityParams = new SettingHelper().GetEntityParams<ParamSelection>(entityInfo);
+
+            //Конвертим параметры в UI модель
+            IEnumerable<ParamSelectionUI> entityParamsUI = MyMapper.Current
+                .Map<IEnumerable<ParamSelection>, IEnumerable<ParamSelectionUI>>(entityParams);
+
+            return PartialView("EditParams", entityParamsUI);
+        }
+
 
         #region AJAX
         public PartialViewResult InstanceRecCollection(int instanceId)
@@ -194,12 +186,11 @@ namespace RMarket.WebUI.Controllers
         /// </summary>
         /// <param name="instanceId">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
-        private ActionResult _Edit(SelectionModel model)
+        private ActionResult _Edit(SelectionModelUI model)
         {
             InitializeLists();
 
             LoadNavigationProperties(model);
-            model.SelectionParams = new SettingHelper().GetEntityParams(model.EntityInfo, model.SelectionParams).ToList();
 
             return View("Edit", model);
 
@@ -209,14 +200,14 @@ namespace RMarket.WebUI.Controllers
         {
             ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
             ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
-            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
+            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(entityInfoRepository);
 
         }
 
-        public void LoadNavigationProperties(SelectionModel model)
+        public void LoadNavigationProperties(SelectionModelUI model)
         {
             if (model.EntityInfo == null && model.EntityInfoId != 0)
-                model.EntityInfo = strategyInfoRepository.GetById(model.EntityInfoId);
+                model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
 
             if (model.Ticker == null && model.TickerId != 0)
                 model.Ticker = tickerRepository.GetById(model.TickerId);

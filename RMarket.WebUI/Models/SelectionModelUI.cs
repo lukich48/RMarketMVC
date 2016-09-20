@@ -1,7 +1,6 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
-using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Infrastructure;
 using RMarket.ClassLib.Models;
 using System;
@@ -13,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace RMarket.WebUI.Models
 {
-    [MetadataType(typeof(Instance_metadata))]
-    public class InstanceModelUI
+    [MetadataType(typeof(Selection_metadata))]
+    public class SelectionModelUI
     {
+ 
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -38,21 +38,23 @@ namespace RMarket.WebUI.Models
 
         public DateTime CreateDate { get; set; }
 
-        public int? SelectionId { get; set; }
+        public DateTime DateFrom { get; set; }
 
-        public List<ParamEntityUI> EntityParams { get; set; }
+        public DateTime DateTo { get; set; }
 
-        public IEntityInfo EntityInfo { get; set; }
+        public int AmountResults { get; set; }
+
+        public List<ParamSelectionUI> SelectionParams { get; set; }
+
+        public EntityInfo EntityInfo { get; set; }
 
         public Ticker Ticker { get; set; }
 
         public TimeFrame TimeFrame { get; set; }
 
-        public SelectionModelUI Selection { get; set; }
-
-        public InstanceModelUI()
+        public SelectionModelUI()
         {
-            EntityParams = new List<ParamEntityUI>();
+            SelectionParams = new List<ParamSelectionUI>();
         }
 
     }

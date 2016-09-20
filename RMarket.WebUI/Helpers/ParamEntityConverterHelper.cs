@@ -53,7 +53,11 @@ namespace RMarket.WebUI.Helpers
             {
                 return new AdapterToObjectConverter<TimeSpan>(new TimeSpanConverter());
             }
-            else if(type == typeof(Dictionary<string,string>))
+            //else if (type == typeof(bool))
+            //{
+            //    return new AdapterToObjectConverter<bool>(new BooleanConverter());
+            //}
+            else if (type == typeof(Dictionary<string,string>))
             {
                 return new AdapterToObjectConverter<Dictionary<string, string>>(new DictionaryConverter());
             }

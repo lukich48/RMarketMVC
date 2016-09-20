@@ -29,7 +29,7 @@
                     @*@Html.EditorFor(m=>m[i].FieldValue)*@
                 </td>
                 <td>
-                    @Html.Label(Model[i].Description)
+                    @Model[i].Description
                     @Html.HiddenFor(m => m[i].Description)
                     @Html.HiddenFor(m => m[i].TypeName)
                 </td>

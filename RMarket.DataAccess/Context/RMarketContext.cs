@@ -136,7 +136,7 @@ namespace RMarket.DataAccess.Context
         }
     }
 
-    public class RMarketInitializer : DropCreateDatabaseAlways<RMarketContext>
+    public class RMarketInitializer : DropCreateDatabaseIfModelChanges<RMarketContext>//DropCreateDatabaseAlways<RMarketContext>
     {
         public static IContextInitializer<DataProviderSetting> DataProviderInitializer { get; set; }
         public static IContextInitializer<HistoricalProviderSetting> HistoricalProviderInitializer { get; set; }

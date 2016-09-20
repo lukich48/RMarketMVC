@@ -85,21 +85,6 @@ namespace RMarket.WebUI.Controllers
             }
         }
 
-        //Новый экземпляр
-        public PartialViewResult EditParamsNew(int entityInfoId)
-        {
-            EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
-
-            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
-
-            //Конвертим параметры в UI модель
-            IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current
-                .Map<IEnumerable<ParamEntity>, IEnumerable<ParamEntityUI>>(entityParams);
-
-            return PartialView("EditParams", entityParamsUI);
-        }
-
-
         public ActionResult Copy(int Id)
         {
             DataProviderSettingModel setting = settingService.GetById(Id, true);

@@ -52,12 +52,12 @@ namespace RMarket.ClassLib.Helpers
                             if (paramSelection.FieldName == pair.Key)
                             {
                                 // Сохраним у значения исходный тип
-                                newParam.FieldValue = Convert.ChangeType((dynamic)paramSelection.ValueMin + i, Type.GetType(paramSelection.TypeName));
+                                newParam.FieldValue = Convert.ChangeType((dynamic)paramSelection.ValueMin + i, paramSelection.ValueMin.GetType());
                             }
                             else
                             {
                                 Random rnd = new Random();
-                                newParam.FieldValue = Convert.ChangeType(rnd.Next(paramSelection.ValueMin.ToIntSave(), paramSelection.ValueMax.ToIntSave()), Type.GetType(paramSelection.TypeName));
+                                newParam.FieldValue = Convert.ChangeType(rnd.Next(paramSelection.ValueMin.ToIntSave(), paramSelection.ValueMax.ToIntSave()), paramSelection.ValueMin.GetType());
                             }
 
                             newInstance.EntityParams.Add(newParam);

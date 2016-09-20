@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,30 +22,10 @@ namespace RMarket.ClassLib.Models
         public override string FieldName { get; set; }
 
         [JsonProperty]
-        public object ValueMin
-        {
-            get
-            {
-                return _valueMin;
-            }
-            set
-            {
-                _valueMin = GetValue(value); 
-            }
-        }
+        public object ValueMin { get; set; }
 
         [JsonProperty]
-        public object ValueMax
-        {
-            get
-            {
-                return _valueMax;
-            }
-            set
-            {
-                _valueMax = GetValue(value); 
-            }
-        }
+        public object ValueMax { get; set; }
 
         public override void RepairValue(PropertyInfo prop, object entity)
         {
@@ -52,66 +33,41 @@ namespace RMarket.ClassLib.Models
 
             FieldName = prop.Name;
 
-            try
+            if (ValueMin != null &&
+                ValueMin.GetType() != prop.PropertyType &&
+                ValueMin.GetType() != typeof(string))
             {
-                ValueMin = CastToType(ValueMin, prop.PropertyType);
-            }
-            catch (Exception)
-            {
-                ValueMin = null;
+                try
+                {
+                    //желательно сразу string
+                    ValueMin = Serializer.Deserialize(ValueMin.ToString(), prop.PropertyType);
+                }
+                catch (Exception)
+                {
+                    ValueMin = null;
+                }
+
+                try
+                {
+                    //желательно сразу string
+                    ValueMax = Serializer.Deserialize(ValueMax.ToString(), prop.PropertyType);
+                }
+                catch (Exception)
+                {
+                    ValueMax = null;
+                }
+
             }
 
             if (ValueMin == null)
                 ValueMin = prop.GetValue(entity);
-
-            try
-            {
-                ValueMax = CastToType(ValueMax, prop.PropertyType);
-            }
-            catch (Exception)
-            {
-                ValueMax = null;
-            }
 
             if (ValueMax == null)
                 ValueMax = prop.GetValue(entity);
 
             DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
             Description = (attr.Description == null) ? "" : attr.Description;
-            TypeName = prop.PropertyType.FullName;
         }
-
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    List<ValidationResult> errors = new List<ValidationResult>();
-
-        //    try
-        //    {
-        //        ValueMin = CastToType(ValueMin, prop.PropertyType);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMin" }));
-        //    }
-
-        //    try
-        //    {
-        //        ValueMax = CastToType(ValueMax, prop.PropertyType);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        errors.Add(new ValidationResult("Неверно задан тип для параметра: " + DisplayName, new List<string> { "ValueMax" }));
-        //    }
-
-        //    if (errors.Count == 0)
-        //    {
-        //        if (((IComparable)ValueMax).CompareTo((IComparable)ValueMin) < 0)
-        //            errors.Add(new ValidationResult("Максимальный параметр не может быть меньше минимального!: " + DisplayName));
-        //    }
-
-        //    return errors;
-        //}
-
         
     }
 }

@@ -7,7 +7,7 @@
 <script>
     $(function () {
         $("#EntityInfoId").change(function () {
-            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew")?entityInfoId=" + this.value) 
+            $("#ajaxStrategyParams").load("@Url.Action("EditParamsNew","EntityParams")?entityInfoId=" + this.value) 
         });
 
     });

@@ -22,14 +22,14 @@ namespace RMarket.WebUI.Controllers
         private IInstanceService instanceService;
         private ITickerRepository tickerRepository;
         private ITimeFrameRepository timeFrameRepository;
-        private IEntityInfoRepository strategyInfoRepository;
+        private IEntityInfoRepository entityInfoRepository;
 
-        public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository strategyInfoRepository)
+        public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository)
         {
             this.instanceService = instanceService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
-            this.strategyInfoRepository = strategyInfoRepository;
+            this.entityInfoRepository = entityInfoRepository;
         }
 
         /// <summary>
@@ -54,20 +54,20 @@ namespace RMarket.WebUI.Controllers
         /// <summary>
         /// Редактирование стратегии
         /// </summary>
-        /// <param name="instanceId">Если 0 - создание нвого варианта</param>
+        /// <param name="id">Если 0 - создание нвого варианта</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Edit(int instanceId = 0)
+        public ActionResult Edit(int id = 0)
         {
             InitializeLists();
             InstanceModel model = null;
 
-            if (instanceId != 0)
+            if (id != 0)
             {
-                model = instanceService.GetById(instanceId, true);
+                model = instanceService.GetById(id, true);
                 if (model == null)
                 {
-                    TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", instanceId);
+                    TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
             }
@@ -104,19 +104,6 @@ namespace RMarket.WebUI.Controllers
                 return _Edit(modelUI);
             }
 
-        }
-
-        //Новый экземпляр
-        public PartialViewResult EditParamsNew(int entityInfoId)
-        {
-            EntityInfo entityInfo = strategyInfoRepository.GetById(entityInfoId);
-            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
-
-            //Конвертим параметры в UI модель
-            IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current
-                .Map<IEnumerable<ParamEntity>, IEnumerable<ParamEntityUI>>(entityParams);
-
-            return PartialView("EditParams", entityParamsUI);
         }
 
         [HttpGet]
@@ -206,14 +193,14 @@ namespace RMarket.WebUI.Controllers
         {
             ViewBag.TickerList = ModelHelper.GetTickerList(tickerRepository);
             ViewBag.TimeFrameList = ModelHelper.GetTimeFrameList(timeFrameRepository);
-            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(strategyInfoRepository);
+            ViewBag.StrategyInfoList = ModelHelper.GetStrategyInfoList(entityInfoRepository);
 
         }
 
         private void LoadNavigationProperties(InstanceModelUI model)
         {
             if (model.EntityInfo == null && model.EntityInfoId != 0)
-                model.EntityInfo = strategyInfoRepository.GetById(model.EntityInfoId);
+                model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
 
             if (model.Ticker == null && model.TickerId != 0)
                 model.Ticker = tickerRepository.GetById(model.TickerId);
