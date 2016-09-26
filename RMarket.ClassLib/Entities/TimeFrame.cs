@@ -18,8 +18,5 @@ namespace RMarket.ClassLib.Entities
 
         public int ToMinute { get; set; }
 
-        [StringLength(20)]
-        public string CodeFinam { get; set; }
-
     }
 }

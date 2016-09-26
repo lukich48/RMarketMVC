@@ -98,9 +98,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EmulTests\EmulManagerTest.cs" />
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
     <Compile Include="Infrastructure\Repositories\HistoricalProviderRepositoryTest.cs" />
     <Compile Include="Infrastructure\SessionStateMock.cs" />
+    <Compile Include="Infrastructure\Strategies\StrategyMock1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebUITests\ParamEntityConvertersTests.cs" />
     <Compile Include="WebUITests\MapperTests.cs" />
@@ -110,9 +112,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RMarker.Concrete.DataProviders\RMarker.Concrete.DataProviders.csproj">
+    <ProjectReference Include="..\RMarket.Concrete.DataProviders\RMarket.Concrete.DataProviders.csproj">
       <Project>{25abdd46-b86c-4d31-a114-6bbf1afa893d}</Project>
-      <Name>RMarker.Concrete.DataProviders</Name>
+      <Name>RMarket.Concrete.DataProviders</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">
       <Project>{81d41883-898d-484e-bfe5-793dd82221be}</Project>
@@ -126,13 +128,17 @@
       <Project>{F05B63E0-0951-4C3D-BE78-7F4D613E3672}</Project>
       <Name>RMarket.Concrete.HistoricalProviders</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RMarket.Concrete.Indicators\RMarket.Concrete.Indicators.csproj">
+      <Project>{c3fadecd-49fe-4484-ac55-40e0e8bc16d3}</Project>
+      <Name>RMarket.Concrete.Indicators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMarket.Concrete.Strategies\RMarket.Concrete.Strategies.csproj">
+      <Project>{6c5e21d9-e1d7-41ad-b838-c452d552b22a}</Project>
+      <Name>RMarket.Concrete.Strategies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RMarket.DataAccess\RMarket.DataAccess.csproj">
       <Project>{24e90e86-96b8-4a0f-92bf-fadbf8920516}</Project>
       <Name>RMarket.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RMarket.Examples\RMarket.Examples.csproj">
-      <Project>{8293baa1-615f-4e86-adc0-19f0b6afe850}</Project>
-      <Name>RMarket.Examples</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMarket.WebUI\RMarket.WebUI.csproj">
       <Project>{accc98d6-b703-4ad7-9608-d423c8ac2a4d}</Project>

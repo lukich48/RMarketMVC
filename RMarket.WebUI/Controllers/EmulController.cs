@@ -72,7 +72,7 @@ namespace RMarket.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult BeginTest(TesterModel model) //!!!В модели использовать Instance
+        public ActionResult BeginTest(TesterModel model) 
         {
             if (ModelState.IsValid)
             {

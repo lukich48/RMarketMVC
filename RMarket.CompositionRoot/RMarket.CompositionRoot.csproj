@@ -76,9 +76,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RMarker.Concrete.DataProviders\RMarker.Concrete.DataProviders.csproj">
+    <ProjectReference Include="..\RMarket.Concrete.DataProviders\RMarket.Concrete.DataProviders.csproj">
       <Project>{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}</Project>
-      <Name>RMarker.Concrete.DataProviders</Name>
+      <Name>RMarket.Concrete.DataProviders</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMarket.ClassLib\RMarket.ClassLib.csproj">
       <Project>{81d41883-898d-484e-bfe5-793dd82221be}</Project>

@@ -17,9 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.CompositionRoot", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Concrete", "Concrete", "{A9E61DF9-9584-4179-8F67-A5B3728F9668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarker.Concrete.DataProviders", "RMarker.Concrete.DataProviders\RMarker.Concrete.DataProviders.csproj", "{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.DataProviders", "RMarket.Concrete.DataProviders\RMarket.Concrete.DataProviders.csproj", "{25ABDD46-B86C-4D31-A114-6BBF1AFA893D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.HistoricalProviders", "RMarket.Concrete.HistoricalProviders\RMarket.Concrete.HistoricalProviders.csproj", "{F05B63E0-0951-4C3D-BE78-7F4D613E3672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.Indicators", "RMarket.Concrete.Indicators\RMarket.Concrete.Indicators.csproj", "{C3FADECD-49FE-4484-AC55-40E0E8BC16D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.Strategies", "RMarket.Concrete.Strategies\RMarket.Concrete.Strategies.csproj", "{6C5E21D9-E1D7-41AD-B838-C452D552B22A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,14 @@ Global
 		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F05B63E0-0951-4C3D-BE78-7F4D613E3672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +78,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{25ABDD46-B86C-4D31-A114-6BBF1AFA893D} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 		{F05B63E0-0951-4C3D-BE78-7F4D613E3672} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
+		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
+		{6C5E21D9-E1D7-41AD-B838-C452D552B22A} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

@@ -24,7 +24,7 @@ namespace RMarket.Concrete.HistoricalProviders.Infrastructure
 
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
-                new ParamEntity {FieldName="CodeFinams",FieldValue=codeFinams },
+                new ParamEntity {FieldName="TickerCodeFinams",FieldValue=codeFinams },
             };
 
 

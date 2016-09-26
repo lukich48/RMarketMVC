@@ -20,9 +20,6 @@ namespace RMarket.ClassLib.Entities
         [Index(IsUnique = true)]
         public string Code { get; set; }
 
-        [StringLength(20)]
-        public string CodeFinam { get; set; }
-
         [Display(Name = "Количество в 1 лоте")]
         public int? QtyInLot { get; set; } 
 

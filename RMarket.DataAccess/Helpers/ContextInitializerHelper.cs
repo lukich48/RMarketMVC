@@ -23,9 +23,9 @@ namespace RMarket.DataAccess.Helpers
         {
             List<Ticker> listTicker = new List<Ticker>
             {
-                new Ticker {Id=1, Name="SBER", Code="SBER", CodeFinam="3", QtyInLot=10},
-                new Ticker {Id=2,  Name="GAZP", Code="GAZP", CodeFinam="16842"},
-                new Ticker {Id=3, Name="AVAZ", Code="AVAZ", CodeFinam="39"},
+                new Ticker {Id=1, Name="SBER", Code="SBER", QtyInLot=10},
+                new Ticker {Id=2,  Name="GAZP", Code="GAZP"},
+                new Ticker {Id=3, Name="AVAZ", Code="AVAZ"},
             };
             context.Tickers.AddRange(listTicker);
             context.SaveChanges();
@@ -36,14 +36,14 @@ namespace RMarket.DataAccess.Helpers
         {
             List<TimeFrame> listTimeFrame = new List<TimeFrame>
             {
-                new TimeFrame {Id=1,Name="tick",CodeFinam="1",ToMinute=0 },
-                new TimeFrame {Id=2,Name="1",CodeFinam="2",ToMinute=1 },
-                new TimeFrame {Id=3,Name="2",CodeFinam="3",ToMinute=2 },
-                new TimeFrame {Id=4,Name="10",CodeFinam="4",ToMinute=10 },
-                new TimeFrame {Id=5,Name="15",CodeFinam="5",ToMinute=15 },
-                new TimeFrame {Id=6,Name="30",CodeFinam="6",ToMinute=30 },
-                new TimeFrame {Id=7,Name="60",CodeFinam="7",ToMinute=60 },
-                new TimeFrame {Id=8,Name="day",CodeFinam="8",ToMinute=1440 },
+                new TimeFrame {Id=1,Name="tick",ToMinute=0 },
+                new TimeFrame {Id=2,Name="1",ToMinute=1 },
+                new TimeFrame {Id=3,Name="2",ToMinute=2 },
+                new TimeFrame {Id=4,Name="10",ToMinute=10 },
+                new TimeFrame {Id=5,Name="15",ToMinute=15 },
+                new TimeFrame {Id=6,Name="30",ToMinute=30 },
+                new TimeFrame {Id=7,Name="60",ToMinute=60 },
+                new TimeFrame {Id=8,Name="day",ToMinute=1440 },
             };
             context.TimeFrames.AddRange(listTimeFrame);
             context.SaveChanges();
