@@ -140,6 +140,7 @@ namespace RMarket.DataAccess.Context
     {
         public static IContextInitializer<DataProviderSetting> DataProviderInitializer { get; set; }
         public static IContextInitializer<HistoricalProviderSetting> HistoricalProviderInitializer { get; set; }
+        public static IContextInitializer<EntityInfo> EntityInfoInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
         {
@@ -147,7 +148,6 @@ namespace RMarket.DataAccess.Context
 
             helper.SeedTickers();
             helper.SeedTimeFrames();
-            helper.SeedStrategyInfoes();
 
             if (DataProviderInitializer != null)
             {
@@ -157,6 +157,11 @@ namespace RMarket.DataAccess.Context
             if (HistoricalProviderInitializer != null)
             {
                 context.HistoricalProviderSettings.AddRange(HistoricalProviderInitializer.Get());
+                context.SaveChanges();
+            }
+            if (EntityInfoInitializer != null)
+            {
+                context.EntityInfoes.AddRange(EntityInfoInitializer.Get());
                 context.SaveChanges();
             }
 

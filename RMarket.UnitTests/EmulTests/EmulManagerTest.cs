@@ -10,6 +10,9 @@ using Moq;
 using System.Linq;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Models;
+using RMarket.UnitTests.Infrastructure.Repositories;
+using RMarket.ClassLib.Managers;
+using System.Threading;
 
 namespace RMarket.UnitTests.EmulTests
 {
@@ -49,17 +52,33 @@ namespace RMarket.UnitTests.EmulTests
                 CreateDate = new DateTime(2016, 01, 01),
             };
 
+            //добавляем живую стратегию
+            AliveStrategy aliveStrategy = new AliveStrategy
+            {
+                GroupID = instance.GroupID,
+                IsActive = true
+            };
+
             //создаем датапровайдер
-            var mockTickerRepo = new Mock<ITickerRepository>();
-            mockTickerRepo.Setup(m => m.Get()).Returns(Enumerable.Repeat(ticker,1)); //создать тестовыё репозиторий
-            ITickerRepository tickerRepository = mockTickerRepo.Object;
+            ITickerRepository tickerRepository = new TickerRepository();
 
-            IDataProvider dataProvider = new CsvFileProvider(tickerRepository);
-            //IDataProvider dataProvider = new SettingHelper().CreateDataProvider(setting);
-
+            CsvFileProvider dataProvider = new CsvFileProvider(tickerRepository)
+            {
+                FilePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.UnitTests\Infrastructure\files\SBER_160601_160601.csv",
+                Separator = ';',
+                Col_Date = "<DATE>",
+                FormatDate = "yyyyMMdd",
+                Col_Time = "<TIME>",
+                FormatTime = "HHmmss",
+                Col_TickerCode = "<TICKER>",
+                Col_Price = "<LAST>",
+                Col_Volume = "<VOL>",
+                Val_SessionStart = new TimeSpan(10, 0, 0),
+                Val_SessionFinish = new TimeSpan(19, 0, 0),
+            };
 
             //получаем стратегию 
-            IStrategy strategy = StrategyHelper.CreateStrategy(instance);
+            StrategyMock1 strategy = new StrategyMock1();
 
             //устанавливаем остальные свойства
             Instrument instr = new Instrument(instance.Ticker, instance.TimeFrame);
@@ -71,17 +90,18 @@ namespace RMarket.UnitTests.EmulTests
                 Slippage = instance.Slippage
             };
 
-
-
+            IOrderRepository orderRepository = new OrderRepository();
 
             //создаем менеджер
-
+            IManager manager = new EmulManager(orderRepository, strategy, instr, portf, dataProvider, aliveStrategy);
 
             //стартуем
+            manager.StartStrategy();
 
+            Thread.Sleep(2000);
 
-            //
-
+            //Проверить на количество ордеров
+            Assert.AreEqual(strategy.Orders.Count, 2);
 
         }
     }

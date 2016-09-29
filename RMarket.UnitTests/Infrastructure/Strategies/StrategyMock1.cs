@@ -21,13 +21,13 @@ namespace RMarket.UnitTests.Infrastructure.Strategies
 
         public void Begin()
         {
-            //покупаем и продаем через каждые 50 свечек
-            if (Instr.Candles.Count % 30 == 0)
+            //покупаем и продаем через каждые 20 свечек
+            if (Instr.Candles.Count % 20 == 0)
             {
                 Manager.OrderSender.OrderCloseAll(OrderType.Buy);
                 Manager.OrderSender.OrderCloseAll(OrderType.Sell);
 
-                if ((Instr.Candles.Count / 30) % 2 == 0)
+                if ((Instr.Candles.Count / 20) % 2 != 0)
                 {
                     Manager.OrderSender.OrderBuy(1);
                 }

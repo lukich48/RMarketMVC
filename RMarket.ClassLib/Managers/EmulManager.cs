@@ -33,6 +33,8 @@ namespace RMarket.ClassLib.Managers
 
             Strategy.Instr = Instr;
             Strategy.Manager = this;
+            //todo:Восстановить ордера
+            Strategy.Orders = new List<Order>();
 
             Strategy.Initialize();
             StrategyHelper.SubscriptionToEventAsync(Strategy); //Подписываем на событие формирования свечи асинхронно индикаторы, которые найдем в стратегии.
@@ -98,8 +100,7 @@ namespace RMarket.ClassLib.Managers
             {
                 IsStarted = false;
 
-                if (StrategyStopped != null)
-                    StrategyStopped(this, null);
+                StrategyStopped?.Invoke(this, null);
 
             }
 

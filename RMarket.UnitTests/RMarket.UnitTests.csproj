@@ -100,7 +100,10 @@
   <ItemGroup>
     <Compile Include="EmulTests\EmulManagerTest.cs" />
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
-    <Compile Include="Infrastructure\Repositories\HistoricalProviderRepositoryTest.cs" />
+    <Compile Include="Infrastructure\Repositories\HistoricalProviderRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\OrderRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\Repositories\TickerRepository.cs" />
     <Compile Include="Infrastructure\SessionStateMock.cs" />
     <Compile Include="Infrastructure\Strategies\StrategyMock1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Infrastructure\files\SBER_160601_160601.csv" />
+    <None Include="Infrastructure\files\SBER_160601_160602.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

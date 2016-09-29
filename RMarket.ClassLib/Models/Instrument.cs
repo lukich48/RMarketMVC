@@ -68,8 +68,7 @@ namespace RMarket.ClassLib.Models
         /// </summary>
         public void OnCreatedCandle()
         {
-            if (CreatedCandle!=null)
-                CreatedCandle(this, null);
+            CreatedCandle?.Invoke(this, null);
         }
 
         /// <summary>
@@ -95,15 +94,13 @@ namespace RMarket.ClassLib.Models
         /// </summary>
         public void OnCreatedCandleComplete()
         {
-            if (CreatedCandleReal != null)
-                CreatedCandleReal(this, null);
+            CreatedCandleReal?.Invoke(this, null);
         }
 
         public void OnTickPoked(object sender, TickEventArgs tick)
         {
 
-            if (TickPoked != null) //todo: Сделать ассинхронно
-                TickPoked(this, tick);
+            TickPoked?.Invoke(this, tick); //!!! сделать асинхронно
 
             if (tick.TradePeriod != TradePeriod.Undefended && tick.TradePeriod != TradePeriod.Trading)
                 return; //торгуем только в сессию!
@@ -129,8 +126,7 @@ namespace RMarket.ClassLib.Models
 
                         if (tick.IsRealTime) //Стратегию вызываем только в реалтайме!
                         {
-                            if (CreatedCandleReal != null)
-                                CreatedCandleReal(this, null);
+                            CreatedCandleReal?.Invoke(this, null);
                         }
                             //Strategy.Begin();
                     }

@@ -29,7 +29,7 @@ namespace RMarket.UnitTests.WebUITests
         [TestMethod]
         public void HistoricalProviderSettingModelMappingTest()
         {
-            var repository = new HistoricalProviderRepositoryTest();
+            var repository = new HistoricalProviderRepository();
             HistoricalProviderSetting entity = repository.Get().Where(m => m.Id == 1).FirstOrDefault();
 
             HistoricalProviderSettingModel model = MyMapper.Current
@@ -48,12 +48,14 @@ namespace RMarket.UnitTests.WebUITests
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
 
-            Assert.AreEqual(model.Id, modelRes.Id);
+            Assert.AreEqual(modelRes.Id, model.Id);
 
             //параметры сконвертировались правильно
-            Assert.AreEqual(((Dictionary<string, string>)model.EntityParams.FirstOrDefault(m => m.FieldName == "CodeFinams").FieldValue)["SBER"]
-                , ((Dictionary<string, string>)modelRes.EntityParams.FirstOrDefault(m => m.FieldName == "CodeFinams").FieldValue)["SBER"]);
-            Assert.AreEqual(entityRes.StrParams, entity.StrParams);
+            foreach(var param in modelRes.EntityParams)
+            {
+                var foundParam = model.EntityParams.SingleOrDefault(p => p.FieldName == param.FieldName);
+                Assert.AreEqual(param.FieldValue.ToString(), foundParam.FieldValue.ToString());
+            }
 
         }
     }

@@ -88,6 +88,10 @@
       <Project>{f05b63e0-0951-4c3d-be78-7f4d613e3672}</Project>
       <Name>RMarket.Concrete.HistoricalProviders</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RMarket.Concrete.Strategies\RMarket.Concrete.Strategies.csproj">
+      <Project>{6C5E21D9-E1D7-41AD-B838-C452D552B22A}</Project>
+      <Name>RMarket.Concrete.Strategies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RMarket.DataAccess\RMarket.DataAccess.csproj">
       <Project>{24e90e86-96b8-4a0f-92bf-fadbf8920516}</Project>
       <Name>RMarket.DataAccess</Name>

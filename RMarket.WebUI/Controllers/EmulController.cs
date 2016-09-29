@@ -100,8 +100,7 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IDataProvider dataProvider = new SettingHelper().CreateDataProvider(setting);
-                //IDataProvider connector = (IDataProvider)ReflectionHelper.CreateEntity(setting);
+                IDataProvider dataProvider = new SettingHelper().CreateEntityObject<IDataProvider>(setting);
 
                 IManager manager = new EmulManager(orderRepository, strategy, instr, portf, dataProvider, aliveStrategy);
 

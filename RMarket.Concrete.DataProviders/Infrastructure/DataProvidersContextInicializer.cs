@@ -56,19 +56,15 @@ namespace RMarker.Concrete.DataProviders.Infrastructure
         {
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
-                new ParamEntity {FieldName="FilePath",FieldValue=@"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv" },
+                new ParamEntity {FieldName="FilePath",FieldValue=@"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.UnitTests\Infrastructure\files\SBER_160601_160601.csv" },
+                new ParamEntity {FieldName="Separator",FieldValue=";" },
                 new ParamEntity {FieldName="Col_Date",FieldValue="<DATE>" },
                 new ParamEntity {FieldName="FormatDate",FieldValue="yyyyMMdd" },
                 new ParamEntity {FieldName="Col_Time",FieldValue="<TIME>" },
                 new ParamEntity {FieldName="FormatTime",FieldValue="HHmmss" },
                 new ParamEntity {FieldName="Col_TickerCode",FieldValue="<TICKER>" },
                 new ParamEntity {FieldName="Col_Price",FieldValue="<LAST>" },
-                new ParamEntity {FieldName="Col_Qty",FieldValue="Qty" },
                 new ParamEntity {FieldName="Col_Volume",FieldValue="<VOL>" },
-                new ParamEntity {FieldName="Col_TradePeriod",FieldValue="Period" },
-                new ParamEntity {FieldName="Val_PeriodOpening",FieldValue="Opening" },
-                new ParamEntity {FieldName="Val_PeriodTrading",FieldValue="Trading" },
-                new ParamEntity {FieldName="Val_PeriodClosing",FieldValue="Closing" },
                 new ParamEntity {FieldName="Val_SessionStart",FieldValue="10:00:00" },
                 new ParamEntity {FieldName="Val_SessionFinish",FieldValue="19:00:00" },
                 new ParamEntity {FieldName="Delay",FieldValue="600" }

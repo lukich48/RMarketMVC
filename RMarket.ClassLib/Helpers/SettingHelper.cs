@@ -33,53 +33,39 @@ namespace RMarket.ClassLib.Helpers
             return res;
         }
 
-        public IDataProvider CreateDataProvider(DataProviderSettingModel setting)
-        {
-            if (setting.EntityInfo == null)
-                throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
-
-            IDataProvider dataProvider = (IDataProvider)ReflectionHelper.CreateEntity(setting.EntityInfo);
-
-            IEnumerable<ParamEntity> strategyParams = GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
-
-            //Применяем сохраненные параметры
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
-            foreach (PropertyInfo prop in arrayProp)
-            {
-                ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
-
-                if (savedParam != null)
-                {
-                    prop.SetValue(dataProvider, savedParam.FieldValue);
-                }
-            }
-
-            return dataProvider;
-        }
-
         public TEntity CreateEntityObject<TEntity>(ISettingModel setting)
             where TEntity: class
         {
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            TEntity dataProvider = (TEntity)ReflectionHelper.CreateEntity(setting.EntityInfo);
+            TEntity entity = (TEntity)ReflectionHelper.CreateEntity(setting.EntityInfo);
 
-            IEnumerable<ParamEntity> strategyParams = GetEntityParams<ParamEntity>(setting.EntityInfo, setting.EntityParams);
+            IEnumerable<ParamEntity> entityParams = GetEntityParams<ParamEntity>(entity, setting.EntityParams);
 
-            //Применяем сохраненные параметры
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(dataProvider);
+            ApplyParams(entity, entityParams);
+
+            return entity;
+        }
+
+        /// <summary>
+        /// Применяем сохраненные параметры
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="entityParams"></param>
+        private void ApplyParams<TEntity>(TEntity entity, IEnumerable<ParamEntity> entityParams) where TEntity : class
+        {
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
             foreach (PropertyInfo prop in arrayProp)
             {
-                ParamEntity savedParam = strategyParams.FirstOrDefault(p => p.FieldName == prop.Name);
+                ParamEntity savedParam = entityParams.FirstOrDefault(p => p.FieldName == prop.Name);
 
                 if (savedParam != null)
                 {
-                    prop.SetValue(dataProvider, savedParam.FieldValue);
+                    prop.SetValue(entity, savedParam.FieldValue);
                 }
             }
-
-            return dataProvider;
         }
 
         /// <summary>
@@ -87,7 +73,7 @@ namespace RMarket.ClassLib.Helpers
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public IEnumerable<ParamEntity> GetSavedEntityParams(IEntitySetting setting)
+        private IEnumerable<ParamEntity> GetSavedEntityParams(IEntitySetting setting)
         {
             IEnumerable<ParamEntity> strategyParams;
 
@@ -101,7 +87,6 @@ namespace RMarket.ClassLib.Helpers
             return strategyParams;
         }
 
-
         /// <summary>
         /// Создает параметры ParamBase на основании переданного объекта
         /// </summary>
@@ -112,12 +97,25 @@ namespace RMarket.ClassLib.Helpers
         public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null)
             where T : ParamBase, new()
         {
+            object entity = ReflectionHelper.CreateEntity(entityInfo);
+
+            return GetEntityParams(entity, savedParams);
+        }
+
+        /// <summary>
+        /// Создает параметры ParamBase на основании переданного объекта
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="savedParams"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetEntityParams<T>(object entity, IEnumerable<T> savedParams = null)
+            where T : ParamBase, new()
+        {
             if (savedParams == null)
                 savedParams = new List<T>();
 
             List<T> res = new List<T>();
-
-            object entity = ReflectionHelper.CreateEntity(entityInfo);
 
             IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
 
@@ -133,8 +131,6 @@ namespace RMarket.ClassLib.Helpers
 
             return res;
         }
-
-
 
     }
 }

@@ -402,10 +402,6 @@
       <Project>{20bf8017-20fa-4cbd-aaa5-4248c4339dcb}</Project>
       <Name>RMarket.CompositionRoot</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RMarket.Examples\RMarket.Examples.csproj">
-      <Project>{8293baa1-615f-4e86-adc0-19f0b6afe850}</Project>
-      <Name>RMarket.Examples</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

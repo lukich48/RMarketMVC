@@ -5,6 +5,7 @@ using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.CompositionRoot.Mapper;
 using RMarket.Concrete.HistoricalProviders.Infrastructure;
+using RMarket.Concrete.Strategies.Infrastructure;
 using RMarket.DataAccess.Context;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,11 @@ namespace RMarket.CompositionRoot
             //Заполнение БД
             IContextInitializer<DataProviderSetting> dataProviderInitializer = new DataProvidersContextInicializer();
             IContextInitializer<HistoricalProviderSetting> historicalProviderInitializer = new HistoricalProvidersContextInitializer();
+            IContextInitializer<EntityInfo> entityInfoInitializer = new StrategyInfoesContextInitializer();
 
             RMarketInitializer.DataProviderInitializer = dataProviderInitializer;
             RMarketInitializer.HistoricalProviderInitializer = historicalProviderInitializer;
+            RMarketInitializer.EntityInfoInitializer = entityInfoInitializer;
 
         }
 

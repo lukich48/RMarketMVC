@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace RMarket.UnitTests.Infrastructure.Repositories
 {
-    public class HistoricalProviderRepositoryTest
+    public class HistoricalProviderRepository: RepositoryBase<HistoricalProviderSetting>
     {
-        public IEnumerable<HistoricalProviderSetting> Get()
+        public HistoricalProviderRepository()
         {
-            List<HistoricalProviderSetting> historicalProviders = new List<HistoricalProviderSetting>();
+            context = new List<HistoricalProviderSetting>();
 
             Dictionary<string, string> codeFinams = new Dictionary<string, string>();
             codeFinams.Add("SBER", "3");
@@ -24,11 +24,11 @@ namespace RMarket.UnitTests.Infrastructure.Repositories
 
             List<ParamEntity> entityParams = new List<ParamEntity>
             {
-                new ParamEntity {FieldName="CodeFinams",FieldValue=codeFinams },
+                new ParamEntity {FieldName="TickerCodeFinams",FieldValue=codeFinams },
             };
 
 
-            historicalProviders.Add(
+            context.Add(
                 new HistoricalProviderSetting
                 {
                     Id = 1,
@@ -47,7 +47,7 @@ namespace RMarket.UnitTests.Infrastructure.Repositories
                 }
             );
 
-            return historicalProviders;
+            
         }
 
     }

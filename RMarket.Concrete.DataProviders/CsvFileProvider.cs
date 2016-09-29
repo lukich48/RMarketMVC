@@ -65,7 +65,7 @@ namespace RMarket.Concrete.DataProviders
         {
             this.tickerRepository = tickerRepository;
 
-            FilePath = @"C:\Projects\RMarketMVCgit\RMarketMVC\RMarket.Examples\files\SBER_160601_160601.csv";
+            FilePath = @"C:\SBER_160601_160601.csv";
             Separator = ';';
             Col_Date = "<DATE>";
             FormatDate = "yyyyMMdd";
@@ -115,49 +115,41 @@ namespace RMarket.Concrete.DataProviders
                             continue;
                         }
 
-                        //try
-                        //{
-                            TickEventArgs tick = new TickEventArgs();
-                            tick.Date = helper.ParseDate(cells, headTable, Col_Date, Col_Time, FormatDate, FormatTime);
-                            tick.TickerCode = helper.ParseTickerCode(cells, headTable, Col_TickerCode);
-                            tick.Price = helper.ParsePrice(cells, headTable, Col_Price, CultureInfo.InvariantCulture);
-                            tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Qty);
-                            if (tick.Quantity == 0)
-                            {
-                                if(!tickersCache.ContainsKey(tick.TickerCode))
-                                    tickersCache[tick.TickerCode] = tickerRepository.Get(T=>T.Where(t=>t.Code == tick.TickerCode)).FirstOrDefault();
+                        TickEventArgs tick = new TickEventArgs();
+                        tick.Date = helper.ParseDate(cells, headTable, Col_Date, Col_Time, FormatDate, FormatTime);
+                        tick.TickerCode = helper.ParseTickerCode(cells, headTable, Col_TickerCode);
+                        tick.Price = helper.ParsePrice(cells, headTable, Col_Price, CultureInfo.InvariantCulture);
+                        tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Qty);
+                        if (tick.Quantity == 0)
+                        {
+                            if (!tickersCache.ContainsKey(tick.TickerCode))
+                                tickersCache[tick.TickerCode] = tickerRepository.Get(T => T.Where(t => t.Code == tick.TickerCode)).FirstOrDefault();
 
-                                Ticker ticker = tickersCache[tick.TickerCode];
-                                if (ticker != null && ticker.QtyInLot.HasValue)
-                                    tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Volume, ticker.QtyInLot.Value);
-                            }
-                            tick.IsRealTime = isRealTime;
+                            Ticker ticker = tickersCache[tick.TickerCode];
+                            if (ticker != null && ticker.QtyInLot.HasValue)
+                                tick.Quantity = helper.ParseQuantity(cells, headTable, Col_Volume, ticker.QtyInLot.Value);
+                        }
+                        tick.IsRealTime = isRealTime;
 
-                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
-                            if (tick.TradePeriod == TradePeriod.Undefended)
-                                tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_Time, FormatTime, Val_SessionStart, Val_SessionFinish);
+                        tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_TradePeriod, Val_PeriodOpening, Val_PeriodTrading, Val_PeriodClosing);
+                        if (tick.TradePeriod == TradePeriod.Undefended)
+                            tick.TradePeriod = helper.ParseTradePeriod(cells, headTable, Col_Time, FormatTime, Val_SessionStart, Val_SessionFinish);
 
-                            tick.Extended = helper.CreateExtended(cells, headTable);
+                        tick.Extended = helper.CreateExtended(cells, headTable);
 
                         //Включаем задержку
-                        if(Delay != 0 && lastMinute < tick.Date)
+                        if (Delay != 0 && lastMinute < tick.Date)
                         {
                             Thread.Sleep(60000 / Delay);
                             lastMinute = tick.Date.AddMinutes(1);
                         }
 
-                            //вызвать событие IConnector
-                            var tickPoked = TickPoked;
-                            tickPoked?.Invoke(this, tick);
-
-                        //}
-                        //catch (Exception)
-                        //{
-                        //    throw;
-                        //}
+                        //вызвать событие "Пришел тик"
+                        var tickPoked = TickPoked;
+                        tickPoked?.Invoke(this, tick);
 
                     }
-
+                    
                 }
             });
 
