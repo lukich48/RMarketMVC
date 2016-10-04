@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.Indicators
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.Strategies", "RMarket.Concrete.Strategies\RMarket.Concrete.Strategies.csproj", "{6C5E21D9-E1D7-41AD-B838-C452D552B22A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMarket.Concrete.Optimization", "RMarket.Concrete.Optimization\RMarket.Concrete.Optimization.csproj", "{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C5E21D9-E1D7-41AD-B838-C452D552B22A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{F05B63E0-0951-4C3D-BE78-7F4D613E3672} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 		{C3FADECD-49FE-4484-AC55-40E0E8BC16D3} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 		{6C5E21D9-E1D7-41AD-B838-C452D552B22A} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
+		{D327FEEA-38B7-4DEB-BA83-C92197A44C6F} = {A9E61DF9-9584-4179-8F67-A5B3728F9668}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

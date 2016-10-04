@@ -12,6 +12,7 @@ namespace RMarket.ClassLib.Entities
         StrategyInfo = 1,
         DataProviderInfo = 2,
         HistoricalProviderInfo = 3,
+        OptimizationInfo = 4,
     }
 
     public partial class EntityInfo : IEntityData, IEntityInfo

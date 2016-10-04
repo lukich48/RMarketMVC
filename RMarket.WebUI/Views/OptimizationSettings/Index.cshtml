@@ -1,0 +1,19 @@
+﻿@using RMarket.ClassLib.EntityModels;
+
+@model IEnumerable<OptimizationSettingModel>
+
+@{
+    ViewBag.Title = "OptimizationSettings";
+}
+@Html.ActionLink("Создать", "Edit", null, new { @class = "btn" })
+@foreach (OptimizationSettingModel m in @Model)
+{
+    <div class="well">
+        <div class="pull-right">
+            @Html.ActionLink("Изменить", "Edit", new { Id = m.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Копировать", "Copy", new { Id = m.Id }, new { @class = "btn btn-default" })
+        </div>
+        <strong class="h3">@m.Name</strong>
+    </div>
+}
+

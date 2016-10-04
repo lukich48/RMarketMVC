@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 using RMarker.Concrete.DataProviders.Infrastructure;
+using RMarker.Concrete.Optimization.Infrastructure;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.CompositionRoot.Mapper;
@@ -23,13 +24,10 @@ namespace RMarket.CompositionRoot
         public void InitializeDbContext()
         {
             //Заполнение БД
-            IContextInitializer<DataProviderSetting> dataProviderInitializer = new DataProvidersContextInicializer();
-            IContextInitializer<HistoricalProviderSetting> historicalProviderInitializer = new HistoricalProvidersContextInitializer();
-            IContextInitializer<EntityInfo> entityInfoInitializer = new StrategyInfoesContextInitializer();
-
-            RMarketInitializer.DataProviderInitializer = dataProviderInitializer;
-            RMarketInitializer.HistoricalProviderInitializer = historicalProviderInitializer;
-            RMarketInitializer.EntityInfoInitializer = entityInfoInitializer;
+            RMarketInitializer.DataProviderSettingInitializer = new DataProvidersContextInicializer(); ;
+            RMarketInitializer.HistoricalProviderSettingInitializer = new HistoricalProvidersContextInitializer(); ;
+            RMarketInitializer.OptimizationSettingInitializer = new OptimizationsContextInicializer();
+            RMarketInitializer.EntityInfoInitializer = new StrategyInfoesContextInitializer(); 
 
         }
 

@@ -25,6 +25,7 @@ namespace RMarket.DataAccess.Context
         public virtual DbSet<Selection> Selections { get; set; }
         public virtual DbSet<DataProviderSetting> DataProviderSettings { get; set; }
         public virtual DbSet<HistoricalProviderSetting> HistoricalProviderSettings { get; set; }
+        public virtual DbSet<OptimizationSetting> OptimizationSettings { get; set; }
         public virtual DbSet<AliveStrategy> AliveStrategies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
@@ -138,8 +139,9 @@ namespace RMarket.DataAccess.Context
 
     public class RMarketInitializer : DropCreateDatabaseIfModelChanges<RMarketContext>//DropCreateDatabaseAlways<RMarketContext>
     {
-        public static IContextInitializer<DataProviderSetting> DataProviderInitializer { get; set; }
-        public static IContextInitializer<HistoricalProviderSetting> HistoricalProviderInitializer { get; set; }
+        public static IContextInitializer<DataProviderSetting> DataProviderSettingInitializer { get; set; }
+        public static IContextInitializer<HistoricalProviderSetting> HistoricalProviderSettingInitializer { get; set; }
+        public static IContextInitializer<OptimizationSetting> OptimizationSettingInitializer { get; set; }
         public static IContextInitializer<EntityInfo> EntityInfoInitializer { get; set; }
 
         protected override void Seed(RMarketContext context)
@@ -149,14 +151,19 @@ namespace RMarket.DataAccess.Context
             helper.SeedTickers();
             helper.SeedTimeFrames();
 
-            if (DataProviderInitializer != null)
+            if (DataProviderSettingInitializer != null)
             {
-                context.DataProviderSettings.AddRange(DataProviderInitializer.Get());
+                context.DataProviderSettings.AddRange(DataProviderSettingInitializer.Get());
                 context.SaveChanges();
             }
-            if (HistoricalProviderInitializer != null)
+            if (HistoricalProviderSettingInitializer != null)
             {
-                context.HistoricalProviderSettings.AddRange(HistoricalProviderInitializer.Get());
+                context.HistoricalProviderSettings.AddRange(HistoricalProviderSettingInitializer.Get());
+                context.SaveChanges();
+            }
+            if (OptimizationSettingInitializer != null)
+            {
+                context.OptimizationSettings.AddRange(OptimizationSettingInitializer.Get());
                 context.SaveChanges();
             }
             if (EntityInfoInitializer != null)

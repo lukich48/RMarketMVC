@@ -290,6 +290,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\Admin\TestPageController.cs" />
+    <Compile Include="Controllers\OptimizationSettingsController.cs" />
     <Compile Include="Controllers\EntityParamsController.cs" />
     <Compile Include="Controllers\HistoricalProviderSettingsController.cs" />
     <Compile Include="Controllers\EmulController.cs" />
@@ -323,6 +324,7 @@
     <Compile Include="Infrastructure\ParamEntityConverters\DefaultConverter.cs" />
     <Compile Include="Abstract\IEntityParamConverter.cs" />
     <Compile Include="Infrastructure\SessionHelper.cs" />
+    <Compile Include="Models\OptimizationSettingModelUI.cs" />
     <Compile Include="Models\DataProviderSettingModelUI.cs" />
     <Compile Include="Models\DownloadHistoryModel.cs" />
     <Compile Include="Models\HistoricalProviderSettingModelUI.cs" />
@@ -380,6 +382,8 @@
     <Content Include="Views\Shared\EditorForObject.cshtml" />
     <Content Include="Views\HistoricalProviderSettings\Edit.cshtml" />
     <Content Include="Views\HistoricalProviderSettings\Index.cshtml" />
+    <Content Include="Views\OptimizationSettings\Edit.cshtml" />
+    <Content Include="Views\OptimizationSettings\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

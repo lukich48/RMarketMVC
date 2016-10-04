@@ -20,14 +20,16 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<ISelectionService>().To<SelectionService>();
             kernel.Bind<IDataProviderSettingService>().To<DataProviderService>();
             kernel.Bind<IHistoricalProviderSettingService>().To<HistoricalProviderService>();
+            kernel.Bind<IOptimizationSettingService>().To<OptimizationService>();
 
             kernel.Bind<IInstanceRepository>().To<EFInstanceRepository>();
             kernel.Bind<ISelectionRepository>().To<EFSelectionRepository>();
             kernel.Bind<ITickerRepository>().To<EFTickerRepository>();
             kernel.Bind<ITimeFrameRepository>().To<EFTimeFrameRepository>();
             kernel.Bind<IEntityInfoRepository>().To<EFEnrityInfoRepository>();
-            kernel.Bind<IDataProviderSettingRepository>().To<EFDataProviderRepository>();
-            kernel.Bind<IHistoricalProviderSettingRepository>().To<EFHistoricalProviderRepository>();
+            kernel.Bind<IDataProviderSettingRepository>().To<EFDataProviderSettingRepository>();
+            kernel.Bind<IHistoricalProviderSettingRepository>().To<EFHistoricalProviderSettingRepository>();
+            kernel.Bind<IOptimizationSettingRepository>().To<EFOptimizationSettingRepository>();
             kernel.Bind<ICandleRepository>().To<EFCandleRepository>();
             kernel.Bind<IAliveStrategyRepository>().To<EFAliveStrategyRepository>();
             kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
@@ -35,11 +37,6 @@ namespace RMarket.CompositionRoot.Resolvers
             //Наш сервис-локатор ))
             Resolver.Current = new NinjectResolver(kernel);
 
-            //this.Kernel.Bind(x => x
-            //.From("RMarket.DataAccess", "RMarket.ClassLib")
-            //.SelectAllClasses().InNamespaceOf<EFInstanceRepository>()
-            //.BindDefaultInterface()
-            //.Configure(b => b.InTransientScope())); 
         }
     }
 }

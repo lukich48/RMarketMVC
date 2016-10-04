@@ -42,6 +42,13 @@ namespace RMarket.WebUI.Infrastructure
             return new SelectList(entityInfoRepository.Get(T => T.Where(e => e.EntityType == EntityType.HistoricalProviderInfo)), "Id", "Name");
         }
 
+
+        public static SelectList GetOptimizationInfoList(IEntityInfoRepository entityInfoRepository)
+        {
+            return new SelectList(entityInfoRepository.Get(T => T.Where(e => e.EntityType == EntityType.OptimizationInfo)), "Id", "Name");
+        }
+
+
         public static SelectList GetDataProviderSettingList(IDataProviderSettingService dataProviderSettingService)
         {
             return new SelectList(dataProviderSettingService.Get(), "Id", "Name");
