@@ -4,6 +4,7 @@ using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.WebUI.Infrastructure;
 using RMarket.WebUI.Models;
 using System;
@@ -19,12 +20,14 @@ namespace RMarket.WebUI.Controllers
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
         private readonly IHistoricalProviderSettingService historicalProviderSettingService;
+        private readonly Resolver resolver;
 
-        public DownloadHistoryController(IHistoricalProviderSettingService historicalProviderSettingService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository)
+        public DownloadHistoryController(IHistoricalProviderSettingService historicalProviderSettingService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, Resolver resolver)
         {
             this.historicalProviderSettingService = historicalProviderSettingService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
+            this.resolver = resolver;
         }
 
         // GET
@@ -42,20 +45,19 @@ namespace RMarket.WebUI.Controllers
         [HttpPost]
         public ViewResult Index(DownloadHistoryModel model)
         {
+            InitializeLists();
 
             if (ModelState.IsValid)
             {
                 LoadNavigationProperties(model);
 
                 //получаем объект провайдера
-                IHistoricalProvider provider = new SettingHelper().CreateEntityObject<IHistoricalProvider>(model.Setting);
+                IHistoricalProvider provider = new SettingHelper().CreateEntityObject<IHistoricalProvider>(model.Setting, resolver);
 
                 int countDownload = provider.DownloadAndSave(model.DateFrom, model.DateFrom, model.Ticker, model.TimeFrame);
 
                 TempData["message"] = String.Format("Успешно загружено: {0} свечей", countDownload);
             }
-            else
-                InitializeLists();
 
             return View(model);
 

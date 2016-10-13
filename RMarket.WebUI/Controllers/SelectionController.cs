@@ -23,13 +23,15 @@ namespace RMarket.WebUI.Controllers
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
         private readonly IEntityInfoRepository entityInfoRepository;
+        private readonly Resolver resolver;
 
-        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository)
+        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, Resolver resolver)
         {
             this.selectionService = selectionService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         // GET: Selection
@@ -149,7 +151,9 @@ namespace RMarket.WebUI.Controllers
         public PartialViewResult EditParamsNew(int entityInfoId)
         {
             EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
-            IEnumerable<ParamSelection> entityParams = new SettingHelper().GetEntityParams<ParamSelection>(entityInfo);
+            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
+
+            IEnumerable<ParamSelection> entityParams = new SettingHelper().GetEntityParams<ParamSelection>(entity);
 
             //Конвертим параметры в UI модель
             IEnumerable<ParamSelectionUI> entityParamsUI = MyMapper.Current

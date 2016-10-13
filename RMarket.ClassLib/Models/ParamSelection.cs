@@ -15,9 +15,6 @@ namespace RMarket.ClassLib.Models
     [JsonObject(MemberSerialization.OptIn)]
     public class ParamSelection: ParamBase
     {
-        private object _valueMin;
-        private object _valueMax;
-
         [JsonProperty]  
         public override string FieldName { get; set; }
 

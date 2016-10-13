@@ -9,6 +9,7 @@ using RMarket.ClassLib.Entities;
 using System.Globalization;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 
 namespace RMarket.ClassLib.Helpers
 {
@@ -46,36 +47,6 @@ namespace RMarket.ClassLib.Helpers
         }
 
         /// <summary>
-        /// Создает новый объект стратегии и применяет сохраненные параметры.
-        /// </summary>
-        /// <param name="entityInfo"></param>
-        /// <param name="strategyParams"></param>
-        /// <returns></returns>
-        public static IStrategy CreateStrategy(InstanceModel instance)
-        {
-            if (instance.EntityInfo == null)
-                throw new CustomException($"instanceId={instance.Id}. EntityInfo is null!");
-
-            IStrategy strategy = (IStrategy)ReflectionHelper.CreateEntity(instance.EntityInfo);
-
-            //Применяем сохраненные параметры
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(strategy);
-            foreach (PropertyInfo prop in arrayProp)
-            {
-                ParamEntity savedParam = instance.EntityParams.FirstOrDefault(p => p.FieldName == prop.Name);
-
-                if (savedParam != null)
-                {
-                    prop.SetValue(strategy, savedParam.FieldValue);
-                }
-            }
-
-            strategy.Orders = new List<Order>();
-
-            return strategy;
-        }
-
-        /// <summary>
         /// Создает параметры из объекта Селекция и сохраненных данных 
         /// </summary>
         /// <param name="selection"></param>
@@ -84,9 +55,11 @@ namespace RMarket.ClassLib.Helpers
         {
             IEnumerable<ParamSelection> savedParams = GetSavedSelectionParams(selection);
 
-            IEnumerable<ParamSelection> res = new SettingHelper().GetEntityParams<ParamSelection>(selection.EntityInfo, savedParams);
+            //object entity = resolver.Resolve(Type.GetType(selection.EntityInfo.TypeName));
 
-            return res;
+            //IEnumerable<ParamSelection> res = new SettingHelper().GetEntityParams(entity, savedParams);
+
+            return savedParams;
         }
 
         /// <summary>

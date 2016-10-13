@@ -33,7 +33,7 @@ namespace RMarker.Concrete.Optimization.Infrastructure
             {
                 Name = "GaSimple default",
                 CreateDate = DateTime.Now,
-                Description = "русскоязычные настройки квика",
+                Description = "",
                 StrParams = Serializer.Serialize(entityParams),
                 EntityInfo = new EntityInfo
                 {

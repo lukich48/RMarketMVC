@@ -15,17 +15,21 @@ namespace RMarket.WebUI.Controllers
     public class EntityParamsController : Controller
     {
         private readonly IEntityInfoRepository entityInfoRepository;
+        private readonly Resolver resolver;
 
-        public EntityParamsController(IEntityInfoRepository entityInfoRepository)
+        public EntityParamsController(IEntityInfoRepository entityInfoRepository, Resolver resolver)
         {
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         //Новый экземпляр
         public PartialViewResult EditParamsNew(int entityInfoId)
         {
             EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
-            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entityInfo);
+            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
+
+            IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entity);
 
             //Конвертим параметры в UI модель
             IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current

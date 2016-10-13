@@ -8,8 +8,9 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.EntityModels;
+using RMarket.Concrete.Optimization.Helpers;
 
-namespace RMarket.UnitTests
+namespace RMarket.UnitTests.Optimization
 {
     /// <summary>
     /// Тестирование методов оптимизации
@@ -35,7 +36,7 @@ namespace RMarket.UnitTests
                 Name = "10",
                 ToMinute = 10
             };
-            StrategyInfo strategyInfo = new StrategyInfo
+            EntityInfo entityInfo = new EntityInfo
             {
                 Id = 20,
                 Name = "Mock",
@@ -50,8 +51,8 @@ namespace RMarket.UnitTests
                 Ticker = ticker,
                 TimeFrameId = timeFrame.Id,
                 TimeFrame=timeFrame,
-                StrategyInfoId = strategyInfo.Id,
-                StrategyInfo=strategyInfo,
+                EntityInfoId = entityInfo.Id,
+                EntityInfo=entityInfo,
                 AmountResults = 10,
                 Balance = 1000,
                 CreateDate = new DateTime(2016, 1, 1),
@@ -66,7 +67,6 @@ namespace RMarket.UnitTests
                     new ParamSelection
                     {
                         FieldName="Param1",
-                        TypeName = "System.Int32",
                         ValueMin = 6,
                         ValueMax=10
                     },
@@ -74,13 +74,11 @@ namespace RMarket.UnitTests
                     {
                         FieldName="Param2",
                         ValueMin = (byte)1,
-                        TypeName = "System.Byte",
                         ValueMax=(byte)5
                     },
                     new ParamSelection
                     {
                         FieldName="OtherParam",
-                        TypeName = "System.Boolean",
                         ValueMin = true,
                         ValueMax=true
                     }
@@ -88,17 +86,18 @@ namespace RMarket.UnitTests
                 }
             };
 
-            List<InstanceModel> instances1 = OptimizationHelper.CreateFirstGeneration(selection);
+            var instanceResults = new GaHelper().CreateFirstGeneration(selection);
+            InstanceModel instance = instanceResults.First().Instance;
 
-            Assert.AreEqual(10, instances1.Count);
-            Assert.AreEqual(1, instances1[0].TickerId);
-            Assert.AreEqual(10, instances1[0].TimeFrameId);
-            Assert.AreEqual(20, instances1[0].StrategyInfoId);
-            Assert.AreEqual(30, instances1[0].SelectionId);
+            Assert.AreEqual(10, instanceResults.Count());
+            Assert.AreEqual(1, instance.TickerId);
+            Assert.AreEqual(10, instance.TimeFrameId);
+            Assert.AreEqual(20, instance.EntityInfoId);
+            Assert.AreEqual(30, instance.SelectionId);
 
-            Assert.AreEqual(true, instances1[0].StrategyParams.Any(p=>p.FieldName== "OtherParam" && (bool)p.FieldValue==true));
-            Assert.AreEqual(true, instances1[0].StrategyParams.Any(p=>p.FieldName== "Param1" && (int)p.FieldValue >= 6 && (int)p.FieldValue <= 10));
-            Assert.AreEqual(true, instances1[0].StrategyParams.Where(p=>p.FieldName == "Param2").Single().FieldValue.GetType() == typeof(byte));
+            Assert.AreEqual(true, instance.EntityParams.Any(p=>p.FieldName== "OtherParam" && (bool)p.FieldValue==true));
+            Assert.AreEqual(true, instance.EntityParams.Any(p=>p.FieldName== "Param1" && (int)p.FieldValue >= 6 && (int)p.FieldValue <= 10));
+            Assert.AreEqual(true, instance.EntityParams.Where(p=>p.FieldName == "Param2").Single().FieldValue.GetType() == typeof(byte));
 
         }
     }

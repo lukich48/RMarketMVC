@@ -3,6 +3,7 @@ using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Infrastructure;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace RMarket.ClassLib.Helpers
     {
 
         /// <summary>
-        /// Создает параметры из объекта Селекция и сохраненных данных 
+        /// Создает параметры из сохраненных данных 
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
@@ -27,21 +28,22 @@ namespace RMarket.ClassLib.Helpers
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
             IEnumerable<ParamEntity> savedParams = GetSavedEntityParams(setting);
+            //object entity = CreateEntityObject<object>(setting, resolver);
 
-            IEnumerable<ParamEntity> res = GetEntityParams<ParamEntity>(setting.EntityInfo, savedParams);
+            //IEnumerable<ParamEntity> res = GetEntityParams<ParamEntity>(entity, savedParams);
 
-            return res;
+            return savedParams;
         }
 
-        public TEntity CreateEntityObject<TEntity>(ISettingModel setting)
+        public TEntity CreateEntityObject<TEntity>(ISettingModel setting, Resolver resolver)
             where TEntity: class
         {
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            TEntity entity = (TEntity)ReflectionHelper.CreateEntity(setting.EntityInfo);
+            TEntity entity = (TEntity)resolver.Resolve(Type.GetType(setting.EntityInfo.TypeName));
 
-            IEnumerable<ParamEntity> entityParams = GetEntityParams<ParamEntity>(entity, setting.EntityParams);
+            IEnumerable<ParamEntity> entityParams = GetEntityParams(entity, setting.EntityParams);
 
             ApplyParams(entity, entityParams);
 
@@ -94,10 +96,10 @@ namespace RMarket.ClassLib.Helpers
         /// <param name="entityInfo"></param>
         /// <param name="savedParams"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams = null)
+        public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, Resolver resolver, IEnumerable<T> savedParams = null)
             where T : ParamBase, new()
         {
-            object entity = ReflectionHelper.CreateEntity(entityInfo);
+            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
 
             return GetEntityParams(entity, savedParams);
         }

@@ -1,11 +1,16 @@
 ﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Abstract.IService;
+using RMarket.ClassLib.Dto.Optimization;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Models;
+using RMarket.Concrete.Optimization.Helpers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,57 +20,33 @@ namespace RMarket.Concrete.Optimization
 {
     public class GaSimple
     {
-        private readonly ISelectionService selectionService;
+        private readonly ICandleRepository candleRepository;
+        private readonly Resolver resolver;
 
         [Parameter(Description = "Множитель популяции. 1 - нормальная популяция")]
         public int GenerationPower { get; set; }
 
-        public GaSimple(ISelectionService selectionService)
+        public GaSimple(ICandleRepository candleRepository, Resolver resolver)
         {
-            this.selectionService = selectionService;
+            this.candleRepository = candleRepository;
+            this.resolver = resolver;
 
             GenerationPower = 1;
         }
 
-        public List<InstanceModel> Start(int selectionId, DateTime dateFrom, DateTime dateTo)
+        public List<InstanceModel> Start(SelectionModel selection, DateTime dateFrom, DateTime dateTo)
         {
-            SelectionModel selection = selectionService.GetById(selectionId, s=>s.EntityInfo);
-
             List<InstanceModel> res = new List<InstanceModel>();
+            GaHelper helper = new GaHelper();
 
-            //Выбрка начальной популяции !!! Мощность популяции в настройки
-            List<InstanceModel> first = OptimizationHelper.CreateFirstGeneration(selection, GenerationPower);
+            //Выбрка начальной популяции
+            IEnumerable<EncodedInstanceModel> firstGen = helper.CreateFirstGeneration(selection, GenerationPower);
 
             //1. Определяем значение фитнес-функции
-            Dictionary<InstanceModel, IStrategy> listResult = new Dictionary<InstanceModel, IStrategy>();
-            foreach (InstanceModel instance in first)
-            {
-                //получаем стратегию 
-                IStrategy strategy = StrategyHelper.CreateStrategy(instance);
-                
-                //устанавливаем остальные свойства
-                Instrument instr = new Instrument(instance.Ticker, instance.TimeFrame);
+            IDictionary<EncodedInstanceModel, decimal> fitnessResults = RunStrategies(dateFrom, dateTo, firstGen);
 
-                Portfolio portf = new Portfolio
-                {
-                    Balance = instance.Balance,
-                    Rent = instance.Rent,
-                    Slippage = instance.Slippage
-                };
-
-                IManager manager = new TesterManager(strategy, instr, portf);
-
-                manager.DateFrom = dateFrom;
-                manager.DateTo = dateTo;
-
-                //Стартуем стратегию
-                manager.StartStrategy();
-
-                listResult[instance] = strategy;
-                
-            }
-
-            //2. Отбираем лучшие
+            //2. Отбираем лучшие (репродукция)
+            IEnumerable<EncodedInstanceModel> best = helper.SelectBestInstance(fitnessResults);
 
             //3. Кодируем парамеры
 
@@ -80,5 +61,50 @@ namespace RMarket.Concrete.Optimization
             return res;
         }
 
+        /// <summary>
+        /// Запускает все экземпляры на выполнение
+        /// </summary>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="firstGen"></param>
+        /// <returns>Результат - это значение фитнес-функции</returns>
+        private IDictionary<EncodedInstanceModel, decimal> RunStrategies(DateTime dateFrom, DateTime dateTo, IEnumerable<EncodedInstanceModel> firstGen)
+        {
+            var fitnessResults = new ConcurrentDictionary<EncodedInstanceModel, decimal>();
+
+            Parallel.ForEach(firstGen, (EncodedInstanceModel encodedInstance) =>
+            {
+                InstanceModel instance = encodedInstance.Instance;
+
+                //получаем стратегию 
+                IStrategy strategy = new SettingHelper().CreateEntityObject<IStrategy>(instance, resolver);
+
+                //устанавливаем остальные свойства
+                Instrument instr = new Instrument(instance.Ticker, instance.TimeFrame);
+
+                Portfolio portf = new Portfolio
+                {
+                    Balance = instance.Balance,
+                    Rent = instance.Rent,
+                    Slippage = instance.Slippage
+                };
+
+                IManager manager = new TesterManager(candleRepository, strategy, instr, portf);
+
+                manager.DateFrom = dateFrom;
+                manager.DateTo = dateTo;
+
+                //Стартуем стратегию
+                manager.StartStrategy();
+
+                //Вычисляем значение фитнес-функции (пока просто суммарный профит)
+                //todo: Модуль определния значения фитнес-функции
+                decimal profit = strategy.Orders.Sum(o => o.Profit);
+
+                fitnessResults[encodedInstance] = profit;
+
+            });
+            return fitnessResults;
+        }
     }
 }

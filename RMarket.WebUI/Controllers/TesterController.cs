@@ -15,19 +15,29 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Abstract.IService;
 using RMarket.WebUI.Helpers;
+using RMarket.ClassLib.Abstract.IRepository;
+using System.Threading.Tasks;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 
 namespace RMarket.WebUI.Controllers
 {
     public class TesterController : Controller
     {
-        private IInstanceService instanceService;
+        private readonly IInstanceService instanceService;
+        private readonly ICandleRepository candleRepository;
+        private readonly Resolver resolver;
+
         private JsonSerializerSettings jsonSerializerSettings;
 
         List<AliveResult> strategyResultCollection = CurrentUI.SessionHelper.Get<List<AliveResult>>("TestResults"); 
 
-        public TesterController(IInstanceService instanceService)
+        public TesterController(IInstanceService instanceService, 
+            ICandleRepository candleRepository,
+            Resolver resolver)
         {
             this.instanceService = instanceService;
+            this.candleRepository = candleRepository;
+            this.resolver = resolver;
 
             jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -72,7 +82,7 @@ namespace RMarket.WebUI.Controllers
                 InstanceModel instance = instanceService.GetById(model.InstanceId, true);
 
                 //получаем стратегию 
-                IStrategy strategy = StrategyHelper.CreateStrategy(instance);
+                IStrategy strategy = new SettingHelper().CreateEntityObject<IStrategy>(instance, resolver);
 
                 //устанавливаем остальные свойства
                 Instrument instr = new Instrument(instance.Ticker, instance.TimeFrame); 
@@ -84,13 +94,13 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IManager manager = new TesterManager(strategy, instr, portf);
+                IManager manager = new TesterManager(candleRepository, strategy, instr, portf);
 
                 manager.DateFrom = model.DateFrom;
                 manager.DateTo = model.DateTo;
 
                 //Стартуем стратегию
-                manager.StartStrategy();
+                new TaskFactory().StartNew(manager.StartStrategy);
 
                 //***Положить в сессию
                 AliveResult aliveResult = new AliveResult

@@ -69,6 +69,8 @@ namespace RMarket.DataAccess.Repositories
 
         public virtual void Save (TEntity data)
         {
+            data.CreateDate = DateTime.Now;
+
             if (data.Id == 0)
             {
                 context.Set<TEntity>().Add(data);

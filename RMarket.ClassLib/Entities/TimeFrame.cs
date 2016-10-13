@@ -18,5 +18,8 @@ namespace RMarket.ClassLib.Entities
 
         public int ToMinute { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
+
     }
 }

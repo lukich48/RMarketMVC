@@ -98,22 +98,29 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="EmulTests\EmulManagerTest.cs" />
+    <Compile Include="Emul\EmulManagerTests.cs" />
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
+    <Compile Include="Infrastructure\Entities\Instances.cs" />
     <Compile Include="Infrastructure\Repositories\HistoricalProviderRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\CandleRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\RepositoryBase.cs" />
     <Compile Include="Infrastructure\Repositories\TickerRepository.cs" />
     <Compile Include="Infrastructure\SessionStateMock.cs" />
     <Compile Include="Infrastructure\Strategies\StrategyMock1.cs" />
+    <Compile Include="Infrastructure\UnitTestHelper.cs" />
+    <Compile Include="Optimization\OptimizationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tester\TesterManagerTests.cs" />
     <Compile Include="WebUITests\ParamEntityConvertersTests.cs" />
     <Compile Include="WebUITests\MapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Infrastructure\files\SBER_10_160601_160601.csv" />
     <None Include="Infrastructure\files\SBER_160601_160601.csv" />
     <None Include="Infrastructure\files\SBER_160601_160602.csv" />
+    <None Include="Infrastructure\files\SBER_1_160601_160601.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +143,10 @@
     <ProjectReference Include="..\RMarket.Concrete.Indicators\RMarket.Concrete.Indicators.csproj">
       <Project>{c3fadecd-49fe-4484-ac55-40e0e8bc16d3}</Project>
       <Name>RMarket.Concrete.Indicators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMarket.Concrete.Optimization\RMarket.Concrete.Optimization.csproj">
+      <Project>{D327FEEA-38B7-4DEB-BA83-C92197A44C6F}</Project>
+      <Name>RMarket.Concrete.Optimization</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMarket.Concrete.Strategies\RMarket.Concrete.Strategies.csproj">
       <Project>{6c5e21d9-e1d7-41ad-b838-c452d552b22a}</Project>

@@ -115,6 +115,7 @@ namespace RMarket.Concrete.HistoricalProviders
             }
 
             return listCandles;
+            //ClassLib.Helpers.Serializer.Serialize(listCandles);
 
         }
 

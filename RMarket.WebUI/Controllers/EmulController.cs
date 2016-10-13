@@ -5,6 +5,7 @@ using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Helpers;
@@ -23,16 +24,24 @@ namespace RMarket.WebUI.Controllers
         private readonly IDataProviderSettingService dataProviderService;
         private readonly IAliveStrategyRepository aliveStrategyRepository;
         private readonly IOrderRepository orderRepository;
+        private readonly Resolver resolver;
+
         private JsonSerializerSettings jsonSerializerSettings;
+
 
         List<AliveResult> strategyResultCollection = CurrentUI.AliveResults;
 
-        public EmulController(IInstanceService instanceService, IDataProviderSettingService dataProviderService, IAliveStrategyRepository aliveStrategyRepository, IOrderRepository orderRepository)
+        public EmulController(IInstanceService instanceService, 
+            IDataProviderSettingService dataProviderService, 
+            IAliveStrategyRepository aliveStrategyRepository, 
+            IOrderRepository orderRepository,
+            Resolver resolver)
         {
             this.instanceService = instanceService;
             this.dataProviderService = dataProviderService;
             this.aliveStrategyRepository = aliveStrategyRepository;
             this.orderRepository = orderRepository;
+            this.resolver = resolver;
 
             jsonSerializerSettings = new JsonSerializerSettings();
             jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -88,7 +97,7 @@ namespace RMarket.WebUI.Controllers
                 aliveStrategyRepository.Save(aliveStrategy);
 
                 //получаем стратегию 
-                IStrategy strategy = StrategyHelper.CreateStrategy(instance);
+                IStrategy strategy = new SettingHelper().CreateEntityObject<IStrategy>(instance, resolver);
 
                 //устанавливаем остальные свойства
                 Instrument instr = new Instrument(instance.Ticker, instance.TimeFrame);
@@ -100,7 +109,7 @@ namespace RMarket.WebUI.Controllers
                     Slippage = instance.Slippage
                 };
 
-                IDataProvider dataProvider = new SettingHelper().CreateEntityObject<IDataProvider>(setting);
+                IDataProvider dataProvider = new SettingHelper().CreateEntityObject<IDataProvider>(setting, resolver);
 
                 IManager manager = new EmulManager(orderRepository, strategy, instr, portf, dataProvider, aliveStrategy);
 

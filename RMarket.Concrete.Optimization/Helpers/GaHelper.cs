@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Helpers
+namespace RMarket.Concrete.Optimization.Helpers
 {
-    public class OptimizationHelper
+    public class GaHelper
     {
         /// <summary>
         /// Случайно генерирует начальную популяцию. Количество особей равно сумме диапазона всех параметров * на мощность
@@ -68,7 +68,7 @@ namespace RMarket.ClassLib.Helpers
                             encodedParams.Add(new EncodedEntityParam
                             {
                                 FieldName = newParam.FieldName,
-                                BinaryValue = ConvertToBinary(newParam)
+                                BinaryValue = ConvertToBinary(newParam.FieldValue)
                             });
 
                         }

@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.Entities
         OptimizationInfo = 4,
     }
 
-    public partial class EntityInfo : IEntityData, IEntityInfo
+    public partial class EntityInfo : IEntityInfo
     {
         public int Id { get; set; }
 
@@ -28,6 +28,9 @@ namespace RMarket.ClassLib.Entities
         public string TypeName { get; set; }
 
         public EntityType EntityType { get; set; }
+
+        public DateTime CreateDate { get; set; }
+
     }
 
 }

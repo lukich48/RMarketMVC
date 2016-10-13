@@ -45,6 +45,7 @@ namespace RMarket.UnitTests.WebUITests
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSetting>(modelRes);
 
             Assert.AreEqual(modelUI.Id, entity.Id);
+            Assert.AreEqual(1, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
 

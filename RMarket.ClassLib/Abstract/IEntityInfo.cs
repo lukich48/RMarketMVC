@@ -9,7 +9,7 @@ namespace RMarket.ClassLib.Abstract
     /// <summary>
     /// интерфейс позволяет создавать из объекта описания объект указанного типа
     /// </summary>
-    public interface IEntityInfo
+    public interface IEntityInfo: IEntityData
     {
         string Name { get; set; }
         string TypeName { get; set; }

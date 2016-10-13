@@ -87,6 +87,10 @@ namespace RMarket.DataAccess.Context
                 .Property(e => e.CreateDate).HasColumnType("datetime2")
                 .HasPrecision(3);
 
+            modelBuilder.Entity<OptimizationSetting>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
             modelBuilder.Entity<AliveStrategy>()
                 .Property(e => e.CreateDate).HasColumnType("datetime2")
                 .HasPrecision(3);
@@ -112,6 +116,10 @@ namespace RMarket.DataAccess.Context
                 .HasPrecision(3);
 
             modelBuilder.Entity<Order>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
+            modelBuilder.Entity<Order>()
                 .Property(e => e.TakeProfit)
                 .HasPrecision(19, 7);
             
@@ -131,9 +139,18 @@ namespace RMarket.DataAccess.Context
                  .Property(e => e.Profit)
                  .HasPrecision(19, 2);
 
-            //modelBuilder.Entity<Ticker>()
-            //    .Property(e=>e.Code)
-            //    .HasColumnAnnotation()
+            modelBuilder.Entity<Ticker>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
+            modelBuilder.Entity<TimeFrame>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
+            modelBuilder.Entity<EntityInfo>()
+                .Property(e => e.CreateDate).HasColumnType("datetime2")
+                .HasPrecision(3);
+
         }
     }
 

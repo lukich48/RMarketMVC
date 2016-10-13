@@ -13,44 +13,18 @@ using RMarket.ClassLib.Models;
 using RMarket.UnitTests.Infrastructure.Repositories;
 using RMarket.ClassLib.Managers;
 using System.Threading;
+using RMarket.UnitTests.Infrastructure.Entities;
 
-namespace RMarket.UnitTests.EmulTests
+namespace RMarket.UnitTests.Emul
 {
     [TestClass]
-    public class EmulManagerTest
+    public class EmulManagerTests
     {
         [TestMethod]
         public void StartEmul()
         {
             //создаем инстанс
-
-            EntityInfo entityInfo = new EntityInfo
-            {
-                Id = 1,
-                Name = "Strategy Mosk",
-                EntityType = EntityType.StrategyInfo,
-                TypeName = typeof(StrategyMock1).AssemblyQualifiedName
-            };
-
-            Ticker ticker = new Ticker { Id = 1, Name = "SBER", Code = "SBER", QtyInLot = 10 };
-            TimeFrame timeFrame = new TimeFrame { Id = 4, Name = "10", ToMinute = 10 };
-
-            InstanceModel instance = new InstanceModel
-            {
-                Id = 1,
-                Name = "test instance1",
-                EntityInfoId = entityInfo.Id,
-                EntityInfo = entityInfo,
-                TickerId = ticker.Id,
-                Ticker = ticker,
-                TimeFrameId = timeFrame.Id,
-                TimeFrame = timeFrame,
-                Balance = 1000,
-                Slippage = 0,
-                Rent = 0,
-                GroupID = Guid.NewGuid(),
-                CreateDate = new DateTime(2016, 01, 01),
-            };
+            InstanceModel instance = Instances.GetInstance1();
 
             //добавляем живую стратегию
             AliveStrategy aliveStrategy = new AliveStrategy

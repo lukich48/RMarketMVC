@@ -21,7 +21,10 @@ namespace RMarket.ClassLib.Entities
         public string Code { get; set; }
 
         [Display(Name = "Количество в 1 лоте")]
-        public int? QtyInLot { get; set; } 
+        public int? QtyInLot { get; set; }
+
+        public DateTime CreateDate { get; set; }
+
 
     }
 }

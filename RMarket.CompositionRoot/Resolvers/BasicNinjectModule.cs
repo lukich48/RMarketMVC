@@ -35,7 +35,8 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
 
             //Наш сервис-локатор ))
-            Resolver.Current = new NinjectResolver(kernel);
+            kernel.Bind<Resolver>().To<NinjectResolver>().InSingletonScope();
+            //Resolver.Current = new NinjectResolver(kernel);
 
         }
     }

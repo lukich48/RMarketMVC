@@ -34,6 +34,8 @@ namespace RMarket.ClassLib.Entities
         public DateTime? DateClose { get; set; }
         public DateTime? DateCloseUTC { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         public int Volume { get; set; }
         public decimal PriceOpen { get; set; }
         public decimal PriceClose { get; set; }

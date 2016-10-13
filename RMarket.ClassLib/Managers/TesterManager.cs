@@ -15,11 +15,13 @@ namespace RMarket.ClassLib.Managers
 {
     public class TesterManager: IManager
     {
-        public ICandleRepository candleRepository;//!!! = CurrentRepository.CandleRepository;
+        private readonly ICandleRepository candleRepository;
         private CancellationTokenSource cts;
 
-        public TesterManager(IStrategy strategy, Instrument instr, Portfolio portf)
+        public TesterManager(ICandleRepository candleRepository, IStrategy strategy, Instrument instr, Portfolio portf)
         {
+            this.candleRepository = candleRepository;
+
             this.Strategy = strategy;
             this.Instr = instr;
             this.Portf = portf;
@@ -66,9 +68,10 @@ namespace RMarket.ClassLib.Managers
                                       orderby c.DateOpen
                                       select c;
 
-            TaskFactory factory = new TaskFactory(cts.Token);
-            factory.StartNew(() =>
-            {
+            //TaskFactory factory = new TaskFactory(cts.Token);
+
+            //_taskStrategyRun = factory.StartNew(() =>
+            //{
                 foreach (Candle candle in candles)
                 {
                     if (cts.Token.IsCancellationRequested) //выход из потока по кнопке "Стоп"
@@ -82,8 +85,8 @@ namespace RMarket.ClassLib.Managers
                     Strategy.Begin();
                 }
                 IsStarted = false;
-            }
-            );
+            //}
+            //);
 
         }
 

@@ -9,5 +9,6 @@ namespace RMarket.ClassLib.Abstract
     public interface IEntityData
     {
         int Id { get; set; }
+        DateTime CreateDate { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IEntitySetting:IEntityData
+    public interface IEntitySetting: IEntityData
     {
         int EntityInfoId { get; set; }
         EntityInfo EntityInfo { get; set; }
