@@ -24,7 +24,7 @@ namespace RMarket.ClassLib.Models
         [JsonProperty]
         public object ValueMax { get; set; }
 
-        public override void RepairValue(PropertyInfo prop, object entity)
+        public override void RepairValue(PropertyInfo prop, Type entityType)
         {
             ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute((Type)typeof(ParameterAttribute), (bool)false);
 
@@ -56,15 +56,33 @@ namespace RMarket.ClassLib.Models
 
             }
 
+            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
+            Description = (attr.Description == null) ? "" : attr.Description;
+        }
+
+        public override void RepairValue(PropertyInfo prop, object entity)
+        {
+            RepairValue(prop, entity.GetType());
+
             if (ValueMin == null)
                 ValueMin = prop.GetValue(entity);
 
             if (ValueMax == null)
                 ValueMax = prop.GetValue(entity);
 
-            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
-            Description = (attr.Description == null) ? "" : attr.Description;
         }
-        
+
+        public override void RepairValue(object entity)
+        {
+            PropertyInfo prop = entity.GetType().GetProperty(FieldName);
+
+            if (ValueMin == null)
+                ValueMin = prop.GetValue(entity);
+
+            if (ValueMax == null)
+                ValueMax = prop.GetValue(entity);
+        }
+
+
     }
 }

@@ -53,11 +53,7 @@ namespace RMarket.ClassLib.Helpers
         /// <returns></returns>
         public static IEnumerable<ParamSelection> GetSelectionParams(Selection selection)
         {
-            IEnumerable<ParamSelection> savedParams = GetSavedSelectionParams(selection);
-
-            //object entity = resolver.Resolve(Type.GetType(selection.EntityInfo.TypeName));
-
-            //IEnumerable<ParamSelection> res = new SettingHelper().GetEntityParams(entity, savedParams);
+            IEnumerable<ParamSelection> savedParams = new SettingHelper().GetSavedParams<ParamSelection>(selection);
 
             return savedParams;
         }
@@ -96,29 +92,6 @@ namespace RMarket.ClassLib.Helpers
 
             return listIndicators;
         }
-
-        #region Служебные приватные методы
-
-        /// <summary>
-        /// Получает коллекцию сохраненных параметров. Только сериализуемые поля
-        /// </summary>
-        /// <param name="selection"></param>
-        /// <returns></returns>
-        private static IEnumerable<ParamSelection> GetSavedSelectionParams(Selection selection)
-        {
-            IEnumerable<ParamSelection> strategyParams;
-
-            if (!String.IsNullOrEmpty(selection.StrParams))
-            {
-                strategyParams = Serializer.Deserialize<List<ParamSelection>>(selection.StrParams);
-            }
-            else
-                strategyParams = new List<ParamSelection>();
-
-            return strategyParams;
-        }
-
-        #endregion
 
     }
 }

@@ -27,11 +27,8 @@ namespace RMarket.ClassLib.Helpers
             if (setting.EntityInfo == null)
                 throw new CustomException($"settingId={setting.Id}. EntityInfo is null!");
 
-            IEnumerable<ParamEntity> savedParams = GetSavedEntityParams(setting);
-            //object entity = CreateEntityObject<object>(setting, resolver);
-
-            //IEnumerable<ParamEntity> res = GetEntityParams<ParamEntity>(entity, savedParams);
-
+            IEnumerable<ParamEntity> savedParams = GetSavedParams<ParamEntity>(setting);
+ 
             return savedParams;
         }
 
@@ -43,7 +40,7 @@ namespace RMarket.ClassLib.Helpers
 
             TEntity entity = (TEntity)resolver.Resolve(Type.GetType(setting.EntityInfo.TypeName));
 
-            IEnumerable<ParamEntity> entityParams = GetEntityParams(entity, setting.EntityParams);
+            IEnumerable<ParamEntity> entityParams = GetEntityParams(setting.EntityInfo, setting.EntityParams);
 
             ApplyParams(entity, entityParams);
 
@@ -53,79 +50,95 @@ namespace RMarket.ClassLib.Helpers
         /// <summary>
         /// Применяем сохраненные параметры
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="object"></typeparam>
         /// <param name="entity"></param>
         /// <param name="entityParams"></param>
-        private void ApplyParams<TEntity>(TEntity entity, IEnumerable<ParamEntity> entityParams) where TEntity : class
+        private void ApplyParams(object entity, IEnumerable<ParamEntity> entityParams)
         {
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
-            foreach (PropertyInfo prop in arrayProp)
+            foreach (ParamEntity entityParam in entityParams)
             {
-                ParamEntity savedParam = entityParams.FirstOrDefault(p => p.FieldName == prop.Name);
-
-                if (savedParam != null)
+                //если параметр null, значит его не было во время редактирования.
+                //оставляем в таком случае дефолтовый
+                if (entityParam?.FieldValue != null)
                 {
-                    prop.SetValue(entity, savedParam.FieldValue);
+                    PropertyInfo prop = entity.GetType().GetProperty(entityParam.FieldName);
+                    prop.SetValue(entity, entityParam.FieldValue);
                 }
             }
+
         }
 
         /// <summary>
-        /// Получает коллекцию сохраненных параметров. Только сериализуемые поля
+        /// Получает коллекцию сохраненных параметров
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        private IEnumerable<ParamEntity> GetSavedEntityParams(IEntitySetting setting)
+        public IEnumerable<T> GetSavedParams<T>(IEntitySetting setting)
+            where T : ParamBase, new()
         {
-            IEnumerable<ParamEntity> strategyParams;
+            IEnumerable<T> strategyParams;
 
             if (!String.IsNullOrEmpty(setting.StrParams))
             {
-                strategyParams = Serializer.Deserialize<List<ParamEntity>>(setting.StrParams); 
+                // получаем параметры в типе json
+                var savedParams = Serializer.Deserialize<List<T>>(setting.StrParams);
+
+                // теперь нужно десериализовать каждый параметр в правильный тип
+                strategyParams = GetEntityParams<T>(setting.EntityInfo, savedParams);
             }
             else
-                strategyParams = new List<ParamEntity>();
+                strategyParams = new List<T>();
 
             return strategyParams;
         }
 
         /// <summary>
-        /// Создает параметры ParamBase на основании переданного объекта
+        /// Создает параметры ParamBase на основании типа и сохраненных данных
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entityInfo"></param>
         /// <param name="savedParams"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, Resolver resolver, IEnumerable<T> savedParams = null)
-            where T : ParamBase, new()
-        {
-            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
-
-            return GetEntityParams(entity, savedParams);
-        }
-
-        /// <summary>
-        /// Создает параметры ParamBase на основании переданного объекта
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="savedParams"></param>
-        /// <returns></returns>
-        public IEnumerable<T> GetEntityParams<T>(object entity, IEnumerable<T> savedParams = null)
+        public IEnumerable<T> GetEntityParams<T>(IEntityInfo entityInfo, IEnumerable<T> savedParams)
             where T : ParamBase, new()
         {
             if (savedParams == null)
                 savedParams = new List<T>();
 
             List<T> res = new List<T>();
+            Type entityType = Type.GetType(entityInfo.TypeName);
 
-            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity);
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entityType);
 
             foreach (PropertyInfo prop in arrayProp)
             {
                 T savedParam = savedParams.FirstOrDefault(p => p.FieldName == prop.Name);
                 if (savedParam == null)
                     savedParam = new T();
+
+                savedParam.RepairValue(prop, entityType);
+                res.Add(savedParam);
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// Создает дефолтовые параметры ParamBase на основании переданного объекта
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetEntityParams<T>(object entity)
+            where T : ParamBase, new()
+        {
+            List<T> res = new List<T>();
+
+            IEnumerable<PropertyInfo> arrayProp = ReflectionHelper.GetEntityAttributes(entity.GetType());
+
+            foreach (PropertyInfo prop in arrayProp)
+            {
+                T savedParam = new T();
 
                 savedParam.RepairValue(prop, entity);
                 res.Add(savedParam);
@@ -134,5 +147,12 @@ namespace RMarket.ClassLib.Helpers
             return res;
         }
 
+        public void RepairValues(object entity, IEnumerable<ParamBase> entityParams)
+        {
+            foreach (ParamBase entityParam in entityParams)
+            {
+                entityParam.RepairValue(entity);
+            }
+        }
     }
 }

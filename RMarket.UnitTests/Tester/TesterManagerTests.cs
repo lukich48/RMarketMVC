@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.ClassLib.EntityModels;
 using RMarket.UnitTests.Infrastructure.Entities;
 using RMarket.UnitTests.Infrastructure.Strategies;
@@ -9,13 +8,14 @@ using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.UnitTests.Infrastructure.Repositories;
 using System.Threading;
+using NUnit.Framework;
 
 namespace RMarket.UnitTests.Tester
 {
-    [TestClass]
+    [TestFixture]
     public class TesterManagerTests
     {
-        [TestMethod]
+        [Test]
         public void RunTestStrategy()
         {
             //создаем инстанс

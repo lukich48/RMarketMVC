@@ -29,17 +29,17 @@ namespace RMarket.ClassLib.Models
             {
                 _fieldValue = value;//GetValue(value);
             }
-        } 
+        }
 
-        public override void RepairValue(PropertyInfo prop, object entity)
+        public override void RepairValue(PropertyInfo prop, Type entityType)
         {
             ParameterAttribute attr = (ParameterAttribute)prop.GetCustomAttribute(typeof(ParameterAttribute), false);
 
             FieldName = prop.Name;
 
-            if(FieldValue !=null && 
-                FieldValue.GetType()!= prop.PropertyType && 
-                FieldValue.GetType()!=typeof(string))
+            if (FieldValue != null &&
+                FieldValue.GetType() != prop.PropertyType &&
+                FieldValue.GetType() != typeof(string))
             {
                 try
                 {
@@ -53,12 +53,28 @@ namespace RMarket.ClassLib.Models
 
             }
 
+            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
+            Description = (attr.Description == null) ? "" : attr.Description;
+        }
+
+        public override void RepairValue(PropertyInfo prop, object entity)
+        {
+            RepairValue(prop, entity.GetType());
+
             if (FieldValue == null)
                 FieldValue = prop.GetValue(entity);
-
-            DisplayName = (attr.Name == null) ? prop.Name : attr.Name;
-            Description = (attr.Description == null) ? "": attr.Description;
         }
+
+        public override void RepairValue(object entity)
+        {
+            if (FieldValue == null)
+            {
+                PropertyInfo prop = entity.GetType().GetProperty(FieldName);
+                FieldValue = prop.GetValue(entity);
+
+            }
+        }
+
 
     }
 

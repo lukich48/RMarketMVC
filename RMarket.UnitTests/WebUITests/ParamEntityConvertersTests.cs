@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.WebUI.Infrastructure.ParamEntityConverters;
 using System.Collections.Generic;
 using RMarket.WebUI.Helpers;
+using NUnit.Framework;
 
 namespace RMarket.UnitTests.WebUITests
 {
-    [TestClass]
+    [TestFixture]
     public class ParamEntityConvertersTests
     {
-        [TestMethod]
+        [Test]
         public void AdapterToObjectConverterTest()
         {
             decimal value = 1000.01m;
@@ -20,7 +20,7 @@ namespace RMarket.UnitTests.WebUITests
             object result = converter.ConvertToDomainModel(strValue, value.GetType().AssemblyQualifiedName);
         }
 
-        [TestMethod]
+        [Test]
         public void TimeSpanConverterTest()
         {
             TimeSpanConverter converter = new TimeSpanConverter();
@@ -32,7 +32,7 @@ namespace RMarket.UnitTests.WebUITests
             Assert.AreEqual(value, result);
         }
 
-        [TestMethod]
+        [Test]
         public void DictinaryConverterTest()
         {
             DictionaryConverter converter = new DictionaryConverter();

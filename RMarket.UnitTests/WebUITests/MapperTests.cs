@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.UnitTests.Infrastructure.Repositories;
 using RMarket.ClassLib.Entities;
 using System.Linq;
@@ -9,14 +8,15 @@ using RMarket.ClassLib.EntityModels;
 using System.Collections.Generic;
 using RMarket.WebUI.Infrastructure.MapperProfiles;
 using AutoMapper;
+using NUnit.Framework;
 
 namespace RMarket.UnitTests.WebUITests
 {
-    [TestClass]
+    [TestFixture]
     public class MapperTests
     {
-        //!!!Проинициализировать контекст маппера
-        public MapperTests()
+        [OneTimeSetUp]
+        public void Init()
         {
             var inicializer = new CompositionRoot.Inicializer();
             inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
@@ -26,8 +26,8 @@ namespace RMarket.UnitTests.WebUITests
 
         }
 
-        [TestMethod]
-        public void HistoricalProviderSettingModelMappingTest()
+        [Test]
+        public void MapperTest()
         {
             var repository = new HistoricalProviderRepository();
             HistoricalProviderSetting entity = repository.Get().Where(m => m.Id == 1).FirstOrDefault();
@@ -45,7 +45,7 @@ namespace RMarket.UnitTests.WebUITests
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSetting>(modelRes);
 
             Assert.AreEqual(modelUI.Id, entity.Id);
-            Assert.AreEqual(1, model.EntityParams.Count);
+            Assert.AreEqual(2, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
 
@@ -55,7 +55,7 @@ namespace RMarket.UnitTests.WebUITests
             foreach(var param in modelRes.EntityParams)
             {
                 var foundParam = model.EntityParams.SingleOrDefault(p => p.FieldName == param.FieldName);
-                Assert.AreEqual(param.FieldValue.ToString(), foundParam.FieldValue.ToString());
+                Assert.AreEqual(param.FieldValue?.ToString(), foundParam.FieldValue?.ToString());
             }
 
         }

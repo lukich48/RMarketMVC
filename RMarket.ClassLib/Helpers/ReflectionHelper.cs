@@ -29,11 +29,11 @@ namespace RMarket.ClassLib.Helpers
         /// <summary>
         /// Извлекает из объекта поля с атрибутом ParameterAttribute
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entityType"></param>
         /// <returns></returns>
-        public static IEnumerable<PropertyInfo> GetEntityAttributes(object entity)
+        public static IEnumerable<PropertyInfo> GetEntityAttributes(Type entityType)
         {
-            PropertyInfo[] arrayProp = entity.GetType().FindMembers(MemberTypes.Property,
+            PropertyInfo[] arrayProp = entityType.FindMembers(MemberTypes.Property,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     new MemberFilter(FilterAttributes), new ParameterAttribute()).Cast<PropertyInfo>().ToArray();
 

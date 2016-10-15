@@ -2,24 +2,24 @@
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.EntityModels;
 using RMarket.Concrete.Optimization.Helpers;
+using NUnit.Framework;
 
 namespace RMarket.UnitTests.Optimization
 {
     /// <summary>
     /// Тестирование методов оптимизации
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class OptimizationTests
     {
         
-        [TestMethod]
+        [Test]
         public void CreateFirstGeneration()
         {
             //!!! Долго

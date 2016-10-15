@@ -1,14 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using System.Linq;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace RMarket.UnitTests.Helpers
 {
-    [TestClass]
+    [TestFixture]
     public class ReflectionHelperTest
     {
+
         class TestProps1
         {
             public int Prop1 { get; set; }
@@ -29,18 +32,16 @@ namespace RMarket.UnitTests.Helpers
             public int Prop1 { get; set; }
             public string Prop2 { get; set; }
         }
-
-
-        [TestMethod]
+        
+        [Test]
         public void GetNavigationPropertiesTest()
         {
             //1
-            var props= ReflectionHelper.GetNavigationProperties<TestProps1>();
-
-            Assert.AreEqual(2, props.Count());
+            var props1= ReflectionHelper.GetNavigationProperties<TestProps1>();
+            Assert.AreEqual(2, props1.Count());
 
             //2
-            var props2 = ReflectionHelper.GetNavigationProperties< TestProps2>();
+            var props2 = ReflectionHelper.GetNavigationProperties<TestProps2>();
 
             Assert.AreEqual(1, props2.Count());
 

@@ -18,10 +18,23 @@ namespace RMarket.ClassLib.Models
         public virtual string Description { get; set; }
 
         /// <summary>
+        /// приводит значение параметра к его типу. Не восстанавливвет значение.
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="entityType"></param>
+        public abstract void RepairValue(PropertyInfo prop, Type entityType);
+
+        /// <summary>
         /// приводит значение параметра к его типу. Если приведение невозможно восстанавливает умолчание.
         /// </summary>
         /// <param name="prop"></param>
         /// <param name="entity"></param>
         public abstract void RepairValue(PropertyInfo prop, object entity);
+
+        /// <summary>
+        /// заполняет значение дефолтовым значением, если оно null
+        /// </summary>
+        /// <param name="entity"></param>
+        public abstract void RepairValue(object entity);
     }
 }

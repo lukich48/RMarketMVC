@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Entities;
 using RMarket.UnitTests.Infrastructure.Strategies;
@@ -14,13 +13,14 @@ using RMarket.UnitTests.Infrastructure.Repositories;
 using RMarket.ClassLib.Managers;
 using System.Threading;
 using RMarket.UnitTests.Infrastructure.Entities;
+using NUnit.Framework;
 
 namespace RMarket.UnitTests.Emul
 {
-    [TestClass]
+    [TestFixture]
     public class EmulManagerTests
     {
-        [TestMethod]
+        [Test]
         public void StartEmul()
         {
             //создаем инстанс
