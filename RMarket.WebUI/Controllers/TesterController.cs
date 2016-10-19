@@ -25,7 +25,7 @@ namespace RMarket.WebUI.Controllers
     {
         private readonly IInstanceService instanceService;
         private readonly ICandleRepository candleRepository;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
         private JsonSerializerSettings jsonSerializerSettings;
 
@@ -33,7 +33,7 @@ namespace RMarket.WebUI.Controllers
 
         public TesterController(IInstanceService instanceService, 
             ICandleRepository candleRepository,
-            Resolver resolver)
+            IResolver resolver)
         {
             this.instanceService = instanceService;
             this.candleRepository = candleRepository;

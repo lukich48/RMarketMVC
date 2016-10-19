@@ -12,7 +12,6 @@ using RMarket.ClassLib.Models;
 using RMarket.UnitTests.Infrastructure.Repositories;
 using RMarket.ClassLib.Managers;
 using System.Threading;
-using RMarket.UnitTests.Infrastructure.Entities;
 using NUnit.Framework;
 
 namespace RMarket.UnitTests.Emul
@@ -24,7 +23,7 @@ namespace RMarket.UnitTests.Emul
         public void StartEmul()
         {
             //создаем инстанс
-            InstanceModel instance = Instances.GetInstance1();
+            InstanceModel instance = StrategyMock1.GetModel();
 
             //добавляем живую стратегию
             AliveStrategy aliveStrategy = new AliveStrategy

@@ -20,11 +20,13 @@ namespace RMarket.WebUI.Controllers
     {
         private IOptimizationSettingService settingService;
         private IEntityInfoRepository entityInfoRepository;
+        private readonly IResolver resolver;
 
-        public OptimizationSettingsController(IOptimizationSettingService settingService, IEntityInfoRepository entityInfoRepository)
+        public OptimizationSettingsController(IOptimizationSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.settingService = settingService;
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         // GET: StrategySettings
@@ -49,7 +51,7 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
                     return RedirectToAction("Index");
                 }
-
+                RepairParams(model);
             }
             else //Запрос на создание
                 model = new OptimizationSettingModel();
@@ -87,17 +89,18 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int Id)
         {
-            OptimizationSettingModel setting = settingService.GetById(Id, true);
-            if (setting == null)
+            OptimizationSettingModel model = settingService.GetById(Id, true);
+            if (model == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
                 return RedirectToAction("Index");
             }
+            RepairParams(model);
 
-            setting.Id = 0;
+            model.Id = 0;
 
             OptimizationSettingModelUI modelUI = MyMapper.Current
-                .Map<OptimizationSettingModel, OptimizationSettingModelUI>(setting);
+                .Map<OptimizationSettingModel, OptimizationSettingModelUI>(model);
 
             return _Edit(model: modelUI);
         }
@@ -123,6 +126,17 @@ namespace RMarket.WebUI.Controllers
                 model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
 
         }
+
+        /// <summary>
+        /// добавить несохраненные параметры
+        /// </summary>
+        /// <param name="model"></param>
+        private void RepairParams(OptimizationSettingModel model)
+        {
+            var entity = resolver.Resolve<IOptimization>(Type.GetType(model.EntityInfo.TypeName));
+            new SettingHelper().RepairValues(entity, model.EntityParams);
+        }
+
 
         #endregion
 

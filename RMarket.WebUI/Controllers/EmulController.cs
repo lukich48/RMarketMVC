@@ -24,7 +24,7 @@ namespace RMarket.WebUI.Controllers
         private readonly IDataProviderSettingService dataProviderService;
         private readonly IAliveStrategyRepository aliveStrategyRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
         private JsonSerializerSettings jsonSerializerSettings;
 
@@ -35,7 +35,7 @@ namespace RMarket.WebUI.Controllers
             IDataProviderSettingService dataProviderService, 
             IAliveStrategyRepository aliveStrategyRepository, 
             IOrderRepository orderRepository,
-            Resolver resolver)
+            IResolver resolver)
         {
             this.instanceService = instanceService;
             this.dataProviderService = dataProviderService;

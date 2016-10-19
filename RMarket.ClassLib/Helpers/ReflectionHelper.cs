@@ -14,17 +14,6 @@ namespace RMarket.ClassLib.Helpers
 {
     public static class ReflectionHelper
     {
-        /// <summary>
-        /// Создает новый объект из строкового представления типа
-        /// </summary>
-        /// <param name="entityInfo"></param>
-        /// <returns></returns>
-        public static object CreateEntity(IEntityInfo entityInfo)
-        {
-            object entity = Resolver.Current.Resolve(Type.GetType(entityInfo.TypeName));
-
-            return entity;
-        }
 
         /// <summary>
         /// Извлекает из объекта поля с атрибутом ParameterAttribute

@@ -84,7 +84,7 @@ namespace RMarket.ClassLib.MapperProfiles
             IEnumerable<ParamSelection> res = null;
 
             if (selection.EntityInfo != null)
-                res = StrategyHelper.GetSelectionParams(selection);
+                res = new SettingHelper().GetSelectionParams(selection);
             else
                 res = new List<ParamSelection>();
 

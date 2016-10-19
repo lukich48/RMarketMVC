@@ -1,4 +1,5 @@
-﻿using RMarket.ClassLib.Abstract.IRepository;
+﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
@@ -15,9 +16,9 @@ namespace RMarket.WebUI.Controllers
     public class EntityParamsController : Controller
     {
         private readonly IEntityInfoRepository entityInfoRepository;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
-        public EntityParamsController(IEntityInfoRepository entityInfoRepository, Resolver resolver)
+        public EntityParamsController(IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.entityInfoRepository = entityInfoRepository;
             this.resolver = resolver;
@@ -27,8 +28,7 @@ namespace RMarket.WebUI.Controllers
         public PartialViewResult EditParamsNew(int entityInfoId)
         {
             EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
-            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
-
+            object entity = resolver.Resolve<object>(Type.GetType(entityInfo.TypeName));
             IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entity);
 
             //Конвертим параметры в UI модель

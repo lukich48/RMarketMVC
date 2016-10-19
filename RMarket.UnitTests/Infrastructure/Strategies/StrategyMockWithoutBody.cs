@@ -1,6 +1,7 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,18 @@ using System.Threading.Tasks;
 
 namespace RMarket.UnitTests.Infrastructure.Strategies
 {
-    public class StrategyMock1: IStrategy
+    public class StrategyMockWithoutBody: IStrategy
     {
         public Instrument Instr { get; set; }
         public IManager Manager { get; set; }
         public List<Order> Orders { get; set; }
+
+        [Parameter(Name = "period1", Description = "Период наименьшего канала")]
+        public int Period1 { get; set; } = 5;
+
+        [Parameter(Description = "Период среднего канала")]
+        public int Period2 { get; set; } = 10;
+
 
         public void Initialize()
         {
@@ -22,22 +30,6 @@ namespace RMarket.UnitTests.Infrastructure.Strategies
 
         public void Begin()
         {
-            //покупаем и продаем через каждые 20 свечек
-            if (Instr.Candles.Count % 20 == 0)
-            {
-                Manager.OrderSender.OrderCloseAll(OrderType.Buy);
-                Manager.OrderSender.OrderCloseAll(OrderType.Sell);
-
-                if ((Instr.Candles.Count / 20) % 2 != 0)
-                {
-                    Manager.OrderSender.OrderBuy(1);
-                }
-                else
-                {
-                    Manager.OrderSender.OrderSell(1);
-                }
-
-            }
         }
 
         public void OnTickPoked(object sender, TickEventArgs e)
@@ -45,20 +37,29 @@ namespace RMarket.UnitTests.Infrastructure.Strategies
 
         }
 
-        public static InstanceModel GetModel()
+        public static Instance GetInstance()
         {
             EntityInfo entityInfo = new EntityInfo
             {
                 Id = 1,
-                Name = "Strategy Mosk",
+                Name = "Strategy MockWithoutBody",
                 EntityType = EntityType.StrategyInfo,
-                TypeName = typeof(StrategyMock1).AssemblyQualifiedName
+                TypeName = typeof(StrategyMockWithoutBody).AssemblyQualifiedName                
             };
 
             Ticker ticker = new Ticker { Id = 1, Name = "SBER", Code = "SBER", QtyInLot = 10 };
             TimeFrame timeFrame = new TimeFrame { Id = 4, Name = "10", ToMinute = 10 };
 
-            InstanceModel instance = new InstanceModel
+            List<ParamEntity> entityParams = new List<ParamEntity>()
+            {
+                new ParamEntity
+                {
+                    FieldName = nameof(StrategyMockWithoutBody.Period1),
+                    FieldValue = 6,
+                }
+            };
+
+            Instance instance = new Instance
             {
                 Id = 1,
                 Name = "test instance1",
@@ -73,9 +74,11 @@ namespace RMarket.UnitTests.Infrastructure.Strategies
                 Rent = 0,
                 GroupID = Guid.NewGuid(),
                 CreateDate = new DateTime(2016, 01, 01),
+                StrParams = Serializer.Serialize(entityParams)
             };
 
             return instance;
+
         }
 
 

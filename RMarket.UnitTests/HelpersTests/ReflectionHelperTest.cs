@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RMarket.UnitTests.Helpers
+namespace RMarket.UnitTests.HelpersTests
 {
     [TestFixture]
     public class ReflectionHelperTest

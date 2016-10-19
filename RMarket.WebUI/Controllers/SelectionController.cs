@@ -23,9 +23,9 @@ namespace RMarket.WebUI.Controllers
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
         private readonly IEntityInfoRepository entityInfoRepository;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
-        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, Resolver resolver)
+        public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.selectionService = selectionService;
             this.tickerRepository = tickerRepository;
@@ -68,6 +68,7 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
             }
             else
                 model = new SelectionModel();
@@ -110,6 +111,7 @@ namespace RMarket.WebUI.Controllers
                 TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
+            RepairParams(model);
 
             model.Id = 0;
 
@@ -139,6 +141,7 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр селекции \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
             }
 
             SelectionModelUI modelUI = MyMapper.Current
@@ -151,8 +154,7 @@ namespace RMarket.WebUI.Controllers
         public PartialViewResult EditParamsNew(int entityInfoId)
         {
             EntityInfo entityInfo = entityInfoRepository.GetById(entityInfoId);
-            object entity = resolver.Resolve(Type.GetType(entityInfo.TypeName));
-
+            object entity = resolver.Resolve<object>(Type.GetType(entityInfo.TypeName));
             IEnumerable<ParamSelection> entityParams = new SettingHelper().GetEntityParams<ParamSelection>(entity);
 
             //Конвертим параметры в UI модель
@@ -219,6 +221,17 @@ namespace RMarket.WebUI.Controllers
             if (model.TimeFrame == null && model.TimeFrameId != 0)
                 model.TimeFrame = timeFrameRepository.GetById(model.TimeFrameId);
         }
+
+        /// <summary>
+        /// добавить несохраненные параметры
+        /// </summary>
+        /// <param name="model"></param>
+        private void RepairParams(SelectionModel model)
+        {
+            IStrategy strategy = resolver.Resolve<IStrategy>(Type.GetType(model.EntityInfo.TypeName));
+            new SettingHelper().RepairValues(strategy, model.SelectionParams);
+        }
+
 
         #endregion
 

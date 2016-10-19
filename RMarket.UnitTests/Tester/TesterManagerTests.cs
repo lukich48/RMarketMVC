@@ -1,6 +1,5 @@
 ﻿using System;
 using RMarket.ClassLib.EntityModels;
-using RMarket.UnitTests.Infrastructure.Entities;
 using RMarket.UnitTests.Infrastructure.Strategies;
 using RMarket.ClassLib.Models;
 using RMarket.ClassLib.Abstract;
@@ -19,7 +18,7 @@ namespace RMarket.UnitTests.Tester
         public void RunTestStrategy()
         {
             //создаем инстанс
-            InstanceModel instance = Instances.GetInstance1();
+            InstanceModel instance = StrategyMock1.GetModel();
 
             //получаем стратегию 
             StrategyMock1 strategy = new StrategyMock1();

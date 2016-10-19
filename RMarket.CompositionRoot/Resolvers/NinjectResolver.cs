@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.CompositionRoot.Resolvers
 {
-    public class NinjectResolver: Resolver
+    public class NinjectResolver: IResolver
     {
         private IKernel kernel;
 
@@ -17,9 +18,9 @@ namespace RMarket.CompositionRoot.Resolvers
             this.kernel = kernel;
         }
 
-        public override object Resolve(Type type)
+        public T Resolve<T>(Type type)
         {
-            return kernel.TryGet(type);
+            return (T)kernel.TryGet(type);
         }
     }
 }

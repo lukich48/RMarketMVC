@@ -7,6 +7,7 @@ using RMarket.ClassLib.Abstract.IRepository;
 using Ninject.Web.Common;
 using Ninject;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
+using RMarket.ClassLib.Abstract;
 
 namespace RMarket.CompositionRoot.Resolvers
 {
@@ -35,7 +36,7 @@ namespace RMarket.CompositionRoot.Resolvers
             kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
 
             //Наш сервис-локатор ))
-            kernel.Bind<Resolver>().To<NinjectResolver>().InSingletonScope();
+            kernel.Bind<IResolver>().To<NinjectResolver>().InSingletonScope();
             //Resolver.Current = new NinjectResolver(kernel);
 
         }

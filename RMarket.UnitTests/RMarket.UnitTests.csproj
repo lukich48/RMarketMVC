@@ -131,14 +131,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Emul\EmulManagerTests.cs" />
-    <Compile Include="Helpers\ReflectionHelperTest.cs" />
-    <Compile Include="Infrastructure\Entities\Instances.cs" />
+    <Compile Include="HelpersTests\ReflectionHelperTest.cs" />
+    <Compile Include="Infrastructure\HistoricalProviders\Finam.cs" />
     <Compile Include="Infrastructure\Repositories\HistoricalProviderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\CandleRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\RepositoryBase.cs" />
     <Compile Include="Infrastructure\Repositories\TickerRepository.cs" />
     <Compile Include="Infrastructure\SessionStateMock.cs" />
+    <Compile Include="Infrastructure\Strategies\StrategyMockWithoutBody.cs" />
     <Compile Include="Infrastructure\Strategies\StrategyMock1.cs" />
     <Compile Include="Infrastructure\UnitTestHelper.cs" />
     <Compile Include="Optimization\OptimizationTests.cs" />

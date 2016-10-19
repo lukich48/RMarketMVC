@@ -20,9 +20,9 @@ namespace RMarket.WebUI.Controllers
         private readonly ITickerRepository tickerRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
         private readonly IHistoricalProviderSettingService historicalProviderSettingService;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
-        public DownloadHistoryController(IHistoricalProviderSettingService historicalProviderSettingService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, Resolver resolver)
+        public DownloadHistoryController(IHistoricalProviderSettingService historicalProviderSettingService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IResolver resolver)
         {
             this.historicalProviderSettingService = historicalProviderSettingService;
             this.tickerRepository = tickerRepository;

@@ -14,38 +14,6 @@ namespace RMarket.UnitTests.Infrastructure.Repositories
     {
         public HistoricalProviderRepository()
         {
-            context = new List<HistoricalProviderSetting>();
-
-            Dictionary<string, string> codeFinams = new Dictionary<string, string>();
-            codeFinams.Add("SBER", "3");
-            codeFinams.Add("GAZP", "16842");
-            codeFinams.Add("AVAZ", "39");
-
-
-            List<ParamEntity> entityParams = new List<ParamEntity>
-            {
-                new ParamEntity {FieldName="TickerCodeFinams",FieldValue=codeFinams },
-            };
-
-
-            context.Add(
-                new HistoricalProviderSetting
-                {
-                    Id = 1,
-                    Name = "Finam default",
-                    CreateDate = DateTime.Now,
-                    Description = "Загрузка с сайта Финам",
-                    StrParams = Serializer.Serialize(entityParams),
-                    EntityInfoId = 1,
-                    EntityInfo = new EntityInfo
-                    {
-                        Id = 1,
-                        Name = "FinamProvider",
-                        TypeName = typeof(Finam).AssemblyQualifiedName,
-                        EntityType = EntityType.HistoricalProviderInfo
-                    }
-                }
-            );
 
             
         }

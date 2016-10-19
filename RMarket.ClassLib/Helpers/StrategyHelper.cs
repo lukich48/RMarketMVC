@@ -47,18 +47,6 @@ namespace RMarket.ClassLib.Helpers
         }
 
         /// <summary>
-        /// Создает параметры из объекта Селекция и сохраненных данных 
-        /// </summary>
-        /// <param name="selection"></param>
-        /// <returns></returns>
-        public static IEnumerable<ParamSelection> GetSelectionParams(Selection selection)
-        {
-            IEnumerable<ParamSelection> savedParams = new SettingHelper().GetSavedParams<ParamSelection>(selection);
-
-            return savedParams;
-        }
-
-        /// <summary>
         /// Извлекает индикаторы из стратегии
         /// </summary>
         /// <param name="strategy"></param>

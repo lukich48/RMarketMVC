@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using RMarket.WebUI.Infrastructure.MapperProfiles;
 using AutoMapper;
 using NUnit.Framework;
+using RMarket.UnitTests.Infrastructure.HistoricalProviders;
+using RMarket.UnitTests.Infrastructure.Strategies;
+using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Helpers;
 
 namespace RMarket.UnitTests.WebUITests
 {
@@ -29,8 +33,7 @@ namespace RMarket.UnitTests.WebUITests
         [Test]
         public void MapperTest()
         {
-            var repository = new HistoricalProviderRepository();
-            HistoricalProviderSetting entity = repository.Get().Where(m => m.Id == 1).FirstOrDefault();
+            HistoricalProviderSetting entity = Finam.GetInstance();
 
             HistoricalProviderSettingModel model = MyMapper.Current
                 .Map<HistoricalProviderSetting, HistoricalProviderSettingModel>(entity);
@@ -45,7 +48,11 @@ namespace RMarket.UnitTests.WebUITests
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSetting>(modelRes);
 
             Assert.AreEqual(modelUI.Id, entity.Id);
+            //все парметры из объекта
             Assert.AreEqual(2, model.EntityParams.Count);
+            //один параметр не был сохранен, он должен быть null
+            Assert.IsNull(model.EntityParams.SingleOrDefault(p => p.FieldName == "TimeFrameCodeFinams").FieldValue);
+
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
             Assert.AreEqual(modelUI.EntityParams.Count, model.EntityParams.Count);
 
@@ -58,6 +65,29 @@ namespace RMarket.UnitTests.WebUITests
                 Assert.AreEqual(param.FieldValue?.ToString(), foundParam.FieldValue?.ToString());
             }
 
+        }
+
+        [Test]
+        public void EntityParams_RepairValues()
+        {
+            //case: в стратегию добавился новый параметр после того, как был сохранен инстанс
+
+            //получаем сохраненный инстанс
+            Instance instance = StrategyMockWithoutBody.GetInstance();
+
+            InstanceModel model = MyMapper.Current
+                .Map<Instance, InstanceModel>(instance);
+
+            var missingParam = model.EntityParams.Single(p => p.FieldName == nameof(StrategyMockWithoutBody.Period2));
+            Assert.IsNull(missingParam.FieldValue);
+
+            //создаем объект стратегии
+            IStrategy strategy = new StrategyMockWithoutBody();
+
+            //вызыввем метод восстановления параметров
+            new SettingHelper().RepairValues(strategy, model.EntityParams);
+
+            Assert.AreEqual(10, missingParam.FieldValue);
         }
     }
 }

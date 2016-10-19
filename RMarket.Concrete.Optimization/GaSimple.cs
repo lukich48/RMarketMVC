@@ -18,15 +18,15 @@ using System.Threading.Tasks;
 
 namespace RMarket.Concrete.Optimization
 {
-    public class GaSimple
+    public class GaSimple: IOptimization
     {
         private readonly ICandleRepository candleRepository;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
 
         [Parameter(Description = "Множитель популяции. 1 - нормальная популяция")]
         public int GenerationPower { get; set; }
 
-        public GaSimple(ICandleRepository candleRepository, Resolver resolver)
+        public GaSimple(ICandleRepository candleRepository, IResolver resolver)
         {
             this.candleRepository = candleRepository;
             this.resolver = resolver;

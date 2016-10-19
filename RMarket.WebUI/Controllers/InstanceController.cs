@@ -23,13 +23,16 @@ namespace RMarket.WebUI.Controllers
         private ITickerRepository tickerRepository;
         private ITimeFrameRepository timeFrameRepository;
         private IEntityInfoRepository entityInfoRepository;
+        private readonly IResolver resolver;
 
-        public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository)
+
+        public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.instanceService = instanceService;
             this.tickerRepository = tickerRepository;
             this.timeFrameRepository = timeFrameRepository;
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         /// <summary>
@@ -70,13 +73,13 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
             }
             else 
                 model = new InstanceModel();
 
             InstanceModelUI modelUI = MyMapper.Current
                 .Map<InstanceModel, InstanceModelUI>(model);
-
 
             return View("Edit", modelUI);
         }
@@ -115,6 +118,7 @@ namespace RMarket.WebUI.Controllers
                 TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
+            RepairParams(model);
 
             model.Id = 0;
 
@@ -122,16 +126,6 @@ namespace RMarket.WebUI.Controllers
                 .Map<InstanceModel, InstanceModelUI>(model);
 
             return _Edit(modelUI);
-        }
-
-        public PartialViewResult MenuNav(int entityInfoId = 0)
-        {
-
-            IEnumerable<MenuNavModel> models = instanceService.Get(t => t
-            .GroupBy(i => i.EntityInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel{ EntityInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
-            );
-
-            return PartialView(models);
         }
 
         public ActionResult Details(int id)
@@ -145,12 +139,23 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр стратегии \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
             }
 
             InstanceModelUI modelUI = MyMapper.Current
                 .Map<InstanceModel, InstanceModelUI>(model);
 
             return View(modelUI);
+        }
+
+        public PartialViewResult MenuNav(int entityInfoId = 0)
+        {
+
+            IEnumerable<MenuNavModel> models = instanceService.Get(t => t
+            .GroupBy(i => i.EntityInfo).OrderBy(g => g.Key.Name).Select(g => new MenuNavModel{ EntityInfo = g.Key, Count = g.Select(i => i.GroupID).Distinct().Count() })
+            );
+
+            return PartialView(models);
         }
 
         #region ////////////////////////////AJAX
@@ -208,9 +213,16 @@ namespace RMarket.WebUI.Controllers
             if (model.TimeFrame == null && model.TimeFrameId != 0)
                 model.TimeFrame = timeFrameRepository.GetById(model.TimeFrameId);
 
-            //if (model.Selection == null && model.SelectionId.HasValue)
-            //    model.Selection = selectionService.GetById(model.SelectionId.Value);
+        }
 
+        /// <summary>
+        /// добавить несохраненные параметры
+        /// </summary>
+        /// <param name="model"></param>
+        private void RepairParams(InstanceModel model)
+        {
+            IStrategy strategy = resolver.Resolve<IStrategy>(Type.GetType(model.EntityInfo.TypeName));
+            new SettingHelper().RepairValues(strategy, model.EntityParams);
         }
 
         #endregion

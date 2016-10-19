@@ -18,13 +18,16 @@ namespace RMarket.WebUI.Controllers
 {
     public class DataProviderSettingsController : Controller
     {
-        private IDataProviderSettingService settingService;
-        private IEntityInfoRepository entityInfoRepository;
+        private readonly IDataProviderSettingService settingService;
+        private readonly IEntityInfoRepository entityInfoRepository;
+        private readonly IResolver resolver;
 
-        public DataProviderSettingsController(IDataProviderSettingService settingService, IEntityInfoRepository entityInfoRepository)
+
+        public DataProviderSettingsController(IDataProviderSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.settingService = settingService;
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         // GET: StrategySettings
@@ -49,6 +52,7 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
 
             }
             else //Запрос на создание
@@ -87,17 +91,18 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int Id)
         {
-            DataProviderSettingModel setting = settingService.GetById(Id, true);
-            if (setting == null)
+            DataProviderSettingModel model = settingService.GetById(Id, true);
+            if (model == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", Id);
                 return RedirectToAction("Index");
             }
+            RepairParams(model);
 
-            setting.Id = 0;
+            model.Id = 0;
 
             DataProviderSettingModelUI modelUI = MyMapper.Current
-                .Map<DataProviderSettingModel, DataProviderSettingModelUI>(setting);
+                .Map<DataProviderSettingModel, DataProviderSettingModelUI>(model);
 
             return _Edit(model: modelUI);
         }
@@ -123,6 +128,17 @@ namespace RMarket.WebUI.Controllers
                 model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
 
         }
+
+        /// <summary>
+        /// добавить несохраненные параметры
+        /// </summary>
+        /// <param name="model"></param>
+        private void RepairParams(DataProviderSettingModel model)
+        {
+            var entity = resolver.Resolve<DataProviderSettingModel>(Type.GetType(model.EntityInfo.TypeName));
+            new SettingHelper().RepairValues(entity, model.EntityParams);
+        }
+
 
         #endregion
 

@@ -18,13 +18,16 @@ namespace RMarket.WebUI.Controllers
 {
     public class HistoricalProviderSettingsController : Controller
     {
-        private IHistoricalProviderSettingService settingService;
-        private IEntityInfoRepository entityInfoRepository;
+        private readonly IHistoricalProviderSettingService settingService;
+        private readonly IEntityInfoRepository entityInfoRepository;
+        private readonly IResolver resolver;
 
-        public HistoricalProviderSettingsController(IHistoricalProviderSettingService settingService, IEntityInfoRepository entityInfoRepository)
+
+        public HistoricalProviderSettingsController(IHistoricalProviderSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.settingService = settingService;
             this.entityInfoRepository = entityInfoRepository;
+            this.resolver = resolver;
         }
 
         // GET: StrategySettings
@@ -49,6 +52,7 @@ namespace RMarket.WebUI.Controllers
                     TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", id);
                     return RedirectToAction("Index");
                 }
+                RepairParams(model);
 
             }
             else //Запрос на создание
@@ -87,17 +91,19 @@ namespace RMarket.WebUI.Controllers
 
         public ActionResult Copy(int id)
         {
-            HistoricalProviderSettingModel setting = settingService.GetById(id, true);
-            if (setting == null)
+            HistoricalProviderSettingModel model = settingService.GetById(id, true);
+            if (model == null)
             {
                 TempData["error"] = String.Format("Экземпляр настройки \"{0}\"  не найден!", id);
                 return RedirectToAction("Index");
             }
 
-            setting.Id = 0;
+            RepairParams(model);
+
+            model.Id = 0;
 
             HistoricalProviderSettingModelUI modelUI = MyMapper.Current
-                .Map<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>(setting);
+                .Map<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>(model);
 
             return _Edit(model: modelUI);
         }
@@ -123,6 +129,17 @@ namespace RMarket.WebUI.Controllers
                 model.EntityInfo = entityInfoRepository.GetById(model.EntityInfoId);
 
         }
+
+        /// <summary>
+        /// добавить несохраненные параметры
+        /// </summary>
+        /// <param name="model"></param>
+        private void RepairParams(HistoricalProviderSettingModel model)
+        {
+            var entity = resolver.Resolve<IHistoricalProvider>(Type.GetType(model.EntityInfo.TypeName));
+            new SettingHelper().RepairValues(entity, model.EntityParams);
+        }
+
 
         #endregion
 

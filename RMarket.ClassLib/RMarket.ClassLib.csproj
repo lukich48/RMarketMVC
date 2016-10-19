@@ -110,6 +110,7 @@
     <Compile Include="Abstract\IContextInitializer.cs" />
     <Compile Include="Abstract\IEntityData.cs" />
     <Compile Include="Abstract\IEntitySetting.cs" />
+    <Compile Include="Abstract\IOptimization.cs" />
     <Compile Include="Abstract\IRepository\IAliveStrategyRepository.cs" />
     <Compile Include="Abstract\IRepository\ICandleRepository.cs" />
     <Compile Include="Abstract\IDataProvider.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Abstract\IRepository\ITickerRepository.cs" />
     <Compile Include="Abstract\IRepository\ITimeFrameRepository.cs" />
     <Compile Include="Abstract\IRepository\IEntityRepository.cs" />
+    <Compile Include="Abstract\IResolver.cs" />
     <Compile Include="Entities\Candle.cs" />
     <Compile Include="Entities\OptimizationSetting_metadata.cs" />
     <Compile Include="Entities\OptimizationSetting.cs" />
@@ -162,7 +164,6 @@
     <Compile Include="Helpers\SettingHelper.cs" />
     <Compile Include="Helpers\StrategyHelper.cs" />
     <Compile Include="Infrastructure\AmbientContext\MyMapper.cs" />
-    <Compile Include="Infrastructure\AmbientContext\Resolver.cs" />
     <Compile Include="Infrastructure\MapperProfiles\AutoMapperDomainProfile.cs" />
     <Compile Include="Managers\EmulManager.cs" />
     <Compile Include="Managers\TesterManager.cs" />
