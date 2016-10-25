@@ -366,7 +366,7 @@
     <Content Include="Views\Selection\Edit.cshtml" />
     <Content Include="Views\Selection\EditParams.cshtml" />
     <Content Include="Views\Selection\Index.cshtml" />
-    <Content Include="Views\Shared\EditParams.cshtml" />
+    <Content Include="Views\EntityParams\EditParams.cshtml" />
     <Content Include="Views\DataProviderSettings\Edit.cshtml" />
     <Content Include="Views\Emul\Index.cshtml" />
     <Content Include="Views\Emul\BeginTest.cshtml" />
@@ -379,7 +379,7 @@
     <Content Include="Views\Selection\InstanceRecCollection.cshtml" />
     <Content Include="Views\Selection\InstanceRecTooltip.cshtml" />
     <Content Include="Views\Shared\MenuNav.cshtml" />
-    <Content Include="Views\Shared\EditorForObject.cshtml" />
+    <Content Include="Views\EntityParams\EditorForObject.cshtml" />
     <Content Include="Views\HistoricalProviderSettings\Edit.cshtml" />
     <Content Include="Views\HistoricalProviderSettings\Index.cshtml" />
     <Content Include="Views\OptimizationSettings\Edit.cshtml" />
@@ -394,7 +394,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
-    <Folder Include="Views\EntityParams\" />
     <Folder Include="Views\TestPage\" />
   </ItemGroup>
   <ItemGroup>

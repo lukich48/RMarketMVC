@@ -15,7 +15,7 @@ namespace RMarket.ClassLib.Abstract
         /// <param name="selection"></param>
         /// <param name="dateFrom"></param>
         /// <param name="dateTo"></param>
-        /// <returns>количество лучших результатов определяется в объекте selection.CountOfResult</returns>
+        /// <returns>количество лучших результатов определяется в объекте selection.AmountResults</returns>
         List<InstanceModel> Start(SelectionModel selection, DateTime dateFrom, DateTime dateTo);
 
     }

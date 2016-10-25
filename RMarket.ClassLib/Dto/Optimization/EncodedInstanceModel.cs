@@ -1,4 +1,5 @@
 ﻿using RMarket.ClassLib.EntityModels;
+using RMarket.ClassLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,7 @@ namespace RMarket.ClassLib.Dto.Optimization
     public class EncodedInstanceModel
     {
         public InstanceModel Instance { get; set; }
-        public ICollection<EncodedEntityParam> EncodedEntityParams { get; set; }
+        public IList<EncodedEntityParam> EncodedEntityParams { get; set; }
 
-        public EncodedInstanceModel()
-        {
-            EncodedEntityParams = new List<EncodedEntityParam>();
-        }
     }
 }

@@ -76,6 +76,18 @@ namespace RMarket.ClassLib.MapperProfiles
                    Serializer.Serialize(m.EntityParams)))
             .ForMember(d => d.EntityInfo, opt => opt.Ignore());
 
+            //Selection Instance
+            CreateMap<SelectionModel, InstanceModel>()
+                .ForMember(d=>d.SelectionId, opt=>opt.MapFrom(s=>s.Id));
+            CreateMap<InstanceModel, SelectionModel>();
+
+            CreateMap<ParamSelection, ParamEntity>()
+                .ForMember(d=>d.FieldValue, opt=>opt.MapFrom(s=>s.ValueMin));
+            CreateMap<ParamEntity, ParamSelection>()
+                .ForMember(d => d.ValueMin, opt => opt.MapFrom(s => s.FieldValue))
+                .ForMember(d => d.ValueMax, opt => opt.MapFrom(s => s.FieldValue));
+
+
 
         }
 

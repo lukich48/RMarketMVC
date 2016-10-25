@@ -25,7 +25,8 @@
                     @Html.HiddenFor(m => m[i].DisplayName)
                 </td>
                 <td>
-                    @Html.Partial("EditorForObject", new KeyValuePair<string, ParamEntityUI>($"[{i}].FieldValue", Model[i]))
+                    @Html.Action("EditorForObject", "EntityParams"
+                        , new { paramEntityUI = new KeyValuePair<string, ParamEntityUI>($"[{i}].FieldValue", Model[i]) })
                     @*@Html.EditorFor(m=>m[i].FieldValue)*@
                 </td>
                 <td>

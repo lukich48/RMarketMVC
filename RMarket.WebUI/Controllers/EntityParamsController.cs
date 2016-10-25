@@ -37,5 +37,15 @@ namespace RMarket.WebUI.Controllers
 
             return PartialView("EditParams", entityParamsUI);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paramEntityUI">ключ - имя элемента</param>
+        /// <returns></returns>
+        public PartialViewResult EditorForObject(KeyValuePair<string, ParamEntityUI> paramEntityUI)
+        {
+            return PartialView(paramEntityUI);
+        }
     }
 }

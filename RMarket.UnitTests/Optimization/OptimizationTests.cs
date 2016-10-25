@@ -9,6 +9,8 @@ using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.EntityModels;
 using RMarket.Concrete.Optimization.Helpers;
 using NUnit.Framework;
+using AutoMapper;
+using RMarket.WebUI.Infrastructure.MapperProfiles;
 
 namespace RMarket.UnitTests.Optimization
 {
@@ -18,12 +20,20 @@ namespace RMarket.UnitTests.Optimization
     [TestFixture]
     public class OptimizationTests
     {
-        
+        [OneTimeSetUp]
+        public void Init()
+        {
+            var inicializer = new CompositionRoot.Inicializer();
+            inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
+
+            //var kernel = new Ninject.StandardKernel();
+            //inicializer.SetIoC(kernel);
+
+        }
+
         [Test]
         public void CreateFirstGeneration()
         {
-            //!!! Долго
-
             Ticker ticker = new Ticker
             {
                 Id = 1,
@@ -86,7 +96,7 @@ namespace RMarket.UnitTests.Optimization
                 }
             };
 
-            var instanceResults = new GaHelper().CreateFirstGeneration(selection);
+            var instanceResults = new GaHelper(selection).CreateFirstGeneration(1);
             InstanceModel instance = instanceResults.First().Instance;
 
             Assert.AreEqual(10, instanceResults.Count());

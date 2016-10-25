@@ -12,6 +12,7 @@ using RMarket.Concrete.Optimization.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,37 +25,40 @@ namespace RMarket.Concrete.Optimization
         private readonly IResolver resolver;
 
         [Parameter(Description = "Множитель популяции. 1 - нормальная популяция")]
-        public int GenerationPower { get; set; }
+        public int GenerationPower { get; set; } = 1;
+
+        [Parameter(Name ="Корректировочная функция", Description ="Вызывается при получении параметра превышающего заданный диапазон")]
+        public CorrectFunction CorrectFunction { get; set; } = CorrectFunction.ToBordersPartialy;
+
+        [Parameter(Name = "Процент корректировки", Description = "Для функции \"К границам с превышением\"")]
+        public int CorrectPersent { get; set; } = 12;
 
         public GaSimple(ICandleRepository candleRepository, IResolver resolver)
         {
             this.candleRepository = candleRepository;
             this.resolver = resolver;
 
-            GenerationPower = 1;
         }
 
         public List<InstanceModel> Start(SelectionModel selection, DateTime dateFrom, DateTime dateTo)
         {
             List<InstanceModel> res = new List<InstanceModel>();
-            GaHelper helper = new GaHelper();
+            GaHelper helper = new GaHelper(selection);
 
             //Выбрка начальной популяции
-            IEnumerable<EncodedInstanceModel> firstGen = helper.CreateFirstGeneration(selection, GenerationPower);
+            IList<EncodedInstanceModel> firstGen = helper.CreateFirstGeneration(GenerationPower);
 
             //1. Определяем значение фитнес-функции
             IDictionary<EncodedInstanceModel, decimal> fitnessResults = RunStrategies(dateFrom, dateTo, firstGen);
 
             //2. Отбираем лучшие (репродукция)
-            IEnumerable<EncodedInstanceModel> best = helper.SelectBestInstance(fitnessResults);
+            IList<EncodedInstanceModel> best = helper.SelectBestInstance(fitnessResults);
 
-            //3. Кодируем парамеры
+            //3. Кроссинговер
+            IEnumerable<EncodedInstanceModel>  children = helper.CrossingSplit(best);
 
-            //4. Кроссинговер
-
-            //5. Мутация
-
-            //6. Декодируем параметры
+            //4. Мутация
+            //todo: сделать мутациюIEnumerable<EncodedInstanceModel>
 
             //Снова 1
 
@@ -74,6 +78,7 @@ namespace RMarket.Concrete.Optimization
 
             Parallel.ForEach(firstGen, (EncodedInstanceModel encodedInstance) =>
             {
+                //todo: выделить в метод запуск стратегии
                 InstanceModel instance = encodedInstance.Instance;
 
                 //получаем стратегию 
@@ -106,5 +111,15 @@ namespace RMarket.Concrete.Optimization
             });
             return fitnessResults;
         }
+
     }
+
+    public enum CorrectFunction
+    {
+        [Display(Name = "К границам", Description = "все вышедшие варианты приводит к граничным значениям")]
+        ToBorders,
+        [Display(Name = "К границам с превышением", Description = "приводит к границам, ечли значение больше допустимого превышения")]
+        ToBordersPartialy
+    }
+
 }

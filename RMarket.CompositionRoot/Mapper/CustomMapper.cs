@@ -32,5 +32,11 @@ namespace RMarket.CompositionRoot.Mapper
         {
             return mapper.Map<TSource, TDestination>(source);
         }
+
+        public override TDestination Map<TDestination>(object source)
+        {
+            return mapper.Map<TDestination>(source);
+        }
+
     }
 }
