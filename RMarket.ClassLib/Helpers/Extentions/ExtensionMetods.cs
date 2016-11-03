@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -59,8 +60,6 @@ namespace RMarket.ClassLib.Helpers.Extentions
             return res;
 
         }
-
-        #region Копирование объектов
 
         /// <summary>
         /// Копирует значение полей и свойств
@@ -122,8 +121,6 @@ namespace RMarket.ClassLib.Helpers.Extentions
             }
         }
 
-        #endregion
-
         public static IQueryable<TEntity>IncludeProperties<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             if (includeProperties!=null)
@@ -140,5 +137,63 @@ namespace RMarket.ClassLib.Helpers.Extentions
   
             return query.IncludeProperties(includeProperties);
         }
+
+        ///Вывод информации из атрибута
+        public static string Description(this Enum value)
+        {
+            Type type = value.GetType();
+
+            List<string> res = new List<string>();
+            var arrValue = value.ToString().Split(',').Select(v => v.Trim());
+            foreach (string strValue in arrValue)
+            {
+                MemberInfo[] memberInfo = type.GetMember(strValue);
+                if (memberInfo != null && memberInfo.Length > 0)
+                {
+                    object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false);
+
+                    if (attrs != null && attrs.Length > 0 && attrs.Where(t => t.GetType() == typeof(DisplayAttribute)).FirstOrDefault() != null)
+                    {
+                        res.Add(((DisplayAttribute)attrs.Where(t => t.GetType() == typeof(DisplayAttribute)).FirstOrDefault()).Description);
+                    }
+                    else
+                        res.Add(strValue);
+                }
+                else
+                    res.Add(strValue);
+            }
+
+            return res.Aggregate((s, v) => s + ", " + v);
+        }
+
+        ///Вывод информации из атрибута
+        public static string Name(this Enum value)
+        {
+            Type type = value.GetType();
+
+            List<string> res = new List<string>();
+            var arrValue = value.ToString().Split(',').Select(v => v.Trim());
+            foreach (string strValue in arrValue)
+            {
+                MemberInfo[] memberInfo = type.GetMember(strValue);
+                if (memberInfo != null && memberInfo.Length > 0)
+                {
+                    object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), false);
+
+                    if (attrs != null && attrs.Length > 0 && attrs.Where(t => t.GetType() == typeof(DisplayAttribute)).FirstOrDefault() != null)
+                    {
+                        res.Add(((DisplayAttribute)attrs.Where(t => t.GetType() == typeof(DisplayAttribute)).FirstOrDefault()).Name);
+                    }
+                    else
+                        res.Add(strValue);
+                }
+                else
+                    res.Add(strValue);
+            }
+
+            return res.Aggregate((s, v) => s + ", " + v);
+        }
+
+
     }
 }

@@ -118,7 +118,7 @@ namespace RMarket.Concrete.Optimization
     {
         [Display(Name = "К границам", Description = "все вышедшие варианты приводит к граничным значениям")]
         ToBorders,
-        [Display(Name = "К границам с превышением", Description = "приводит к границам, ечли значение больше допустимого превышения")]
+        [Display(Name = "К границам с превышением", Description = "приводит к границам, если значение больше допустимого превышения")]
         ToBordersPartialy
     }
 

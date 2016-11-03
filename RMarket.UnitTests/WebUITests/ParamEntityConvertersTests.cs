@@ -27,7 +27,7 @@ namespace RMarket.UnitTests.WebUITests
             TimeSpan value = new TimeSpan(10000);
 
             string strValue = converter.ToViewModel(value);
-            TimeSpan result = converter.ToDomainModel(strValue);
+            TimeSpan result = converter.ToDomainModel(strValue, value.GetType());
 
             Assert.AreEqual(value, result);
         }
@@ -41,7 +41,7 @@ namespace RMarket.UnitTests.WebUITests
             value.Add("Avaz", "2");
 
             string strValue = converter.ToViewModel(value);
-            IDictionary<string, string> result = converter.ToDomainModel(strValue);
+            IDictionary<string, string> result = converter.ToDomainModel(strValue, value.GetType());
 
             Assert.AreEqual(value.Count, result.Count);
             Assert.AreEqual(value["Sber"], result["Sber"]);

@@ -1,0 +1,24 @@
+﻿@using RMarket.WebUI.Models.ParamforEdit;
+@using System.Collections;
+
+@model ParamEntityUiForEnum
+
+<script>
+    onChange_@Model.ParamEntityUI.FieldName = function(elem){
+        $("div#description_@Model.ParamEntityUI.FieldName").load("@Url.Action("GetDesctiptionForEnum", "EntityParams", new { typeName = Model.ParamEntityUI.OriginValue.GetType().AssemblyQualifiedName })"
+                + "&enumValue=" + elem.value);
+    };
+</script>
+<div>
+    <select id="@Model.ControlId" name="@Model.ControlId" class="form-control" onchange="onChange_@Model.ParamEntityUI.FieldName (this)">
+        @foreach (var elem in Model.ValuesSelectList)
+        {
+            string selectedAttr = elem.Selected ? "selected=selected" : "";
+            <option value=@elem.Value @selectedAttr>@elem.Text</option>
+        }
+    </select>
+</div>
+<div id="description_@Model.ParamEntityUI.FieldName">
+
+</div>
+

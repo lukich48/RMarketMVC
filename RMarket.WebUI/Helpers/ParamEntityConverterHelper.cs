@@ -37,7 +37,7 @@ namespace RMarket.WebUI.Helpers
         {
             IEntityParamConverter<object> converter = GetEntityParamConverter(type);
 
-            return converter.ToDomainModel(strValue);
+            return converter.ToDomainModel(strValue, type);
         }
 
 
@@ -61,7 +61,10 @@ namespace RMarket.WebUI.Helpers
             {
                 return new AdapterToObjectConverter<Dictionary<string, string>>(new DictionaryConverter());
             }
-
+            else if (typeof(Enum).IsAssignableFrom(type))
+            {
+                return new AdapterToObjectConverter<Enum>(new EnumConverter());
+            }
             return new DefaultConverter(type);
 
         }

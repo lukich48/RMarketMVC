@@ -2,11 +2,15 @@
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.Helpers;
+using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
 using RMarket.WebUI.Models;
+using RMarket.WebUI.Models.ParamforEdit;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,13 +43,68 @@ namespace RMarket.WebUI.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Частичное представление выводит значение параметра с атрибутом ParameterAttribute
         /// </summary>
-        /// <param name="paramEntityUI">ключ - имя элемента</param>
+        /// <param name="paramEntityEdit">ключ - имя элемента</param>
         /// <returns></returns>
-        public PartialViewResult EditorForObject(KeyValuePair<string, ParamEntityUI> paramEntityUI)
+        public PartialViewResult EditorForObject(ParamEntityEditForObject paramEntityEdit)
         {
-            return PartialView(paramEntityUI);
+            // разные вью на разные типы значений
+            object originValue = paramEntityEdit.ParamEntityUI.OriginValue;
+
+            if (originValue is bool)
+                return PartialView("EditorForBool", paramEntityEdit);
+            else if (originValue is IEnumerable && !(originValue is string))
+                return PartialView("EditorForCollection", paramEntityEdit);
+            else if (originValue is Enum)
+            {
+                return EditForEnum(paramEntityEdit);
+            }
+            else
+                return PartialView(paramEntityEdit);
+
+        }
+
+        public string GetDesctiptionForEnum(string enumValue, string typeName)
+        {
+            Type type = Type.GetType(typeName);
+            var value = Enum.Parse(type, enumValue);
+            return ((Enum)value).Description();
+        }
+
+        private PartialViewResult EditForEnum(ParamEntityEditForObject paramEntityEdit)
+        {
+            object originValue = paramEntityEdit.ParamEntityUI.OriginValue;
+
+            var enumValues = Enum.GetValues(originValue.GetType());
+            var enumValuesSelectList = new List<SelectListItem>();
+            var listDescriptions = new List<SelectListItem>();
+            foreach (var enumValue in enumValues)
+            {
+                enumValuesSelectList.Add(new SelectListItem
+                {
+                    Value = ((Enum)enumValue).ToString("F"),
+                    Text = ((Enum)enumValue).Name(),
+                    Selected = enumValue.ToString() == originValue.ToString()
+                });
+
+                listDescriptions.Add(new SelectListItem
+                {
+                    Value = ((Enum)enumValue).ToString("F"),
+                    Text = ((Enum)enumValue).Description(),
+                    Selected = enumValue == originValue
+                });
+            }
+
+            var model = new ParamEntityUiForEnum
+            {
+                ControlId = paramEntityEdit.ControlId,
+                ParamEntityUI = paramEntityEdit.ParamEntityUI,
+                ValuesSelectList = enumValuesSelectList,
+                //DescriptionCollection = listDescriptions
+            };
+
+            return PartialView("EditorForEnum", model);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@using RMarket.WebUI.Models;
+@using RMarket.WebUI.Models.ParamforEdit;
+
 @model List<ParamEntityUI>
 
 <table class="table">
@@ -26,7 +28,7 @@
                 </td>
                 <td>
                     @Html.Action("EditorForObject", "EntityParams"
-                        , new { paramEntityUI = new KeyValuePair<string, ParamEntityUI>($"[{i}].FieldValue", Model[i]) })
+                        , new { paramEntityEdit = new ParamEntityEditForObject { ControlId = $"[{i}].FieldValue", ParamEntityUI = Model[i] } })
                     @*@Html.EditorFor(m=>m[i].FieldValue)*@
                 </td>
                 <td>

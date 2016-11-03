@@ -318,6 +318,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationHelper.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\AdapterToObjectConverter.cs" />
+    <Compile Include="Infrastructure\ParamEntityConverters\EnumConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\BooleanConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\DictionaryConverter.cs" />
     <Compile Include="Infrastructure\ParamEntityConverters\TimeSpanConverter.cs" />
@@ -331,6 +332,8 @@
     <Compile Include="Models\InstanceModelUI.cs" />
     <Compile Include="Models\MenuNavModel.cs" />
     <Compile Include="Models\ParamEntityUI.cs" />
+    <Compile Include="Models\ParamforEdit\ParamEntityUiForObject.cs" />
+    <Compile Include="Models\ParamforEdit\ParamEntityUiForEnum.cs" />
     <Compile Include="Models\ParamSelectionUI.cs" />
     <Compile Include="Models\SelectionModelUI.cs" />
     <Compile Include="Models\TesterModel.cs" />
@@ -384,6 +387,9 @@
     <Content Include="Views\HistoricalProviderSettings\Index.cshtml" />
     <Content Include="Views\OptimizationSettings\Edit.cshtml" />
     <Content Include="Views\OptimizationSettings\Index.cshtml" />
+    <Content Include="Views\EntityParams\EditorForBool.cshtml" />
+    <Content Include="Views\EntityParams\EditorForCollection.cshtml" />
+    <Content Include="Views\EntityParams\EditorForEnum.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

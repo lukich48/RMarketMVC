@@ -22,7 +22,7 @@ namespace RMarket.WebUI.Infrastructure.ParamEntityConverters
             return sb.ToString();
         }
 
-        public Dictionary<string, string> ToDomainModel(string strValue)
+        public Dictionary<string, string> ToDomainModel(string strValue, Type typeValue)
         {
             Dictionary<string, string> value = new Dictionary<string, string>();
 

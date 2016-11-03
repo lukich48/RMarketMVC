@@ -19,9 +19,9 @@ namespace RMarket.WebUI.Infrastructure.ParamEntityConverters
             this.converter = converter;
         }
 
-        public object ToDomainModel(string strValue)
+        public object ToDomainModel(string strValue, Type typeValue)
         {
-            return (object)converter.ToDomainModel(strValue);
+            return (object)converter.ToDomainModel(strValue, typeValue);
         }
 
         public string ToViewModel(object value)

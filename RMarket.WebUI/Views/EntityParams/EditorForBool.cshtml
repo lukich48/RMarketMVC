@@ -1,0 +1,8 @@
+﻿@using RMarket.WebUI.Models.ParamforEdit;
+
+@model ParamEntityEditForObject
+
+@{string isChecked = (bool)Model.ParamEntityUI.OriginValue ? "checked=checked" : ""; }
+
+<input id="@Model.ControlId" name=@Model.ControlId type="checkbox" value="true" @isChecked class="form-control" />
+<input name=@Model.ControlId type="hidden" value="false" />

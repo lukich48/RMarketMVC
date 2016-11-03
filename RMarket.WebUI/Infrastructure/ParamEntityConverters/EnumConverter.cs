@@ -7,16 +7,16 @@ using System.Web;
 
 namespace RMarket.WebUI.Infrastructure.ParamEntityConverters
 {
-    public class TimeSpanConverter : IEntityParamConverter<TimeSpan>
+    public class EnumConverter: IEntityParamConverter<Enum>
     {
-        public string ToViewModel (TimeSpan value)
+        public string ToViewModel(Enum value)
         {
-            return value.ToString();
+            return value.ToString("F");
         }
 
-        public TimeSpan ToDomainModel(string strValue, Type typeValue)
+        public Enum ToDomainModel(string strValue, Type typeValue)
         {
-            return TimeSpan.Parse(strValue);
+            return (Enum)Enum.Parse(typeValue, strValue);
         }
     }
 }

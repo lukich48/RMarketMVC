@@ -14,7 +14,7 @@ namespace RMarket.WebUI.Infrastructure.ParamEntityConverters
             return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public bool ToDomainModel(string strValue)
+        public bool ToDomainModel(string strValue, Type typeValue)
         {
             return bool.Parse(strValue);
         }
