@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Abstract.IService
 {
-    public interface IEntityService<TEntity,TModel>
+    public interface IEntityService<TEntity,TModel>: IEntityService
     {
         IEnumerable<TModel> Get();
         IEnumerable<TModel> Get(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression);

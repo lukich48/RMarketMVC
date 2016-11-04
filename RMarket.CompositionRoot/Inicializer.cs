@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
+using LightInject;
 using RMarker.Concrete.DataProviders.Infrastructure;
 using RMarker.Concrete.Optimization.Infrastructure;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
 using RMarket.CompositionRoot.Mapper;
+using RMarket.CompositionRoot.Resolvers;
 using RMarket.Concrete.HistoricalProviders.Infrastructure;
 using RMarket.Concrete.Strategies.Infrastructure;
 using RMarket.DataAccess.Context;
@@ -51,6 +53,26 @@ namespace RMarket.CompositionRoot
         public void SetIoC(Ninject.IKernel kernel)
         {
             new Resolvers.BasicNinjectModule().Load(kernel);
+        }
+
+        public void InitIoC(Action<IServiceContainer> doConfig)
+        {
+            // Инициализация IoC
+            var container = new ServiceContainer
+            {
+                ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider() // Все зависимости в Scope-режиме
+            };
+            // Регистрирую текущий контейнер сам в себе
+            container.Register<IServiceContainer>(factory => container, new PerContainerLifetime());
+            // Все остальные зависимости в Scope-режиме
+            container.SetDefaultLifetime<PerScopeLifetime>();
+
+            // Регистрирую все возможные IDependency в домене
+            new DependencyRegister().RegisterDomainAssemblyDependencies(container);
+
+            // Применяю частные настройки соединений к БД и режим работы IoC
+            doConfig(container);
+
         }
 
     }

@@ -5,7 +5,7 @@ using RMarket.ClassLib.Models;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IDataProvider
+    public interface IDataProvider: IDependency
     {
         event EventHandler<TickEventArgs> TickPoked;
 

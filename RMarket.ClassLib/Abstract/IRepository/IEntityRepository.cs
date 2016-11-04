@@ -7,7 +7,7 @@ using RMarket.ClassLib.Entities;
 
 namespace RMarket.ClassLib.Abstract.IRepository
 {
-    public interface IEntityRepository<TEntity>
+    public interface IEntityRepository<TEntity>: IEntityRepository
     {
         IEnumerable<TEntity> Get();
         IEnumerable<TEntity> Get(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression);

@@ -11,7 +11,7 @@ using RMarket.ClassLib.Abstract;
 
 namespace RMarket.DataAccess.Context
 {
-    public partial class RMarketContext : DbContext
+    public partial class RMarketContext : DbContext, IDependency
     {
         public RMarketContext()
             : base("name=RMarket")

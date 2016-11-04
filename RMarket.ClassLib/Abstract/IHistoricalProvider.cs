@@ -3,7 +3,7 @@ using RMarket.ClassLib.Entities;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IHistoricalProvider
+    public interface IHistoricalProvider: IDependency
     {
         /// <summary>
         ///  Должен заменять в базе данных значения за выбранный диапазон дат

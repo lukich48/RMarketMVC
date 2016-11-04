@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IOptimization
+    public interface IOptimization: IDependency
     {
         /// <summary>
         /// трартует оптимизацию параметров

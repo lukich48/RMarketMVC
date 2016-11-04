@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RMarket.ClassLib.Abstract
 {
-    public interface IIndicator
+    public interface IIndicator: IDependency
     {
         /// <summary>
         /// Значения индикатора

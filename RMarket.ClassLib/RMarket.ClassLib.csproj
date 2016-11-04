@@ -59,8 +59,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\Quik\NDde.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IContextInitializer.cs" />
+    <Compile Include="Abstract\IDependency.cs" />
     <Compile Include="Abstract\IEntityData.cs" />
     <Compile Include="Abstract\IEntitySetting.cs" />
     <Compile Include="Abstract\IOptimization.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Abstract\IHistoricalProvider.cs" />
     <Compile Include="Abstract\IIndicator.cs" />
     <Compile Include="Abstract\IManager.cs" />
+    <Compile Include="Abstract\IRepository\IEntitiRepository.cs" />
     <Compile Include="Abstract\IRepository\IOptimizationSettingRepository.cs" />
     <Compile Include="Abstract\IRepository\IHistoricalProviderSettingRepository.cs" />
     <Compile Include="Abstract\IRepository\IInstanceRepository.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Abstract\IRepository\ISelectionRepository.cs" />
     <Compile Include="Abstract\IRepository\IDataProviderSettingRepository.cs" />
     <Compile Include="Abstract\ISelectionModule.cs" />
+    <Compile Include="Abstract\IService\IEntityService1.cs" />
     <Compile Include="Abstract\IService\IOptimizationSettingService.cs" />
     <Compile Include="Abstract\IService\IHistoricalProviderSettingService.cs" />
     <Compile Include="Abstract\IService\IEntityService.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="EntityModels\HistoricalProviderSettingModel.cs" />
     <Compile Include="Helpers\ConnectorHelper.cs" />
     <Compile Include="Helpers\Extentions\ExtensionMetods.cs" />
+    <Compile Include="Helpers\Extentions\IEnumerableExtension.cs" />
     <Compile Include="Helpers\OrderSender.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\Serializer.cs" />

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LightInject;
 using RMarket.WebUI.Infrastructure.MapperProfiles;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -15,6 +16,12 @@ namespace RMarket.WebUI
             var inicializer = new CompositionRoot.Inicializer();
             inicializer.InitializeDbContext();
             inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
+
+            inicializer.InitIoC((container) =>
+            {
+                container.EnableMvc();
+                container.RegisterControllers();
+            });
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

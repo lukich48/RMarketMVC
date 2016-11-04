@@ -8,7 +8,7 @@ namespace RMarket.ClassLib.Abstract
     /// <summary>
     /// Интерфейс реализуют пользовательские стратегии
     /// </summary>
-    public interface IStrategy
+    public interface IStrategy: IDependency
     {
         Instrument Instr { get; set; }
         IManager Manager { get; set; }
