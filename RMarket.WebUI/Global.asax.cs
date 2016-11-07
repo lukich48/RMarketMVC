@@ -15,7 +15,7 @@ namespace RMarket.WebUI
             //Инициализация статических зависимостей
             var inicializer = new CompositionRoot.Inicializer();
             inicializer.InitializeDbContext();
-            inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
+            inicializer.SetMapperConfiguration();
 
             inicializer.InitIoC((container) =>
             {

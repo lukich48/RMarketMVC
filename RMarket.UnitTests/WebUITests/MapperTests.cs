@@ -22,11 +22,13 @@ namespace RMarket.UnitTests.WebUITests
         [OneTimeSetUp]
         public void Init()
         {
-            var inicializer = new CompositionRoot.Inicializer();
-            inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
+            //загружаем сборки в домен
+            var a = typeof(HistoricalProviderSettingModelUI);
 
-            var kernel = new Ninject.StandardKernel();
-            inicializer.SetIoC(kernel);
+            var inicializer = new CompositionRoot.Inicializer();
+            inicializer.SetMapperConfiguration();
+
+            inicializer.InitIoC((c) => { });
 
         }
 

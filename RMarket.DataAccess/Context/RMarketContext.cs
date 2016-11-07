@@ -8,6 +8,7 @@ using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Entities;
 using RMarket.DataAccess.Helpers;
 using RMarket.ClassLib.Abstract;
+using System.Diagnostics;
 
 namespace RMarket.DataAccess.Context
 {
@@ -152,6 +153,13 @@ namespace RMarket.DataAccess.Context
                 .HasPrecision(3);
 
         }
+
+#if DEBUG
+        protected override void Dispose(bool disposing)
+        {
+            Debug.WriteLine($"{this.GetType().Name}.Dispose({disposing})");
+        }
+#endif
     }
 
     public class RMarketInitializer : DropCreateDatabaseIfModelChanges<RMarketContext>//DropCreateDatabaseAlways<RMarketContext>

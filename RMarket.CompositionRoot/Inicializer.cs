@@ -5,14 +5,18 @@ using RMarker.Concrete.DataProviders.Infrastructure;
 using RMarker.Concrete.Optimization.Infrastructure;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Entities;
+using RMarket.ClassLib.Helpers.Extentions.IEnumerableExtension;
 using RMarket.CompositionRoot.Mapper;
 using RMarket.CompositionRoot.Resolvers;
 using RMarket.Concrete.HistoricalProviders.Infrastructure;
 using RMarket.Concrete.Strategies.Infrastructure;
 using RMarket.DataAccess.Context;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,22 +41,33 @@ namespace RMarket.CompositionRoot
         /// Инициализация автомаппера
         /// </summary>
         /// <param name="profiles"></param>
-        public void SetMapperConfiguration(ICollection<Profile> profiles = null)
+        public void SetMapperConfiguration()
         {
-
-            if (profiles == null)
-                profiles = new List<Profile>();
-
-            //Собираем все профили для маппера
-            profiles.Add(new ClassLib.MapperProfiles.AutoMapperDomainProfile());
+            //Обойдем сборку и зарегистрируем все профили
+            var profiles = new ConcurrentBag<Profile>();
+            Parallel.ForEach(AppDomain.CurrentDomain.GetAssemblies(), ass =>
+            {
+                try
+                {
+                    ass.GetTypes()
+                        .AsParallel()
+                        .Where(t => typeof(Profile).IsAssignableFrom(t))
+                        .ForEach(t =>
+                        {
+                            var prof = (Profile)Activator.CreateInstance(t);
+                            profiles.Add(prof);
+                        });
+                }
+                catch (Exception)
+                {
+                    // Не удалось загрузить одну из связанных сборок
+                    //EventLog.WriteEntry(this.GetType().Namespace, exception.ToString(),
+                    //    EventLogEntryType.FailureAudit);
+                }
+            });
 
             var customMapper = new CustomMapper(profiles);
             RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper.Current = customMapper;
-        }
-
-        public void SetIoC(Ninject.IKernel kernel)
-        {
-            new Resolvers.BasicNinjectModule().Load(kernel);
         }
 
         public void InitIoC(Action<IServiceContainer> doConfig)
@@ -62,10 +77,6 @@ namespace RMarket.CompositionRoot
             {
                 ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider() // Все зависимости в Scope-режиме
             };
-            // Регистрирую текущий контейнер сам в себе
-            container.Register<IServiceContainer>(factory => container, new PerContainerLifetime());
-            // Все остальные зависимости в Scope-режиме
-            container.SetDefaultLifetime<PerScopeLifetime>();
 
             // Регистрирую все возможные IDependency в домене
             new DependencyRegister().RegisterDomainAssemblyDependencies(container);

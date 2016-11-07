@@ -23,6 +23,11 @@ namespace RMarket.CompositionRoot.Resolvers
     {
         public void RegisterDomainAssemblyDependencies(IServiceContainer container)
         {
+            // Регистрирую текущий контейнер сам в себе
+            container.Register<IServiceContainer>(factory => container, new PerContainerLifetime());
+            // Все остальные зависимости в Scope-режиме
+            container.SetDefaultLifetime<PerScopeLifetime>();
+
             // Получаю всех имплементоров IDependency из всех загруженных сборок
             var listOfNativeDependencies = new ConcurrentBag<Type>();
             var listOfCustomDependencies = new ConcurrentBag<MethodInfo>();
@@ -42,11 +47,11 @@ namespace RMarket.CompositionRoot.Resolvers
                                 listOfNativeDependencies.Add(t);
                         });
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     // Не удалось загрузить одну из связанных сборок
-                    EventLog.WriteEntry(this.GetType().Namespace, exception.ToString(),
-                        EventLogEntryType.FailureAudit);
+                    //EventLog.WriteEntry(this.GetType().Namespace, exception.ToString(),
+                    //    EventLogEntryType.FailureAudit);
                 }
             });
             // Регистрирую общие зависимости
@@ -80,7 +85,7 @@ namespace RMarket.CompositionRoot.Resolvers
             //typeof(IEntityService).IsAssignableFrom(serviceType));
 
             //сервис-локатор ))
-            container.Register<IResolver, LightInjectResolver>();
+            container.Register<IResolver, LightInjectResolver>(new PerContainerLifetime());
 
             //container.Register<IOptimizationSettingRepository, EFOptimizationSettingRepository>();
             //container.Register<IOptimizationSettingService, OptimizationService>();

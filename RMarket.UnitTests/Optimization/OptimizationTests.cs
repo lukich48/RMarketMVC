@@ -24,10 +24,9 @@ namespace RMarket.UnitTests.Optimization
         public void Init()
         {
             var inicializer = new CompositionRoot.Inicializer();
-            inicializer.SetMapperConfiguration(new List<Profile> { new AutoMapperUIProfile() });
+            inicializer.SetMapperConfiguration();
 
-            //var kernel = new Ninject.StandardKernel();
-            //inicializer.SetIoC(kernel);
+            //inicializer.InitIoC((c)=> { });
 
         }
 

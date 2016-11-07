@@ -15,6 +15,9 @@ namespace RMarket.ClassLib.Services
     public abstract class EntityServiceBase<TEntity, TModel> : IEntityService<TEntity, TModel>
     {
         private readonly IEntityRepository<TEntity> repository;
+
+        public MyMapper Mapper { get; set; }
+
         public EntityServiceBase(IEntityRepository<TEntity> repository)
         {
             this.repository = repository;
