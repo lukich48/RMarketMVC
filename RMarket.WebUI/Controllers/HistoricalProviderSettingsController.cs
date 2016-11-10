@@ -22,6 +22,7 @@ namespace RMarket.WebUI.Controllers
         private readonly IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
 
         public HistoricalProviderSettingsController(IHistoricalProviderSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
@@ -58,7 +59,7 @@ namespace RMarket.WebUI.Controllers
             else //Запрос на создание
                 model = new HistoricalProviderSettingModel();
 
-            HistoricalProviderSettingModelUI modelUI = MyMapper.Current
+            HistoricalProviderSettingModelUI modelUI = Mapper
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>(model);
 
             return View("Edit", modelUI);
@@ -74,7 +75,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                HistoricalProviderSettingModel model = MyMapper.Current
+                HistoricalProviderSettingModel model = Mapper
                     .Map<HistoricalProviderSettingModelUI, HistoricalProviderSettingModel>(modelUI);
 
                 settingService.Save(model);
@@ -102,7 +103,7 @@ namespace RMarket.WebUI.Controllers
 
             model.Id = 0;
 
-            HistoricalProviderSettingModelUI modelUI = MyMapper.Current
+            HistoricalProviderSettingModelUI modelUI = Mapper
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>(model);
 
             return _Edit(model: modelUI);

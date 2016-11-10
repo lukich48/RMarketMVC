@@ -1,4 +1,5 @@
-﻿using RMarket.ClassLib.Dto.Optimization;
+﻿using RMarket.ClassLib.Abstract;
+using RMarket.ClassLib.Dto.Optimization;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
@@ -17,14 +18,17 @@ namespace RMarket.Concrete.Optimization.Helpers
     /// </summary>
     public class GaHelper
     {
-        private SelectionModel Selection { get; set; }
+        private SelectionModel selection;
+        private MyMapper mapper;
         private IList<ParamSelection> _integralParams;
         private List<ParamEntity> _otherParams;
 
 
-        public GaHelper(SelectionModel selection)
+        public GaHelper(SelectionModel selection, MyMapper mapper)
         {
-            this.Selection = selection;
+            this.selection = selection;
+            this.mapper = mapper;
+
             _integralParams = selection.SelectionParams.Where(p => p.ValueMin.IsIntegral() && (dynamic)p.ValueMax > (dynamic)p.ValueMin).ToList();
             _otherParams = selection.SelectionParams.Where(p => !_integralParams.Any(ip => ip.FieldName == p.FieldName)).Select(p => {
                 var param = new ParamEntity { FieldValue = p.ValueMin };
@@ -54,15 +58,15 @@ namespace RMarket.Concrete.Optimization.Helpers
                     foreach (int i in pair.Value)
                     {
                         InstanceModel newInstance = new InstanceModel();
-                        newInstance.CopyObject(Selection);
-                        newInstance.SelectionId = Selection.Id;
+                        newInstance.CopyObject(selection);
+                        newInstance.SelectionId = selection.Id;
                         
                         newInstance.EntityParams.AddRange(_otherParams);
 
                         var encodedParams = new List<EncodedEntityParam>();
                         foreach (ParamSelection paramSelection in _integralParams)
                         {
-                            ParamEntity newParam = MyMapper.Current.Map<ParamEntity>(paramSelection);
+                            ParamEntity newParam = mapper.Map<ParamEntity>(paramSelection);
 
                             if (paramSelection.FieldName == pair.Key)
                             {
@@ -146,7 +150,7 @@ namespace RMarket.Concrete.Optimization.Helpers
 
         internal EncodedInstanceModel CrossingParrent(EncodedInstanceModel first, EncodedInstanceModel second, Random rnd)
         {
-            InstanceModel newInstance = MyMapper.Current.Map<SelectionModel, InstanceModel>(Selection);
+            InstanceModel newInstance = mapper.Map<SelectionModel, InstanceModel>(selection);
 
             newInstance.EntityParams.AddRange(_otherParams);
 
@@ -178,7 +182,7 @@ namespace RMarket.Concrete.Optimization.Helpers
 
                 encodedParams.Add(paramChild);
 
-                ParamEntity newParam = MyMapper.Current.Map<ParamEntity>(paramSelection);
+                ParamEntity newParam = mapper.Map<ParamEntity>(paramSelection);
                 newParam.FieldValue = paramChild.FieldValue;//!!!после приведения
 
                 newInstance.EntityParams.Add(newParam);             

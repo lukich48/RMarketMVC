@@ -11,6 +11,8 @@ using RMarket.Concrete.Optimization.Helpers;
 using NUnit.Framework;
 using AutoMapper;
 using RMarket.WebUI.Infrastructure.MapperProfiles;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
+using LightInject;
 
 namespace RMarket.UnitTests.Optimization
 {
@@ -20,14 +22,29 @@ namespace RMarket.UnitTests.Optimization
     [TestFixture]
     public class OptimizationTests
     {
+        private Scope scope;
+
+        public MyMapper Mapper { get; set; }
+
         [OneTimeSetUp]
         public void Init()
         {
+            //загружаем сборки в домен
+            //var a = typeof(HistoricalProviderSettingModelUI);
+
             var inicializer = new CompositionRoot.Inicializer();
-            inicializer.SetMapperConfiguration();
+            //inicializer.SetMapperConfiguration();
+            inicializer.InitIoC((c) => {
 
-            //inicializer.InitIoC((c)=> { });
+                c.InjectProperties(this);
+                scope = c.BeginScope();
+            });
+        }
 
+        [OneTimeTearDown]
+        public void Dispose()
+        {
+            scope.Dispose();
         }
 
         [Test]
@@ -95,7 +112,7 @@ namespace RMarket.UnitTests.Optimization
                 }
             };
 
-            var instanceResults = new GaHelper(selection).CreateFirstGeneration(1);
+            var instanceResults = new GaHelper(selection, Mapper).CreateFirstGeneration(1);
             InstanceModel instance = instanceResults.First().Instance;
 
             Assert.AreEqual(10, instanceResults.Count());

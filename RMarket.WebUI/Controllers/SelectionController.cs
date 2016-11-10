@@ -25,6 +25,8 @@ namespace RMarket.WebUI.Controllers
         private readonly IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
+
         public SelectionController(ISelectionService selectionService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.selectionService = selectionService;
@@ -73,7 +75,7 @@ namespace RMarket.WebUI.Controllers
             else
                 model = new SelectionModel();
 
-            SelectionModelUI modelUI = MyMapper.Current
+            SelectionModelUI modelUI = Mapper
                 .Map<SelectionModel, SelectionModelUI>(model);
 
             return View("Edit", modelUI);
@@ -87,7 +89,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                SelectionModel model = MyMapper.Current
+                SelectionModel model = Mapper
                     .Map<SelectionModelUI, SelectionModel>(modelUI);
 
                 selectionService.Save(model);
@@ -115,7 +117,7 @@ namespace RMarket.WebUI.Controllers
 
             model.Id = 0;
 
-            SelectionModelUI modelUI = MyMapper.Current
+            SelectionModelUI modelUI = Mapper
                 .Map<SelectionModel, SelectionModelUI>(model);
 
             return _Edit(modelUI);
@@ -144,7 +146,7 @@ namespace RMarket.WebUI.Controllers
                 RepairParams(model);
             }
 
-            SelectionModelUI modelUI = MyMapper.Current
+            SelectionModelUI modelUI = Mapper
                 .Map<SelectionModel, SelectionModelUI>(model);
 
             return View(modelUI);
@@ -158,7 +160,7 @@ namespace RMarket.WebUI.Controllers
             IEnumerable<ParamSelection> entityParams = new SettingHelper().GetEntityParams<ParamSelection>(entity);
 
             //Конвертим параметры в UI модель
-            IEnumerable<ParamSelectionUI> entityParamsUI = MyMapper.Current
+            IEnumerable<ParamSelectionUI> entityParamsUI = Mapper
                 .Map<IEnumerable<ParamSelection>, IEnumerable<ParamSelectionUI>>(entityParams);
 
             return PartialView("EditParams", entityParamsUI);

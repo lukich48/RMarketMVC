@@ -24,6 +24,8 @@ namespace RMarket.Concrete.Optimization
         private readonly ICandleRepository candleRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
+
         [Parameter(Description = "Множитель популяции. 1 - нормальная популяция")]
         public int GenerationPower { get; set; } = 1;
 
@@ -43,7 +45,7 @@ namespace RMarket.Concrete.Optimization
         public List<InstanceModel> Start(SelectionModel selection, DateTime dateFrom, DateTime dateTo)
         {
             List<InstanceModel> res = new List<InstanceModel>();
-            GaHelper helper = new GaHelper(selection);
+            GaHelper helper = new GaHelper(selection, Mapper);
 
             //Выбрка начальной популяции
             IList<EncodedInstanceModel> firstGen = helper.CreateFirstGeneration(GenerationPower);

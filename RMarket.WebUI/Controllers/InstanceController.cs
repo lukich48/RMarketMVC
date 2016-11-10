@@ -25,6 +25,7 @@ namespace RMarket.WebUI.Controllers
         private IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
 
         public InstanceController(IInstanceService instanceService, ITickerRepository tickerRepository, ITimeFrameRepository timeFrameRepository, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
@@ -78,7 +79,7 @@ namespace RMarket.WebUI.Controllers
             else 
                 model = new InstanceModel();
 
-            InstanceModelUI modelUI = MyMapper.Current
+            InstanceModelUI modelUI = Mapper
                 .Map<InstanceModel, InstanceModelUI>(model);
 
             return View("Edit", modelUI);
@@ -93,7 +94,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                InstanceModel model = MyMapper.Current
+                InstanceModel model = Mapper
                     .Map<InstanceModelUI, InstanceModel>(modelUI);
 
                 instanceService.Save(model);
@@ -122,7 +123,7 @@ namespace RMarket.WebUI.Controllers
 
             model.Id = 0;
 
-            InstanceModelUI modelUI = MyMapper.Current
+            InstanceModelUI modelUI = Mapper
                 .Map<InstanceModel, InstanceModelUI>(model);
 
             return _Edit(modelUI);
@@ -142,7 +143,7 @@ namespace RMarket.WebUI.Controllers
                 RepairParams(model);
             }
 
-            InstanceModelUI modelUI = MyMapper.Current
+            InstanceModelUI modelUI = Mapper
                 .Map<InstanceModel, InstanceModelUI>(model);
 
             return View(modelUI);

@@ -3,7 +3,9 @@ using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Abstract.IService;
 using RMarket.ClassLib.Helpers.Extentions.IEnumerableExtension;
+using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Services;
+using RMarket.CompositionRoot.Mapper;
 using RMarket.DataAccess.Repositories;
 using System;
 using System.Collections.Concurrent;
@@ -80,9 +82,9 @@ namespace RMarket.CompositionRoot.Resolvers
             container.RegisterAssembly(typeof(InstanceService).Assembly, (serviceType, implementingType) =>
             typeof(IEntityService).IsAssignableFrom(serviceType));
 
-            //Регистрируем классы IDependency
-            //container.RegisterAssembly(typeof(InstanceService).Assembly, (serviceType, implementingType) =>
-            //typeof(IEntityService).IsAssignableFrom(serviceType));
+            //Инициализирую маппер
+            MyMapper mapper = new MapperRegister().SetMapperConfiguration();
+            container.RegisterInstance(mapper);
 
             //сервис-локатор ))
             container.Register<IResolver, LightInjectResolver>(new PerContainerLifetime());

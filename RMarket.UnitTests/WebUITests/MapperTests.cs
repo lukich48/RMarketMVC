@@ -13,12 +13,17 @@ using RMarket.UnitTests.Infrastructure.HistoricalProviders;
 using RMarket.UnitTests.Infrastructure.Strategies;
 using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Helpers;
+using LightInject;
 
 namespace RMarket.UnitTests.WebUITests
 {
     [TestFixture]
     public class MapperTests
     {
+        private Scope scope;
+
+        public MyMapper Mapper { get; set; }
+
         [OneTimeSetUp]
         public void Init()
         {
@@ -26,27 +31,36 @@ namespace RMarket.UnitTests.WebUITests
             var a = typeof(HistoricalProviderSettingModelUI);
 
             var inicializer = new CompositionRoot.Inicializer();
-            inicializer.SetMapperConfiguration();
+            //inicializer.SetMapperConfiguration();
+            inicializer.InitIoC((c) => {
 
-            inicializer.InitIoC((c) => { });
-
+                c.InjectProperties(this);
+                scope = c.BeginScope();
+            });
         }
+
+        [OneTimeTearDown]
+        public void Dispose()
+        {
+            scope.Dispose();
+        }
+
 
         [Test]
         public void MapperTest()
         {
             HistoricalProviderSetting entity = Finam.GetInstance();
 
-            HistoricalProviderSettingModel model = MyMapper.Current
+            HistoricalProviderSettingModel model = Mapper
                 .Map<HistoricalProviderSetting, HistoricalProviderSettingModel>(entity);
 
-            HistoricalProviderSettingModelUI modelUI = MyMapper.Current
+            HistoricalProviderSettingModelUI modelUI = Mapper
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSettingModelUI>(model);
 
-            HistoricalProviderSettingModel modelRes = MyMapper.Current
+            HistoricalProviderSettingModel modelRes = Mapper
                 .Map<HistoricalProviderSettingModelUI, HistoricalProviderSettingModel>(modelUI);
 
-            HistoricalProviderSetting entityRes = MyMapper.Current
+            HistoricalProviderSetting entityRes = Mapper
                 .Map<HistoricalProviderSettingModel, HistoricalProviderSetting>(modelRes);
 
             Assert.AreEqual(modelUI.Id, entity.Id);
@@ -77,7 +91,7 @@ namespace RMarket.UnitTests.WebUITests
             //получаем сохраненный инстанс
             Instance instance = StrategyMockWithoutBody.GetInstance();
 
-            InstanceModel model = MyMapper.Current
+            InstanceModel model = Mapper
                 .Map<Instance, InstanceModel>(instance);
 
             var missingParam = model.EntityParams.Single(p => p.FieldName == nameof(StrategyMockWithoutBody.Period2));

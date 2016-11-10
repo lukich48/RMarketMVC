@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace RMarket.CompositionRoot.Mapper
 {
-    public class CustomMapper: RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper
+    public class MapperAutoMapper: RMarket.ClassLib.Infrastructure.AmbientContext.MyMapper
     {
         private readonly IMapper mapper;
 
-        public CustomMapper(IEnumerable<AutoMapper.Profile> profiles)
+        public MapperAutoMapper(IEnumerable<AutoMapper.Profile> profiles)
         {
             if (profiles == null || profiles.Count() == 0)
                 throw new CustomException("Ошибка инициализации маппера! Не определены профили");

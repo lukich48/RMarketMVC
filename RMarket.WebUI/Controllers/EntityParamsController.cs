@@ -22,6 +22,8 @@ namespace RMarket.WebUI.Controllers
         private readonly IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
+
         public EntityParamsController(IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.entityInfoRepository = entityInfoRepository;
@@ -36,7 +38,7 @@ namespace RMarket.WebUI.Controllers
             IEnumerable<ParamEntity> entityParams = new SettingHelper().GetEntityParams<ParamEntity>(entity);
 
             //Конвертим параметры в UI модель
-            IEnumerable<ParamEntityUI> entityParamsUI = MyMapper.Current
+            IEnumerable<ParamEntityUI> entityParamsUI = Mapper
                 .Map<IEnumerable<ParamEntity>, IEnumerable<ParamEntityUI>>(entityParams);
 
             return PartialView("EditParams", entityParamsUI);

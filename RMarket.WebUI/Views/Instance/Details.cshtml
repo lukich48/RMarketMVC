@@ -80,7 +80,7 @@
             </table>
         </div>
 
-        @Html.Partial("EditParams", Model.EntityParams)
+        @Html.Partial("~/Views/EntityParams/EditParams.cshtml", Model.EntityParams)
 
         <div class="panel-footer">
             @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-default" })

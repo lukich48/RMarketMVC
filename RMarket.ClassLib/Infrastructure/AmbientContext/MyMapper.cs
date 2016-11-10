@@ -8,7 +8,7 @@ namespace RMarket.ClassLib.Infrastructure.AmbientContext
 {
     public abstract class MyMapper
     {
-        public static MyMapper Current { get; set; }
+        //public static MyMapper Current { get; set; }
 
         public abstract TDestination Map<TSource, TDestination>(TSource source);
         public abstract TDestination Map<TDestination>(object source);

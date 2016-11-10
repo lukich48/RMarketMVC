@@ -22,6 +22,8 @@ namespace RMarket.WebUI.Controllers
         private IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
+
         public OptimizationSettingsController(IOptimizationSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
             this.settingService = settingService;
@@ -56,7 +58,7 @@ namespace RMarket.WebUI.Controllers
             else //Запрос на создание
                 model = new OptimizationSettingModel();
 
-            OptimizationSettingModelUI modelUI = MyMapper.Current
+            OptimizationSettingModelUI modelUI = Mapper
                 .Map<OptimizationSettingModel, OptimizationSettingModelUI>(model);
 
             return View("Edit", modelUI);
@@ -72,7 +74,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                OptimizationSettingModel model = MyMapper.Current
+                OptimizationSettingModel model = Mapper
                     .Map<OptimizationSettingModelUI, OptimizationSettingModel>(modelUI);
 
                 settingService.Save(model);
@@ -99,7 +101,7 @@ namespace RMarket.WebUI.Controllers
 
             model.Id = 0;
 
-            OptimizationSettingModelUI modelUI = MyMapper.Current
+            OptimizationSettingModelUI modelUI = Mapper
                 .Map<OptimizationSettingModel, OptimizationSettingModelUI>(model);
 
             return _Edit(model: modelUI);

@@ -22,6 +22,7 @@ namespace RMarket.WebUI.Controllers
         private readonly IEntityInfoRepository entityInfoRepository;
         private readonly IResolver resolver;
 
+        public MyMapper Mapper { get; set; }
 
         public DataProviderSettingsController(IDataProviderSettingService settingService, IEntityInfoRepository entityInfoRepository, IResolver resolver)
         {
@@ -58,7 +59,7 @@ namespace RMarket.WebUI.Controllers
             else //Запрос на создание
                 model = new DataProviderSettingModel();
 
-            DataProviderSettingModelUI modelUI = MyMapper.Current
+            DataProviderSettingModelUI modelUI = Mapper
                 .Map<DataProviderSettingModel, DataProviderSettingModelUI>(model);
 
             return View("Edit", modelUI);
@@ -74,7 +75,7 @@ namespace RMarket.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 //Сохранение
-                DataProviderSettingModel model = MyMapper.Current
+                DataProviderSettingModel model = Mapper
                     .Map<DataProviderSettingModelUI, DataProviderSettingModel>(modelUI);
 
                 settingService.Save(model);
@@ -101,7 +102,7 @@ namespace RMarket.WebUI.Controllers
 
             model.Id = 0;
 
-            DataProviderSettingModelUI modelUI = MyMapper.Current
+            DataProviderSettingModelUI modelUI = Mapper
                 .Map<DataProviderSettingModel, DataProviderSettingModelUI>(model);
 
             return _Edit(model: modelUI);

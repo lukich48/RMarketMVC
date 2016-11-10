@@ -25,13 +25,13 @@ namespace RMarket.ClassLib.Services
 
         public virtual IEnumerable<TModel> Get()
         {
-            return MyMapper.Current.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(repository.Get());
+            return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(repository.Get());
         }
 
         public virtual IEnumerable<TModel> Get(Expression<Func<IQueryable<TEntity>, IQueryable<TEntity>>> expression)
         {
             IEnumerable<TEntity> dataCollection = repository.Get(expression);
-            return MyMapper.Current.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(dataCollection);
+            return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(dataCollection);
         }
 
         public virtual IEnumerable<TResult> Get<TResult>(Expression<Func<IQueryable<TEntity>, IQueryable<TResult>>> expression)
@@ -42,7 +42,7 @@ namespace RMarket.ClassLib.Services
         public virtual TModel GetById(int id, bool includeAll)
         {
             TEntity data = repository.GetById(id, includeAll);
-            TModel model = MyMapper.Current.Map<TEntity, TModel>(data);
+            TModel model = Mapper.Map<TEntity, TModel>(data);
 
             return model;
         }
@@ -50,14 +50,14 @@ namespace RMarket.ClassLib.Services
         public virtual TModel GetById(int id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             TEntity data = repository.GetById(id, includeProperties);
-            TModel instance = MyMapper.Current.Map<TEntity, TModel>(data);
+            TModel instance = Mapper.Map<TEntity, TModel>(data);
 
             return instance;
         }
 
         public virtual void Save(TModel model)
         {
-            TEntity data = MyMapper.Current.Map<TModel, TEntity>(model);
+            TEntity data = Mapper.Map<TModel, TEntity>(model);
             repository.Save(data);
         }
 
