@@ -169,8 +169,6 @@
     <Compile Include="Models\IndicatorBase.cs" />
     <Compile Include="EntityModels\InstanceModel.cs" />
     <Compile Include="Models\Instrument.cs" />
-    <Compile Include="Dto\Optimization\EncodedEntityParam.cs" />
-    <Compile Include="Dto\Optimization\EncodedInstanceModel.cs" />
     <Compile Include="Models\Portfolio.cs" />
     <Compile Include="EntityModels\SelectionModel.cs" />
     <Compile Include="Models\ServiceClasses.cs" />
@@ -194,7 +192,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dto\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

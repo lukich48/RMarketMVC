@@ -17,7 +17,8 @@ namespace RMarket.CompositionRoot.Mapper
         /// <param name="profiles"></param>
         public MapperAutoMapper SetMapperConfiguration()
         {
-            //Обойдем сборку и зарегистрируем все профили
+            //Обойдем сборку и зарегистрируем все профили 
+            //todo: переделать на метод AddProfiles
             var profiles = new ConcurrentBag<Profile>();
             Parallel.ForEach(AppDomain.CurrentDomain.GetAssemblies(), ass =>
             {

@@ -1,9 +1,9 @@
 ﻿using RMarket.ClassLib.Abstract;
-using RMarket.ClassLib.Dto.Optimization;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers.Extentions;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Models;
+using RMarket.Concrete.Optimization.Dto;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

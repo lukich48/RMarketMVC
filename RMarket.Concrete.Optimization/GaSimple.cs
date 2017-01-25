@@ -1,13 +1,13 @@
 ﻿using RMarket.ClassLib.Abstract;
 using RMarket.ClassLib.Abstract.IRepository;
 using RMarket.ClassLib.Abstract.IService;
-using RMarket.ClassLib.Dto.Optimization;
 using RMarket.ClassLib.Entities;
 using RMarket.ClassLib.EntityModels;
 using RMarket.ClassLib.Helpers;
 using RMarket.ClassLib.Infrastructure.AmbientContext;
 using RMarket.ClassLib.Managers;
 using RMarket.ClassLib.Models;
+using RMarket.Concrete.Optimization.Dto;
 using RMarket.Concrete.Optimization.Helpers;
 using System;
 using System.Collections.Concurrent;

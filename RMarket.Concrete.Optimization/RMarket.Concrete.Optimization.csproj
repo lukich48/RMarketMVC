@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\EncodedEntityParam.cs" />
+    <Compile Include="Dto\EncodedInstanceModel.cs" />
     <Compile Include="GaSimple.cs" />
     <Compile Include="Helpers\GaHelper.cs" />
     <Compile Include="Infrastructure\OptimizationContextInicializer.cs" />

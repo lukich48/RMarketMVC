@@ -1,4 +1,4 @@
-﻿namespace RMarket.ClassLib.Dto.Optimization
+﻿namespace RMarket.Concrete.Optimization.Dto
 {
     public class EncodedEntityParam
     {

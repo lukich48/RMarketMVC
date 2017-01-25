@@ -1,12 +1,7 @@
 ﻿using RMarket.ClassLib.EntityModels;
-using RMarket.ClassLib.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RMarket.ClassLib.Dto.Optimization
+namespace RMarket.Concrete.Optimization.Dto
 {
     public class EncodedInstanceModel
     {
